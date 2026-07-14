@@ -52,6 +52,9 @@ Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 **[rag-agent-chat](https://github.com/floSa/rag-agent-chat)** — Agent conversationnel qui consomme ce pipeline. Plutôt que d'injecter des chunks isolés, il exploite le graphe de connaissances pour reconstruire la section complète autour de chaque passage trouvé. Machine à états LangGraph avec sélection des sources par l'utilisateur.
 `LangGraph` · `ChromaDB` · `NebulaGraph` · `Ollama` · `FastAPI`
 
+**[DevBrain](https://github.com/floSa/DevBrain)** — Base de connaissance technique versionnée (600+ fiches : services, outils, patterns, concepts, retours d'expérience) couplée à deux skills Claude Code. Au lancement d'un projet, `planifier-projet` interroge le brain et propose un stack sourcé — 2-3 candidats argumentés par brique — au lieu de repartir de zéro. En cours de route, `enrichir-brain` capture en langage naturel ("ajoute Qdrant au brain") chaque nouvel outil ou retour d'expérience, câble les liens et régénère l'index. Chaque projet démarre sur les choix — et les erreurs — déjà faits.
+`Claude Code` · `Obsidian` · `Développement assisté par IA` · `Gestion de connaissance`
+
 **[data-analyst-agent](https://github.com/floSa/data-analyst-agent)** — Agent conversationnel sur données, on-premise : à partir d'un fichier (Excel/CSV) ou d'une base Postgres multi-tables, génère la requête (SQL avec jointures, ou DuckDB sur fichier) et répond en langage naturel.
 `LangGraph` · `NL→SQL` · `DuckDB` · `PostgreSQL` · `Ollama`
 
@@ -63,9 +66,6 @@ Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 
 **[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implémentation du jeu de cartes Courtisans avec une IA inspirée d'AlphaZero (MCTS + ResNet) et une interface pour jouer contre elle.
 `PyTorch` · `MCTS` · `ResNet` · `Streamlit`
-
-**[DevBrain](https://github.com/floSa/DevBrain)** — Mémoire technique personnelle et outil de développement assisté par IA : un vault Obsidian versionné, structuré pour être lu aussi bien par un humain que par un agent, qui y puise le contexte (outils, patterns, retours d'expérience déjà logués) pour ne plus rechoisir un outil ni refaire une erreur passée.
-`Obsidian` · `Développement assisté par IA` · `Gestion de connaissance` · `Git`
 
 ### Contact
 
@@ -121,6 +121,9 @@ Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 **[rag-agent-chat](https://github.com/floSa/rag-agent-chat)** — Conversational agent consuming that pipeline. Instead of injecting isolated chunks, it uses the knowledge graph to rebuild the full section around each retrieved passage. LangGraph state machine with user-driven source selection.
 `LangGraph` · `ChromaDB` · `NebulaGraph` · `Ollama` · `FastAPI`
 
+**[DevBrain](https://github.com/floSa/DevBrain)** — Versioned technical knowledge base (600+ notes: services, tools, patterns, concepts, lessons learned) paired with two custom Claude Code skills. At project kickoff, `planifier-projet` queries the brain and proposes a sourced stack — 2-3 argued candidates per building block — instead of starting from scratch. Along the way, `enrichir-brain` captures new tools or lessons learned in natural language ("add Qdrant to the brain"), wires the links, and regenerates the index. Every project builds on choices — and mistakes — already made.
+`Claude Code` · `Obsidian` · `AI-assisted development` · `Knowledge management`
+
 **[data-analyst-agent](https://github.com/floSa/data-analyst-agent)** — On-premise conversational agent over data: from a file (Excel/CSV) or a multi-table Postgres database, it generates the query (SQL with joins, or DuckDB over a file) and answers in natural language.
 `LangGraph` · `NL→SQL` · `DuckDB` · `PostgreSQL` · `Ollama`
 
@@ -132,9 +135,6 @@ Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 
 **[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implementation of the Courtisans card game with an AlphaZero-inspired AI (MCTS + ResNet) and an interface to play against it.
 `PyTorch` · `MCTS` · `ResNet` · `Streamlit`
-
-**[DevBrain](https://github.com/floSa/DevBrain)** — Personal technical memory and AI-assisted development tool: a versioned Obsidian vault, structured to be read by a human as well as by an AI agent, which draws context from it (tools, patterns, logged lessons) to never re-pick a tool or repeat a past mistake.
-`Obsidian` · `AI-assisted development` · `Knowledge management` · `Git`
 
 ### Contact
 
