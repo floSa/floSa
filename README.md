@@ -22,26 +22,26 @@ Preuves : [rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeli
 **LLM local / on-premise** — Ollama, pgvector, ChromaDB, NebulaGraph. Déploiement sans cloud, contrainte de confidentialité.
 
 **Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, IA par self-play (MCTS + ResNet).
-Preuves : [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · classification_bubbles · image_detection_pneumonia
+Preuves : [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia)
 
-**Machine Learning & séries temporelles** — gradient boosting (XGBoost / LightGBM), scikit-learn, NLP supervisé.
-Preuves : Prosol (prévision de ventes) · Défi IA 2020 & 2021 (NLP, Kaggle).
+**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, NLP supervisé.
+Preuves : [Défi IA 2020](https://github.com/floSa/Defi-IA-2020) · [Défi IA 2021](https://github.com/floSa/Defi-IA-2021) (Kaggle).
 
 **MLOps & reproductibilité** — MLflow, Docker, environnements de services réutilisables.
-Preuves : mlflow_tuto · Template-services-docker.
+Preuves : [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-services-docker](https://github.com/floSa/Template-services-docker).
 
 **Architecture & micro-services** — Docker Compose, FastAPI, PostgreSQL, MongoDB, MinIO/S3, services temps réel.
-Preuves : classification_bubbles (détection acoustique temps réel) · [MCP_maison](https://github.com/floSa/MCP_maison).
+Preuves : [classification_bubbles](https://github.com/floSa/classification_bubbles) (détection acoustique temps réel) · [MCP_maison](https://github.com/floSa/MCP_maison).
 
 **Collecte de données & scraping** — Selenium, BeautifulSoup, structuration de données web. Compétence éprouvée sur plusieurs projets personnels.
 
 **Annotation & datasets** — outils d'annotation, exports COCO / YOLO / Pascal VOC, NER.
-Preuves : Annotation-Images · Annotation-Text-Streamlit.
+Preuves : [Annotation-Images](https://github.com/floSa/Annotation-Images) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit).
 
 **Analyse de données & dataviz** — pandas, EDA, sources publiques (INSEE, Eurostat, HMD), applications Streamlit multi-pages.
-Preuves : food-habits-analysis · esperance_de_vie_FR.
+Preuves : [food-habits-analysis](https://github.com/floSa/food-habits-analysis) · [esperance_de_vie_FR](https://github.com/floSa/esperance_de_vie_FR).
 
-**Veille & capitalisation technique / dev assisté par IA** — mémoire technique structurée, versionnée, exploitée par un agent IA comme contexte de développement.
+**Veille & dev assisté par IA** — mémoire technique versionnée, exploitée par un agent IA comme contexte de développement.
 Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 
 ### Projets phares
@@ -52,8 +52,8 @@ Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 **[rag-agent-chat](https://github.com/floSa/rag-agent-chat)** — Agent conversationnel qui consomme ce pipeline. Plutôt que d'injecter des chunks isolés, il exploite le graphe de connaissances pour reconstruire la section complète autour de chaque passage trouvé. Machine à états LangGraph avec sélection des sources par l'utilisateur.
 `LangGraph` · `ChromaDB` · `NebulaGraph` · `Ollama` · `FastAPI`
 
-**[DevBrain](https://github.com/floSa/DevBrain)** — Base de connaissance technique versionnée (600+ fiches : services, outils, patterns, concepts, retours d'expérience) couplée à deux skills Claude Code. Au lancement d'un projet, `planifier-projet` interroge le brain et propose un stack sourcé — 2-3 candidats argumentés par brique — au lieu de repartir de zéro. En cours de route, `enrichir-brain` capture en langage naturel ("ajoute Qdrant au brain") chaque nouvel outil ou retour d'expérience, câble les liens et régénère l'index. Chaque projet démarre sur les choix — et les erreurs — déjà faits.
-`Claude Code` · `Obsidian` · `Développement assisté par IA` · `Gestion de connaissance`
+**[DevBrain](https://github.com/floSa/DevBrain)** — Base de connaissance technique versionnée (600+ fiches) couplée à deux skills Claude Code : `planifier-projet` propose un stack argumenté en début de projet, `enrichir-brain` capture les retours d'expérience en langage naturel. Chaque projet démarre sur les choix déjà faits, pas de zéro.
+`Claude Code` · `Obsidian` · `Développement assisté par IA`
 
 **[data-analyst-agent](https://github.com/floSa/data-analyst-agent)** — Agent conversationnel sur données, on-premise : à partir d'un fichier (Excel/CSV) ou d'une base Postgres multi-tables, génère la requête (SQL avec jointures, ou DuckDB sur fichier) et répond en langage naturel.
 `LangGraph` · `NL→SQL` · `DuckDB` · `PostgreSQL` · `Ollama`
@@ -91,26 +91,26 @@ Evidence: [rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeli
 **Local / on-premise LLM** — Ollama, pgvector, ChromaDB, NebulaGraph. Cloud-free deployment for data-sensitive settings.
 
 **Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, self-play AI (MCTS + ResNet).
-Evidence: [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · classification_bubbles · image_detection_pneumonia
+Evidence: [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia)
 
-**Machine Learning & time series** — gradient boosting (XGBoost / LightGBM), scikit-learn, supervised NLP.
-Evidence: Prosol (sales forecasting) · Défi IA 2020 & 2021 (NLP, Kaggle).
+**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, supervised NLP.
+Evidence: [Défi IA 2020](https://github.com/floSa/Defi-IA-2020) · [Défi IA 2021](https://github.com/floSa/Defi-IA-2021) (Kaggle).
 
 **MLOps & reproducibility** — MLflow, Docker, reusable service environments.
-Evidence: mlflow_tuto · Template-services-docker.
+Evidence: [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-services-docker](https://github.com/floSa/Template-services-docker).
 
 **Architecture & micro-services** — Docker Compose, FastAPI, PostgreSQL, MongoDB, MinIO/S3, real-time services.
-Evidence: classification_bubbles (real-time acoustic detection) · [MCP_maison](https://github.com/floSa/MCP_maison).
+Evidence: [classification_bubbles](https://github.com/floSa/classification_bubbles) (real-time acoustic detection) · [MCP_maison](https://github.com/floSa/MCP_maison).
 
 **Data collection & scraping** — Selenium, BeautifulSoup, structuring web data. Proven across several personal projects.
 
 **Annotation & datasets** — annotation tools, COCO / YOLO / Pascal VOC exports, NER.
-Evidence: Annotation-Images · Annotation-Text-Streamlit.
+Evidence: [Annotation-Images](https://github.com/floSa/Annotation-Images) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit).
 
 **Data analysis & dataviz** — pandas, EDA, public data sources (INSEE, Eurostat, HMD), multi-page Streamlit apps.
-Evidence: food-habits-analysis · esperance_de_vie_FR.
+Evidence: [food-habits-analysis](https://github.com/floSa/food-habits-analysis) · [esperance_de_vie_FR](https://github.com/floSa/esperance_de_vie_FR).
 
-**Technical knowledge management / AI-assisted development** — structured, versioned technical memory used by an AI agent as development context.
+**Knowledge management & AI-assisted development** — versioned technical memory used by an AI agent as development context.
 Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 
 ### Featured projects
@@ -121,8 +121,8 @@ Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 **[rag-agent-chat](https://github.com/floSa/rag-agent-chat)** — Conversational agent consuming that pipeline. Instead of injecting isolated chunks, it uses the knowledge graph to rebuild the full section around each retrieved passage. LangGraph state machine with user-driven source selection.
 `LangGraph` · `ChromaDB` · `NebulaGraph` · `Ollama` · `FastAPI`
 
-**[DevBrain](https://github.com/floSa/DevBrain)** — Versioned technical knowledge base (600+ notes: services, tools, patterns, concepts, lessons learned) paired with two custom Claude Code skills. At project kickoff, `planifier-projet` queries the brain and proposes a sourced stack — 2-3 argued candidates per building block — instead of starting from scratch. Along the way, `enrichir-brain` captures new tools or lessons learned in natural language ("add Qdrant to the brain"), wires the links, and regenerates the index. Every project builds on choices — and mistakes — already made.
-`Claude Code` · `Obsidian` · `AI-assisted development` · `Knowledge management`
+**[DevBrain](https://github.com/floSa/DevBrain)** — Versioned technical knowledge base (600+ notes) paired with two custom Claude Code skills: `planifier-projet` proposes a sourced stack at project kickoff, `enrichir-brain` captures lessons learned in natural language. Every project starts from choices already made, not from scratch.
+`Claude Code` · `Obsidian` · `AI-assisted development`
 
 **[data-analyst-agent](https://github.com/floSa/data-analyst-agent)** — On-premise conversational agent over data: from a file (Excel/CSV) or a multi-table Postgres database, it generates the query (SQL with joins, or DuckDB over a file) and answers in natural language.
 `LangGraph` · `NL→SQL` · `DuckDB` · `PostgreSQL` · `Ollama`
