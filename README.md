@@ -41,8 +41,8 @@ Preuves : Annotation-Images · Annotation-Text-Streamlit.
 **Analyse de données & dataviz** — pandas, EDA, sources publiques (INSEE, Eurostat, HMD), applications Streamlit multi-pages.
 Preuves : food-habits-analysis · esperance_de_vie_FR.
 
-**Veille & capitalisation technique** — mémoire technique structurée, versionnée, lisible par un agent IA.
-Preuves : DevBrain (vault Obsidian versionné).
+**Veille & capitalisation technique / dev assisté par IA** — mémoire technique structurée, versionnée, exploitée par un agent IA comme contexte de développement.
+Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 
 ### Projets phares
 
@@ -64,8 +64,8 @@ Preuves : DevBrain (vault Obsidian versionné).
 **[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implémentation du jeu de cartes Courtisans avec une IA inspirée d'AlphaZero (MCTS + ResNet) et une interface pour jouer contre elle.
 `PyTorch` · `MCTS` · `ResNet` · `Streamlit`
 
-**DevBrain** — Mémoire technique personnelle : un vault Obsidian versionné, structuré pour être lu aussi bien par un humain que par un agent IA — ne plus rechoisir un outil ni refaire une erreur déjà loguée.
-`Obsidian` · `Gestion de connaissance` · `Git`
+**[DevBrain](https://github.com/floSa/DevBrain)** — Mémoire technique personnelle et outil de développement assisté par IA : un vault Obsidian versionné, structuré pour être lu aussi bien par un humain que par un agent, qui y puise le contexte (outils, patterns, retours d'expérience déjà logués) pour ne plus rechoisir un outil ni refaire une erreur passée.
+`Obsidian` · `Développement assisté par IA` · `Gestion de connaissance` · `Git`
 
 ### Contact
 
@@ -110,8 +110,8 @@ Evidence: Annotation-Images · Annotation-Text-Streamlit.
 **Data analysis & dataviz** — pandas, EDA, public data sources (INSEE, Eurostat, HMD), multi-page Streamlit apps.
 Evidence: food-habits-analysis · esperance_de_vie_FR.
 
-**Technical knowledge management** — structured, versioned technical memory, readable by an AI agent.
-Evidence: DevBrain (versioned Obsidian vault).
+**Technical knowledge management / AI-assisted development** — structured, versioned technical memory used by an AI agent as development context.
+Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 
 ### Featured projects
 
@@ -133,8 +133,8 @@ Evidence: DevBrain (versioned Obsidian vault).
 **[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implementation of the Courtisans card game with an AlphaZero-inspired AI (MCTS + ResNet) and an interface to play against it.
 `PyTorch` · `MCTS` · `ResNet` · `Streamlit`
 
-**DevBrain** — Personal technical memory: a versioned Obsidian vault, structured to be read by a human as well as by an AI agent — never re-pick a tool or repeat a logged mistake again.
-`Obsidian` · `Knowledge management` · `Git`
+**[DevBrain](https://github.com/floSa/DevBrain)** — Personal technical memory and AI-assisted development tool: a versioned Obsidian vault, structured to be read by a human as well as by an AI agent, which draws context from it (tools, patterns, logged lessons) to never re-pick a tool or repeat a past mistake.
+`Obsidian` · `AI-assisted development` · `Knowledge management` · `Git`
 
 ### Contact
 
