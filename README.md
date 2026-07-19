@@ -73,7 +73,7 @@ Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 
 ### Défis IA
 
-Le **Défi IA** est un concours annuel de data science qui réunit une vingtaine de grandes écoles et écoles d'ingénieurs francophones. Je reprends ces éditions à partir de zéro, avec des méthodes actuelles et un protocole d'évaluation rigoureux, souvent pour dépasser le score du vainqueur de l'époque.
+Le **Défi IA** est un concours annuel de data science qui réunit une vingtaine de grandes écoles et écoles d'ingénieurs francophones. J'ai participé aux éditions suivantes :
 
 | Édition | Description |
 |---|---|
@@ -158,7 +158,7 @@ Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 
 ### Défi IA challenges
 
-The **Défi IA** is an annual data-science competition bringing together around twenty francophone *grandes écoles* and engineering schools. I revisit these editions from scratch with modern methods and a rigorous evaluation protocol, often aiming to beat the original winner's score.
+The **Défi IA** is an annual data-science competition bringing together around twenty francophone *grandes écoles* and engineering schools. I took part in the following editions:
 
 | Edition | Description |
 |---|---|
