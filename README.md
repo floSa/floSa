@@ -21,11 +21,11 @@ Preuves : [rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeli
 
 **LLM local / on-premise** — Ollama, pgvector, ChromaDB, NebulaGraph. Déploiement sans cloud, contrainte de confidentialité.
 
-**Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, IA par self-play (MCTS + ResNet).
-Preuves : [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia)
+**Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, IA par self-play (MCTS + ResNet), audio (séparation de sources, alignement forcé, ASR).
+Preuves : [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia) · [karaokit](https://github.com/floSa/karaokit)
 
-**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, NLP supervisé.
-Preuves : [Défi IA 2020](https://github.com/floSa/Defi-IA-2020) · [Défi IA 2021](https://github.com/floSa/Defi-IA-2021) (Kaggle).
+**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, NLP supervisé, séries temporelles.
+Preuves : voir la section [Défis IA](#défis-ia) plus bas.
 
 **MLOps & reproductibilité** — MLflow, Docker, environnements de services réutilisables.
 Preuves : [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-services-docker](https://github.com/floSa/Template-services-docker).
@@ -33,7 +33,8 @@ Preuves : [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-servi
 **Architecture & micro-services** — Docker Compose, FastAPI, PostgreSQL, MongoDB, MinIO/S3, services temps réel.
 Preuves : [classification_bubbles](https://github.com/floSa/classification_bubbles) (détection acoustique temps réel) · [MCP_maison](https://github.com/floSa/MCP_maison).
 
-**Collecte de données & scraping** — Selenium, BeautifulSoup, structuration de données web. Compétence éprouvée sur plusieurs projets personnels.
+**Collecte de données & scraping** — Selenium, Playwright, BeautifulSoup, structuration de données web.
+Preuves : [urban-rivals-scraper](https://github.com/floSa/urban-rivals-scraper) · [cardmarket-wantlist-optimizer](https://github.com/floSa/cardmarket-wantlist-optimizer) (scraping + optimisation MIP).
 
 **Annotation & datasets** — outils d'annotation, exports COCO / YOLO / Pascal VOC, NER.
 Preuves : [Annotation-Images](https://github.com/floSa/Annotation-Images) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit).
@@ -64,8 +65,23 @@ Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 **[MCP_maison](https://github.com/floSa/MCP_maison)** — Socle réutilisable et entièrement dockerisé pour construire des agents ReAct s'appuyant sur des serveurs MCP, avec un petit LLM local.
 `Agent ReAct` · `MCP` · `FastAPI` · `Ollama` · `Docker`
 
+**[sales-ops-planning-poc](https://github.com/floSa/sales-ops-planning-poc)** — POC de prévision des ventes (magasin × SKU × jour) pour une enseigne retail : moteur GBM Tweedie robuste aux ruptures, cascade de calcul jusqu'au CA net, dimensionnement des effectifs (ETP), analyse d'écarts prix/volume/mix et rolling forecast. Données 100 % synthétiques ; mission AOSIS Consulting.
+`Prévision` · `GBM Tweedie` · `Séries temporelles` · `Simulation` · `Python`
+
 **[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implémentation du jeu de cartes Courtisans avec une IA inspirée d'AlphaZero (MCTS + ResNet) et une interface pour jouer contre elle.
 `PyTorch` · `MCTS` · `ResNet` · `Streamlit`
+
+### Défis IA
+
+Le **Défi IA** est un concours annuel de data science qui réunit une vingtaine de grandes écoles et écoles d'ingénieurs francophones. Je reprends ces éditions à partir de zéro, avec des méthodes actuelles et un protocole d'évaluation rigoureux, souvent pour dépasser le score du vainqueur de l'époque.
+
+| Édition | Tâche | Métrique | Résultat |
+|---|---|---|---|
+| [2019](https://github.com/floSa/Defi-IA-2019) | Détection de fake news (contenu + graphe social) | F1 | transformers + GNN — *en cours* |
+| [2020](https://github.com/floSa/Defi-IA-2020) | Prédiction des upvotes Reddit (text + network mining) | MAE | *en cours* |
+| [2021](https://github.com/floSa/Defi-IA-2021) | Classification de métiers depuis des biographies (28 classes) | Macro-F1 + équité | pipeline reproductible, axe fairness |
+| [2022](https://github.com/floSa/Defi-IA-2022) | Prévision du cumul de pluie quotidien (MeteoNet) | MAPE | **23.86** — sous le vainqueur de l'époque (23.8) |
+| [2023](https://github.com/floSa/Defi-IA-2023) | Pricing dynamique d'hôtels via API limitée (« 1001 Nights ») | RMSE | reconstruction du dataset + modélisation — *en cours* |
 
 ### Contact
 
@@ -90,11 +106,11 @@ Evidence: [rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeli
 
 **Local / on-premise LLM** — Ollama, pgvector, ChromaDB, NebulaGraph. Cloud-free deployment for data-sensitive settings.
 
-**Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, self-play AI (MCTS + ResNet).
-Evidence: [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia)
+**Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, self-play AI (MCTS + ResNet), audio (source separation, forced alignment, ASR).
+Evidence: [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia) · [karaokit](https://github.com/floSa/karaokit)
 
-**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, supervised NLP.
-Evidence: [Défi IA 2020](https://github.com/floSa/Defi-IA-2020) · [Défi IA 2021](https://github.com/floSa/Defi-IA-2021) (Kaggle).
+**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, supervised NLP, time series.
+Evidence: see the [Défi IA challenges](#défi-ia-challenges) section below.
 
 **MLOps & reproducibility** — MLflow, Docker, reusable service environments.
 Evidence: [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-services-docker](https://github.com/floSa/Template-services-docker).
@@ -102,7 +118,8 @@ Evidence: [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-servi
 **Architecture & micro-services** — Docker Compose, FastAPI, PostgreSQL, MongoDB, MinIO/S3, real-time services.
 Evidence: [classification_bubbles](https://github.com/floSa/classification_bubbles) (real-time acoustic detection) · [MCP_maison](https://github.com/floSa/MCP_maison).
 
-**Data collection & scraping** — Selenium, BeautifulSoup, structuring web data. Proven across several personal projects.
+**Data collection & scraping** — Selenium, Playwright, BeautifulSoup, structuring web data.
+Evidence: [urban-rivals-scraper](https://github.com/floSa/urban-rivals-scraper) · [cardmarket-wantlist-optimizer](https://github.com/floSa/cardmarket-wantlist-optimizer) (scraping + MIP optimisation).
 
 **Annotation & datasets** — annotation tools, COCO / YOLO / Pascal VOC exports, NER.
 Evidence: [Annotation-Images](https://github.com/floSa/Annotation-Images) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit).
@@ -133,8 +150,23 @@ Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 **[MCP_maison](https://github.com/floSa/MCP_maison)** — Reusable, fully dockerised foundation for building ReAct agents backed by MCP servers, with a small local LLM.
 `ReAct agent` · `MCP` · `FastAPI` · `Ollama` · `Docker`
 
+**[sales-ops-planning-poc](https://github.com/floSa/sales-ops-planning-poc)** — Sales-forecasting POC (store × SKU × day) for a retail chain: rupture-robust Tweedie GBM engine, calculation cascade down to net revenue, staffing (FTE) sizing, price/volume/mix variance analysis and rolling forecast. Fully synthetic data; AOSIS Consulting engagement.
+`Forecasting` · `Tweedie GBM` · `Time series` · `Simulation` · `Python`
+
 **[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implementation of the Courtisans card game with an AlphaZero-inspired AI (MCTS + ResNet) and an interface to play against it.
 `PyTorch` · `MCTS` · `ResNet` · `Streamlit`
+
+### Défi IA challenges
+
+The **Défi IA** is an annual data-science competition bringing together around twenty francophone *grandes écoles* and engineering schools. I revisit these editions from scratch with modern methods and a rigorous evaluation protocol, often aiming to beat the original winner's score.
+
+| Edition | Task | Metric | Result |
+|---|---|---|---|
+| [2019](https://github.com/floSa/Defi-IA-2019) | Fake-news detection (content + social graph) | F1 | transformers + GNN — *in progress* |
+| [2020](https://github.com/floSa/Defi-IA-2020) | Reddit upvote prediction (text + network mining) | MAE | *in progress* |
+| [2021](https://github.com/floSa/Defi-IA-2021) | Job classification from biographies (28 classes) | Macro-F1 + fairness | reproducible, fairness-aware pipeline |
+| [2022](https://github.com/floSa/Defi-IA-2022) | Daily rainfall forecasting (MeteoNet) | MAPE | **23.86** — below the original winner (23.8) |
+| [2023](https://github.com/floSa/Defi-IA-2023) | Hotel dynamic pricing via a rate-limited API ("1001 Nights") | RMSE | dataset rebuild + modelling — *in progress* |
 
 ### Contact
 
