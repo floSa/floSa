@@ -75,13 +75,13 @@ Preuves : [DevBrain](https://github.com/floSa/DevBrain).
 
 Le **Défi IA** est un concours annuel de data science qui réunit une vingtaine de grandes écoles et écoles d'ingénieurs francophones. Je reprends ces éditions à partir de zéro, avec des méthodes actuelles et un protocole d'évaluation rigoureux, souvent pour dépasser le score du vainqueur de l'époque.
 
-| Édition | Tâche | Métrique | Résultat |
-|---|---|---|---|
-| [2019](https://github.com/floSa/Defi-IA-2019) | Détection de fake news (contenu + graphe social) | F1 | transformers + GNN — *en cours* |
-| [2020](https://github.com/floSa/Defi-IA-2020) | Prédiction des upvotes Reddit (text + network mining) | MAE | *en cours* |
-| [2021](https://github.com/floSa/Defi-IA-2021) | Classification de métiers depuis des biographies (28 classes) | Macro-F1 + équité | pipeline reproductible, axe fairness |
-| [2022](https://github.com/floSa/Defi-IA-2022) | Prévision du cumul de pluie quotidien (MeteoNet) | MAPE | **23.86** — sous le vainqueur de l'époque (23.8) |
-| [2023](https://github.com/floSa/Defi-IA-2023) | Pricing dynamique d'hôtels via API limitée (« 1001 Nights ») | RMSE | reconstruction du dataset + modélisation — *en cours* |
+| Édition | Description |
+|---|---|
+| [2019](https://github.com/floSa/Defi-IA-2019) | Détection de fake news à partir du contenu des articles et du graphe social de partage (F1). |
+| [2020](https://github.com/floSa/Defi-IA-2020) | Prédiction des upvotes de commentaires Reddit, en combinant text mining et network mining (MAE). |
+| [2021](https://github.com/floSa/Defi-IA-2021) | Classification de biographies en 28 catégories de métiers, avec un axe équité hommes/femmes (Macro-F1). |
+| [2022](https://github.com/floSa/Defi-IA-2022) | Prévision du cumul de pluie quotidien sur les stations du nord-ouest de la France — MeteoNet (MAPE). |
+| [2023](https://github.com/floSa/Defi-IA-2023) | Pricing dynamique d'hôtels, dataset reconstitué via une API de requêtes limitée — « 1001 Nights » (RMSE). |
 
 ### Contact
 
@@ -160,13 +160,13 @@ Evidence: [DevBrain](https://github.com/floSa/DevBrain).
 
 The **Défi IA** is an annual data-science competition bringing together around twenty francophone *grandes écoles* and engineering schools. I revisit these editions from scratch with modern methods and a rigorous evaluation protocol, often aiming to beat the original winner's score.
 
-| Edition | Task | Metric | Result |
-|---|---|---|---|
-| [2019](https://github.com/floSa/Defi-IA-2019) | Fake-news detection (content + social graph) | F1 | transformers + GNN — *in progress* |
-| [2020](https://github.com/floSa/Defi-IA-2020) | Reddit upvote prediction (text + network mining) | MAE | *in progress* |
-| [2021](https://github.com/floSa/Defi-IA-2021) | Job classification from biographies (28 classes) | Macro-F1 + fairness | reproducible, fairness-aware pipeline |
-| [2022](https://github.com/floSa/Defi-IA-2022) | Daily rainfall forecasting (MeteoNet) | MAPE | **23.86** — below the original winner (23.8) |
-| [2023](https://github.com/floSa/Defi-IA-2023) | Hotel dynamic pricing via a rate-limited API ("1001 Nights") | RMSE | dataset rebuild + modelling — *in progress* |
+| Edition | Description |
+|---|---|
+| [2019](https://github.com/floSa/Defi-IA-2019) | Fake-news detection from article content and the social sharing graph (F1). |
+| [2020](https://github.com/floSa/Defi-IA-2020) | Predicting Reddit comment upvotes, combining text mining and network mining (MAE). |
+| [2021](https://github.com/floSa/Defi-IA-2021) | Classifying biographies into 28 job categories, with a gender-fairness axis (Macro-F1). |
+| [2022](https://github.com/floSa/Defi-IA-2022) | Daily rainfall forecasting over ground stations in north-west France — MeteoNet (MAPE). |
+| [2023](https://github.com/floSa/Defi-IA-2023) | Hotel dynamic pricing, dataset rebuilt through a rate-limited query API — "1001 Nights" (RMSE). |
 
 ### Contact
 
