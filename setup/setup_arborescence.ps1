@@ -1,5 +1,12 @@
 # ==============================================================================
-# Script de reproduction et synchronisation automatique de l'arborescence Windows (PowerShell)
+# Script de reproduction, migration et synchronisation automatique de l'arborescence Windows (PowerShell)
+#
+# RÈGLE IMPORTANTE SUR '_hors_git' :
+# Le dossier '_hors_git' est strictement réservé aux données locales propres à la
+# machine hôte (sauvegardes, caches, documents locaux, projets hors git).
+# Il est STRICTEMENT SANCTUARISÉ : ce script ne modifie, ne déplace et ne supprime
+# JAMAIS son contenu.
+#
 # Usage :
 #   .\setup_arborescence.ps1 [-TargetDir "C:\chemin\vers\Projets"]
 # ==============================================================================
@@ -25,19 +32,28 @@ if (-not (Test-Path $BASE_DIR)) {
 }
 $BASE_DIR = (Resolve-Path $BASE_DIR).Path
 
-Write-Host "=== Gestion et synchronisation de l'arborescence dans $BASE_DIR ===" -ForegroundColor Cyan
+Write-Host "==============================================================================" -ForegroundColor Cyan
+Write-Host "  Arborescence des Projets — Synchronisation & Mise à jour (Windows)" -ForegroundColor Cyan
+Write-Host "  Répertoire racine : $BASE_DIR" -ForegroundColor Cyan
+Write-Host "==============================================================================" -ForegroundColor Cyan
 
-# Gestion du dossier hors git
+# --- 1. Gestion stricte et sanctuarisation de '_hors_git' ---
 $horsGitDash = Join-Path $BASE_DIR "_hors-git"
 $horsGitUnder = Join-Path $BASE_DIR "_hors_git"
+
 if ((Test-Path $horsGitDash) -and (-not (Test-Path $horsGitUnder))) {
+    Write-Host "[HORS-GIT] Normalisation du dossier '_hors-git' -> '_hors_git'" -ForegroundColor Yellow
+    Rename-Item -Path $horsGitDash -NewName "_hors_git"
     try {
-        New-Item -ItemType SymbolicLink -Path $horsGitUnder -Target "_hors-git" | Out-Null
-    } catch {
-        # Fallback si pas de droits symlink admin Windows
-    }
+        New-Item -ItemType SymbolicLink -Path $horsGitDash -Target "_hors_git" | Out-Null
+    } catch {}
+} elseif (-not (Test-Path $horsGitUnder)) {
+    New-Item -ItemType Directory -Path $horsGitUnder -Force | Out-Null
 }
 
+Write-Host "[HORS-GIT] Dossier '_hors_git' vérifié : sanctuarisé (aucun fichier interne touché)." -ForegroundColor Green
+
+# --- 2. Création de l'arborescence cible ---
 $dirs = @(
     "Autres-Projets",
     "Jeu\Board-Games",
@@ -97,7 +113,7 @@ function Sync-Repo($url, $targetRelPath) {
         return
     }
 
-    # 3. Clonage
+    # 3. Clonage si absent
     Write-Host "[CLONAGE] $url -> $targetRelPath" -ForegroundColor Cyan
     $parent = Split-Path -Parent $targetPath
     if (-not (Test-Path $parent)) { New-Item -ItemType Directory -Path $parent -Force | Out-Null }
@@ -188,4 +204,6 @@ foreach ($od in $oldDirs) {
     }
 }
 
-Write-Host "=== Terminé ! Arborescence Windows synchronisée avec succès. ===" -ForegroundColor Green
+Write-Host "==============================================================================" -ForegroundColor Green
+Write-Host "  Terminé ! Arborescence Windows et dépôts synchronisés avec succès." -ForegroundColor Green
+Write-Host "==============================================================================" -ForegroundColor Green

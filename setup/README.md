@@ -12,6 +12,15 @@ Ce dossier contient les fichiers de référence et les scripts permettant de rec
 
 ---
 
+## 🔒 Règle stricte sur le dossier `_hors_git`
+
+Le dossier `_hors_git` est **strictement sanctuarisé** :
+- **Spécifique à la machine hôte** : il contient les données locales, documents personnels, sauvegardes, caches de modèles et expérimentations hors versioning Git propres au poste utilisé.
+- **Intouchable** : les scripts d'arborescence ne modifient, ne déplacent et ne suppriment **jamais** son contenu.
+- **Convention unique** : le nom `_hors_git` (avec underscore) est la norme sur tous les systèmes. Si un ancien dossier `_hors-git` existe, il est automatiquement préservé et lié.
+
+---
+
 ## Utilisation
 
 ### Sur Linux / WSL / macOS :

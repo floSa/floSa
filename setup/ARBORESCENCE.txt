@@ -1,13 +1,17 @@
 # ==============================================================================
 # ARBORESCENCE DE PROJETS - RÉFÉRENTIEL (FLORIAN HORELLOU)
+#
+# RÈGLE STRICTE SUR _hors_git :
+# Le dossier '_hors_git' est STRICTEMENT propre à chaque machine hôte.
+# Il accueille les données locales, sauvegardes, caches de modèles et projets
+# confidentiels ou non versionnés.
+# Ce dossier et son contenu ne doivent JAMAIS être modifiés, déplacés ni supprimés
+# par les scripts de synchronisation ou d'arborescence.
 # ==============================================================================
 
 Projets/
-├── _hors_git/
-│   ├── Autre/
-│   ├── Conv_tools_2026_09/
-│   ├── Courtisans_Jeu_AI/
-│   └── Prosol_Analyse_Modelisation/
+├── _hors_git/                                (SANCTUARISÉ - PROPRE À CHAQUE MACHINE)
+│   ├── (données locales / sauvegardes spécifiques à l'hôte)
 │
 ├── Autres-Projets/
 │   ├── Atlas-Metiers-Roadmaps                <- git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git
