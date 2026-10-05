@@ -1,0 +1,83 @@
+# ==============================================================================
+# ARBORESCENCE DE PROJETS - RÉFÉRENTIEL (FLORIAN HORELLOU)
+# ==============================================================================
+
+Projets/
+├── _hors_git/
+│   ├── Autre/
+│   ├── Conv_tools_2026_09/
+│   ├── Courtisans_Jeu_AI/
+│   └── Prosol_Analyse_Modelisation/
+│
+├── Autres-Projets/
+│   ├── Atlas-Metiers-Roadmaps                <- git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git
+│   ├── Cardmarket-Wantlist-Optimizer         <- git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git
+│   ├── Planning-Usine-CPSAT                  <- https://github.com/floSa/Planning-Usine-CPSAT.git
+│   ├── Reels-Instagram-Graph-MD              <- git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git
+│   ├── Template-Services-Docker              <- https://github.com/floSa/Template-Services-Docker.git
+│   └── Test-Pre-Entretien-Technique          <- git@github.com-perso:floSa/Test-Pre-Entretien-Technique.git
+│
+├── Jeu/
+│   ├── Board-Games/
+│   │   ├── 7Wonders-BoardGame                <- git@github.com-perso:floSa/7Wonders-BoardGame.git
+│   │   ├── Dracula-VS-Van-Helsing-BoardGame  <- git@github.com-perso:floSa/Dracula-VS-Van-Helsing-BoardGame.git
+│   │   ├── Sea-Salt-And-Paper-BoardGame      <- git@github.com-perso:floSa/Sea-Salt-And-Paper-BoardGame.git
+│   │   └── Toy-Battle-BoardGame              <- git@github.com-perso:floSa/Toy-Battle-BoardGame.git
+│   ├── Courtisan/
+│   │   ├── Courtisans-BoardGame              <- git@github.com-perso:floSa/Courtisans-BoardGame.git
+│   │   └── Courtisans-IA-Game                <- git@github.com-perso:floSa/Courtisans-IA-Game.git
+│   ├── IA/
+│   │   └── Crossy-Road-AI-Game               <- https://github.com/floSa/Crossy-Road-AI-Game.git
+│   ├── Quiz/
+│   │   ├── Quiz-Geo                          <- git@github.com-perso:floSa/Quiz-Geo.git
+│   │   └── Quiz-Hist                         <- git@github.com-perso:floSa/Quiz-Hist.git
+│   └── Urban-Rivals/
+│       ├── Urban-Rivals-Game                 <- git@github.com-perso:floSa/Urban-Rivals-Game.git
+│       └── Urban-Rivals-Scraper              <- https://github.com/floSa/Urban-Rivals-Scraper.git
+│
+├── Projet-ML-DL/
+│   ├── Analyse-Esperance-De-Vie-FR           <- https://github.com/floSa/Analyse-Esperance-De-Vie-FR.git
+│   ├── Analyse-Habitudes-Alimentaires        <- git@github.com-perso:floSa/Analyse-Habitudes-Alimentaires.git
+│   ├── Analyse-Vente-Prosol                  <- https://github.com/floSa/Analyse-Vente-Prosol.git
+│   ├── Annotation-Images                     <- https://github.com/floSa/Annotation-Images.git
+│   ├── Annotation-Text-Streamlit             <- git@github.com-perso:floSa/Annotation-Text-Streamlit.git
+│   ├── Classification-Bulles                 <- git@github.com-perso:floSa/Classification-Bulles.git
+│   ├── Defis-IA/
+│   │   ├── Defi-IA-2019                      <- git@github.com-perso:floSa/Defi-IA-2019.git
+│   │   ├── Defi-IA-2020                      <- git@github.com-perso:floSa/Defi-IA-2020.git
+│   │   ├── Defi-IA-2021                      <- git@github.com-perso:floSa/Defi-IA-2021.git
+│   │   ├── Defi-IA-2022                      <- git@github.com-perso:floSa/Defi-IA-2022.git
+│   │   └── Defi-IA-2023                      <- git@github.com-perso:floSa/Defi-IA-2023.git
+│   ├── Detection-Pneumonie-Radio             <- https://github.com/floSa/Detection-Pneumonie-Radio.git
+│   ├── Notebooks-Cheat-Sheet                 <- git@github.com-perso:floSa/Notebooks-Cheat-Sheet.git
+│   └── Sales-Ops-Planning-POC                <- git@github.com-perso:floSa/Sales-Ops-Planning-POC.git
+│
+├── Projet-IA/
+│   ├── Agents-MCP-Orchestration              <- git@github.com-perso:floSa/Agents-MCP-Orchestration.git
+│   ├── Data-Analyst-Agent                    <- https://github.com/floSa/Data-Analyst-Agent.git
+│   ├── LLM-Service                           <- git@github.com-perso:floSa/LLM-Service.git
+│   ├── MCP-Maison                            <- https://github.com/floSa/MCP-Maison.git
+│   ├── RAG-Agent-Chat                        <- https://github.com/floSa/RAG-Agent-Chat.git
+│   ├── RAG-Eval-Bench                        <- git@github.com-perso:floSa/RAG-Eval-Bench.git
+│   ├── RAG-Ingestion-Pipeline                <- https://github.com/floSa/RAG-Ingestion-Pipeline.git
+│   └── Traceable-Agent                       <- git@github.com-perso:floSa/Traceable-Agent.git
+│
+├── Musique/
+│   ├── Bibliotheque-Musicale                 <- git@github.com-perso:floSa/Bibliotheque-Musicale.git
+│   ├── Classification-Genres-Musicaux        <- git@github.com-perso:floSa/Classification-Genres-Musicaux.git
+│   └── Karaokit                              <- git@github.com-perso:floSa/Karaokit.git
+│
+├── Productivite/
+│   ├── Boite-A-Outils                        <- https://github.com/floSa/Boite-A-Outils.git
+│   ├── Brain-Kit                             <- git@github.com-perso:floSa/Brain-Kit.git
+│   ├── Catalogue-Comparateur-Solutions-IA    <- git@github.com-perso:floSa/Catalogue-Comparateur-Solutions-IA.git
+│   ├── Fast-HTML-To-MD                       <- git@github.com-perso:floSa/Fast-HTML-To-MD.git
+│   ├── Outil-Dictee-Audio                    <- git@github.com-perso:floSa/Outil-Dictee-Audio.git
+│   ├── Veille-Repo                           <- git@github.com-perso:floSa/Veille-Repo.git
+│   ├── claude-skills                         <- git@github.com-perso:floSa/Mes-Skills.git
+│   └── floSa                                 <- https://github.com/floSa/floSa.git
+│
+└── Tutoriels/
+    ├── Tuto-Dagster                          <- git@github.com-perso:floSa/Tuto-Dagster.git
+    ├── Tuto-MLflow                           <- git@github.com-perso:floSa/Tuto-MLflow.git
+    └── Tuto-OpenMetadata                     <- git@github.com-perso:floSa/Tuto-OpenMetadata.git
