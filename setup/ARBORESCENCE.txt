@@ -85,6 +85,7 @@ Projets/
 │   └── floSa                                 <- git@github.com-perso:floSa/floSa.git
 │
 └── Tutoriels/
+    ├── LMStudio-Bionic                       <- git@github.com-perso:floSa/LMStudio-Bionic.git
     ├── Tuto-Dagster                          <- git@github.com-perso:floSa/Tuto-Dagster.git
     ├── Tuto-MLflow                           <- git@github.com-perso:floSa/Tuto-MLflow.git
     └── Tuto-OpenMetadata                     <- git@github.com-perso:floSa/Tuto-openmetadata.git

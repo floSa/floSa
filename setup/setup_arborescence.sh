@@ -159,6 +159,7 @@ REPOS=(
     "git@github.com-perso:floSa/mes-skills.git|Productivite/claude-skills"
     "git@github.com-perso:floSa/floSa.git|Productivite/floSa"
     # Tutoriels
+    "git@github.com-perso:floSa/LMStudio-Bionic.git|Tutoriels/LMStudio-Bionic"
     "git@github.com-perso:floSa/Tuto-Dagster.git|Tutoriels/Tuto-Dagster"
     "git@github.com-perso:floSa/Tuto-MLflow.git|Tutoriels/Tuto-MLflow"
     "git@github.com-perso:floSa/Tuto-openmetadata.git|Tutoriels/Tuto-OpenMetadata"

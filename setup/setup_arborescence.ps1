@@ -191,6 +191,7 @@ Sync-Repo "git@github.com-perso:floSa/mes-skills.git" "Productivite\claude-skill
 Sync-Repo "git@github.com-perso:floSa/floSa.git" "Productivite\floSa"
 
 # --- Tutoriels ---
+Sync-Repo "git@github.com-perso:floSa/LMStudio-Bionic.git" "Tutoriels\LMStudio-Bionic"
 Sync-Repo "git@github.com-perso:floSa/Tuto-Dagster.git" "Tutoriels\Tuto-Dagster"
 Sync-Repo "git@github.com-perso:floSa/Tuto-MLflow.git" "Tutoriels\Tuto-MLflow"
 Sync-Repo "git@github.com-perso:floSa/Tuto-openmetadata.git" "Tutoriels\Tuto-OpenMetadata"
