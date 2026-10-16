@@ -11,8 +11,10 @@
 # Ce que fait le script, dans l'ordre :
 #   1. clone / migre / met à jour (pull --ff-only) tous les dépôts du référentiel ;
 #   2. signale les commits non poussés (-Push les pousse) et les modifs locales ;
-#   3. range dans _hors_git tout dossier non versionné hors référentiel
-#      (un dépôt git hors référentiel est seulement signalé, jamais déplacé) ;
+#   3. range dans _hors_git tout dossier hors référentiel qui n'est pas réellement
+#      dans Git : non versionné, git init sans remote, ou branche jamais poussée.
+#      Un dépôt hors référentiel réellement poussé, ou dont le remote est
+#      injoignable, est seulement signalé ;
 #   4. installe / met à jour les skills de ~\.claude\skills (copies, car Windows
 #      refuse les liens symboliques sans droits admin) et les plugins
 #      (i-have-adhd, ponytail), sauf avec -NoSkills.
@@ -227,11 +229,34 @@ Sync-Repo "git@github.com-perso:floSa/Tuto-MLflow.git" "Tutoriels\Tuto-MLflow"
 Sync-Repo "git@github.com-perso:floSa/Tuto-openmetadata.git" "Tutoriels\Tuto-OpenMetadata"
 
 # --- Projets hors référentiel : jamais supprimés, rangés dans _hors_git ---
-# Un dossier inconnu, non versionné et non vide est DÉPLACÉ dans _hors_git (nom suffixé
-# de la date en cas de collision). Un dossier inconnu qui contient un dépôt git est
-# seulement SIGNALÉ : à toi de l'ajouter au référentiel ou de le ranger.
+# Un dossier inconnu, non vide et pas réellement dans Git est DÉPLACÉ dans _hors_git
+# (nom suffixé de la date en cas de collision). Un dossier inconnu réellement poussé,
+# ou dont le remote est injoignable, est seulement SIGNALÉ : à toi de l'ajouter au
+# référentiel ou de le ranger.
 Write-Host "`n--- Projets hors référentiel ---" -ForegroundColor Cyan
 $script:Flagged = $false
+
+# Un `git init` ne suffit pas : un projet n'est « dans Git » que s'il a un remote origin
+# dont le dépôt existe ET dont la branche courante existe côté remote, sans commit en
+# retard. Verdict : pousse | deplacer:<raison> | examiner:<raison>.
+# Remote injoignable (hors ligne, droits) = examiner, jamais déplacé.
+function Get-PushVerdict($d) {
+    $url = git -C $d remote get-url origin 2>$null
+    if (-not $url) { return "deplacer:git init sans remote" }
+    git -C $d rev-parse --verify -q HEAD 2>$null | Out-Null
+    if ($LASTEXITCODE -ne 0) { return "deplacer:aucun commit" }
+    $br = git -C $d rev-parse --abbrev-ref HEAD 2>$null
+    $heads = git -C $d ls-remote --heads origin 2>$null
+    if ($LASTEXITCODE -ne 0) { return "examiner:remote injoignable ou inexistant ($url)" }
+    if (-not ($heads | Where-Object { $_ -match "refs/heads/$([regex]::Escape($br))$" })) { return "deplacer:branche $br jamais poussée" }
+    git -C $d fetch -q origin $br 2>$null
+    $ahead = [int](git -C $d rev-list --count "origin/$br..HEAD" 2>$null)
+    if ($ahead -gt 0) {
+        if ($Push) { git -C $d push -q origin $br 2>$null; if ($LASTEXITCODE -eq 0) { return "pousse" } }
+        return "examiner:$ahead commit(s) non poussés"
+    }
+    return "pousse"
+}
 function Find-Unknown($dir) {
     foreach ($item in (Get-ChildItem -Path $dir -Directory -Force | Sort-Object Name)) {
         $name = $item.Name
@@ -241,19 +266,23 @@ function Find-Unknown($dir) {
         if ($script:Leaves.ContainsKey($rel)) { continue }
         if ($script:Groups.ContainsKey($rel)) { Find-Unknown $item.FullName; continue }
         $script:Flagged = $true
-        $hasGit = (Test-Path (Join-Path $item.FullName ".git")) -or
-            [bool](Get-ChildItem -Path $item.FullName -Directory -Recurse -Depth 3 -Force -Filter ".git" -ErrorAction SilentlyContinue | Select-Object -First 1)
-        if ($hasGit) {
-            $remote = git -C $item.FullName remote get-url origin 2>$null
-            if (-not $remote) { $remote = "remote inconnu" }
-            Write-Host "[À EXAMINER] $rel : dépôt git hors référentiel ($remote), non déplacé" -ForegroundColor Yellow
+        $verdict = "deplacer:non versionné"
+        if (Test-Path (Join-Path $item.FullName ".git")) {
+            $verdict = Get-PushVerdict $item.FullName
+        } elseif (Get-ChildItem -Path $item.FullName -Directory -Recurse -Depth 3 -Force -Filter ".git" -ErrorAction SilentlyContinue | Select-Object -First 1) {
+            $verdict = "examiner:contient des dépôts git imbriqués"
         } elseif (-not (Get-ChildItem -Path $item.FullName -Force | Select-Object -First 1)) {
             continue
+        }
+        if ($verdict -like "examiner:*") {
+            Write-Host "[À EXAMINER] $rel : $($verdict.Substring(9)), non déplacé" -ForegroundColor Yellow
+        } elseif ($verdict -eq "pousse") {
+            Write-Host "[À EXAMINER] $rel : dépôt poussé ($(git -C $item.FullName remote get-url origin)) mais absent du référentiel, non déplacé" -ForegroundColor Yellow
         } else {
             $dest = Join-Path $horsGitUnder $name
             if (Test-Path $dest) { $dest = "${dest}_$(Get-Date -Format 'yyyyMMdd-HHmmss')" }
             Move-Item -LiteralPath $item.FullName -Destination $dest
-            Write-Host "[HORS-GIT] $rel -> _hors_git\$(Split-Path -Leaf $dest)" -ForegroundColor Yellow
+            Write-Host "[HORS-GIT] $rel ($($verdict.Substring(9))) -> _hors_git\$(Split-Path -Leaf $dest)" -ForegroundColor Yellow
         }
     }
 }

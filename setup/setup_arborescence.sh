@@ -13,8 +13,10 @@
 # Ce que fait le script, dans l'ordre :
 #   1. clone / migre / met à jour (pull --ff-only) tous les dépôts du référentiel ;
 #   2. signale les commits non poussés (--push les pousse) et les modifs locales ;
-#   3. range dans _hors_git tout dossier non versionné hors référentiel
-#      (un dépôt git hors référentiel est seulement signalé, jamais déplacé) ;
+#   3. range dans _hors_git tout dossier hors référentiel qui n'est pas réellement
+#      dans Git : non versionné, git init sans remote, ou branche jamais poussée.
+#      Un dépôt hors référentiel réellement poussé, ou dont le remote est
+#      injoignable, est seulement signalé ;
 #   4. installe / met à jour les skills de ~/.claude/skills et les plugins
 #      (i-have-adhd, ponytail), sauf avec --no-skills.
 #
@@ -297,9 +299,10 @@ fi
 
 # --- 5b. Projets hors référentiel : jamais supprimés, rangés dans _hors_git ---
 # Connu = les dépôts de REPOS (feuilles) et leurs dossiers parents (groupes).
-# Un dossier inconnu, non versionné et non vide est DÉPLACÉ dans _hors_git (nom
-# suffixé de la date en cas de collision). Un dossier inconnu qui contient un dépôt
-# git est seulement SIGNALÉ : à toi de l'ajouter au référentiel ou de le ranger.
+# Un dossier inconnu, non vide et pas réellement dans Git est DÉPLACÉ dans _hors_git
+# (nom suffixé de la date en cas de collision). Un dossier inconnu réellement poussé,
+# ou dont le remote est injoignable, est seulement SIGNALÉ : à toi de l'ajouter au
+# référentiel ou de le ranger.
 declare -A LEAF=() GROUP=()
 for entry in "${REPOS[@]}"; do
     rel="${entry##*|}"
@@ -307,6 +310,28 @@ for entry in "${REPOS[@]}"; do
     p="$(dirname "$rel")"
     while [ "$p" != "." ]; do GROUP["$p"]=1; p="$(dirname "$p")"; done
 done
+
+# Un `git init` ne suffit pas : un projet n'est « dans Git » que s'il a un remote
+# origin dont le dépôt existe ET dont la branche courante existe côté remote, sans
+# commit en retard. Verdict : pousse | deplacer:<raison> | examiner:<raison>.
+# Remote injoignable (hors ligne, droits) = examiner, jamais déplacé.
+git_push_verdict() {
+    local d="$1" url br heads ahead
+    url="$(git -C "$d" remote get-url origin 2>/dev/null)" || { echo "deplacer:git init sans remote"; return; }
+    br="$(git -C "$d" rev-parse --abbrev-ref HEAD 2>/dev/null)"
+    git -C "$d" rev-parse --verify -q HEAD >/dev/null 2>&1 || { echo "deplacer:aucun commit"; return; }
+    heads="$(git -C "$d" ls-remote --heads origin 2>/dev/null)" || { echo "examiner:remote injoignable ou inexistant ($url)"; return; }
+    if ! echo "$heads" | grep -q "refs/heads/$br\$"; then
+        echo "deplacer:branche $br jamais poussée"; return
+    fi
+    git -C "$d" fetch -q origin "$br" 2>/dev/null
+    ahead="$(git -C "$d" rev-list --count "origin/$br..HEAD" 2>/dev/null || echo 1)"
+    if [ "$ahead" -gt 0 ]; then
+        if [ "$PUSH" = "1" ] && git -C "$d" push -q origin "$br" 2>/dev/null; then echo "pousse"; else echo "examiner:$ahead commit(s) non poussés"; fi
+        return
+    fi
+    echo "pousse"
+}
 
 echo -e "\n--- Projets hors référentiel ---"
 MOVED_OR_FLAGGED=0
@@ -323,15 +348,24 @@ scan_unknown() {
             continue
         fi
         MOVED_OR_FLAGGED=1
-        if [ -d "$item/.git" ] || [ -n "$(find "$item" -maxdepth 3 -name .git -print -quit 2>/dev/null)" ]; then
-            echo "[A EXAMINER] $rel : dépôt git hors référentiel ($(git -C "$item" remote get-url origin 2>/dev/null || echo 'remote inconnu')), non déplacé"
+        local verdict="hors-git"
+        if [ -d "$item/.git" ]; then
+            verdict="$(git_push_verdict "$item")"
+        elif [ -n "$(find "$item" -maxdepth 3 -name .git -print -quit 2>/dev/null)" ]; then
+            verdict="examiner:contient des dépôts git imbriqués"
         elif [ -z "$(ls -A "$item" 2>/dev/null)" ]; then
-            :
-        else
-            dest="$BASE_DIR/_hors_git/$name"
-            [ -e "$dest" ] && dest="${dest}_$(date +%Y%m%d-%H%M%S)"
-            mv "$item" "$dest" && echo "[HORS-GIT] $rel -> _hors_git/$(basename "$dest")"
+            continue
         fi
+        case "$verdict" in
+            examiner:*)
+                echo "[A EXAMINER] $rel : ${verdict#examiner:}, non déplacé" ;;
+            pousse)
+                echo "[A EXAMINER] $rel : dépôt poussé ($(git -C "$item" remote get-url origin)) mais absent du référentiel, non déplacé" ;;
+            *)
+                dest="$BASE_DIR/_hors_git/$name"
+                [ -e "$dest" ] && dest="${dest}_$(date +%Y%m%d-%H%M%S)"
+                mv "$item" "$dest" && echo "[HORS-GIT] $rel ($( [ "$verdict" = "hors-git" ] && echo 'non versionné' || echo "${verdict#deplacer:}")) -> _hors_git/$(basename "$dest")" ;;
+        esac
     done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d | sort)
 }
 scan_unknown "$BASE_DIR"

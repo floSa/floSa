@@ -7,9 +7,12 @@
 # confidentiels ou non versionnés.
 # Son contenu existant ne doit JAMAIS être modifié, déplacé ni supprimé par les
 # scripts de synchronisation ou d'arborescence. Ils peuvent seulement y AJOUTER :
-# tout dossier non versionné trouvé dans l'arborescence (donc absent de la liste
-# ci-dessous) y est déplacé, jamais supprimé. Un dépôt git hors liste n'est pas
-# déplacé : il est signalé, pour être ajouté à la liste ou rangé à la main.
+# tout dossier de l'arborescence absent de la liste ci-dessous ET pas réellement dans
+# Git y est déplacé, jamais supprimé. « Réellement dans Git » = un remote origin dont
+# le dépôt existe, dont la branche courante existe côté remote, sans commit en
+# retard : un simple `git init` ne compte pas. Un dépôt hors liste réellement poussé,
+# ou dont le remote est injoignable, n'est pas déplacé : il est signalé, pour être
+# ajouté à la liste ou rangé à la main.
 #
 # SKILLS : les scripts installent aussi les skills (~/.claude/skills) depuis
 # Productivite/claude-skills et Productivite/Dev-Brain, ainsi que les plugins
