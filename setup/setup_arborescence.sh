@@ -393,12 +393,24 @@ if [ "$NO_SKILLS" -eq 0 ]; then
     if [ -f "$SK_REPO/install.sh" ]; then
         # --force : remplace une ancienne copie par le lien vers le dépôt (la source
         # de vérité). Seuls les skills du dépôt sont touchés, pas les autres dossiers.
+        # Sauvegarde avant remplacement : une copie locale modifiée n'est jamais perdue.
+        BAK="$BASE_DIR/_hors_git/sauvegarde-skills_$(date +%Y%m%d-%H%M%S)"
+        save_if_differs() {
+            local dst="$SK_TARGET/$2"
+            { [ -d "$dst" ] && [ ! -L "$dst" ]; } || return 0
+            diff -rq -x __pycache__ "$1" "$dst" >/dev/null 2>&1 && return 0
+            mkdir -p "$BAK" && cp -a "$dst" "$BAK/$2" && echo "  sauvegarde : $2 -> $BAK"
+        }
+        for d in "$SK_REPO"/skills/perso/*/ "$SK_REPO"/skills/externes/*/; do
+            [ -f "${d}SKILL.md" ] && save_if_differs "${d%/}" "$(basename "$d")"
+        done
         bash "$SK_REPO/install.sh" --force 2>&1 | sed 's/^/  /'
         DB_SK="$BASE_DIR/Productivite/Dev-Brain/.claude/skills"
         if [ -d "$DB_SK" ]; then
             for d in "$DB_SK"/*/; do
                 [ -f "${d}SKILL.md" ] || continue
                 n="$(basename "$d")"
+                save_if_differs "${d%/}" "$n"
                 rm -rf "${SK_TARGET:?}/$n"
                 ln -s "${d%/}" "$SK_TARGET/$n" && echo "  ✓ $n (Dev-Brain)"
             done

@@ -4,6 +4,8 @@ Ce dossier contient les fichiers de référence et les scripts permettant de rec
 
 ---
 
+> Pour tout faire d'un coup sur une machine, dire à Claude Code : « Prends le repo floSa, suis CONSIGNE.md pour mettre à jour mes projets et mes skills. » La consigne est à la racine du dépôt : [`CONSIGNE.md`](../CONSIGNE.md).
+
 ## Contenu
 
 - **`ARBORESCENCE.txt`** : Référentiel textuel de l'organisation des dossiers et de la liste complète des dépôts GitHub associés (58 projets répertoriés).

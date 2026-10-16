@@ -322,6 +322,22 @@ if (-not $NoSkills) {
     } else {
         # --force : remplace l'ancienne copie par la version du dépôt (source de vérité).
         # Seuls les skills du dépôt sont touchés, pas les autres dossiers de la cible.
+        # Sauvegarde avant remplacement : une copie locale modifiée n'est jamais perdue.
+        $bakDir = Join-Path $BASE_DIR "_hors_git\sauvegarde-skills_$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+        $hashes = { param($r) Get-ChildItem $r -Recurse -File -Force | Where-Object { $_.FullName -notmatch '__pycache__' } | ForEach-Object { $_.FullName.Substring($r.Length) + ':' + (Get-FileHash $_.FullName).Hash } | Sort-Object }
+        function Save-IfDiffers($srcDir, $name) {
+            $dst = Join-Path $skTarget $name
+            if (-not (Test-Path $dst) -or (Get-Item $dst).LinkType) { return }
+            if (Compare-Object @(& $hashes $srcDir) @(& $hashes $dst)) {
+                New-Item -ItemType Directory -Force $bakDir | Out-Null
+                Copy-Item $dst (Join-Path $bakDir $name) -Recurse
+                Write-Host "  sauvegarde : $name -> $bakDir" -ForegroundColor Yellow
+            }
+        }
+        foreach ($fam in "perso", "externes") {
+            $famDir = Join-Path $skRepo "skills\$fam"
+            if (Test-Path $famDir) { foreach ($sd in (Get-ChildItem $famDir -Directory | Where-Object { Test-Path (Join-Path $_.FullName "SKILL.md") })) { Save-IfDiffers $sd.FullName $sd.Name } }
+        }
         $env:HOME = $HOME
         $tgtArgs = if ($env:CLAUDE_SKILLS_DIR) { @("--target", $skTarget) } else { @() }
         & $bash (Join-Path $skRepo "install.sh") --mode copy --force @tgtArgs 2>&1 | ForEach-Object { "  $_" }
@@ -330,6 +346,7 @@ if (-not $NoSkills) {
             foreach ($d in (Get-ChildItem $dbSk -Directory)) {
                 if (-not (Test-Path (Join-Path $d.FullName "SKILL.md"))) { continue }
                 $dst = Join-Path $skTarget $d.Name
+                Save-IfDiffers $d.FullName $d.Name
                 if (Test-Path $dst) { Remove-Item $dst -Recurse -Force }
                 Copy-Item $d.FullName $dst -Recurse
                 Write-Host "  ✓ $($d.Name) (Dev-Brain)"
