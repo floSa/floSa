@@ -129,7 +129,7 @@ function Sync-Repo($url, $targetRelPath) {
     }
 
     # 2. Migration automatique si présent dans une ancienne arborescence
-    $aliases = @($repoName -replace '_', '-'); if ($repoName -eq 'mes-skills') { $aliases += 'claude-skills' }
+    $aliases = @($repoName -replace '_', '-'); if ($repoName -eq 'Mes-Skills') { $aliases += 'claude-skills' }
     $candidates = Get-ChildItem -Path $BASE_DIR -Directory -Recurse -Depth 3 -ErrorAction SilentlyContinue |
         Where-Object { ($aliases -contains ($_.Name -replace '_', '-')) -and (Test-Path (Join-Path $_.FullName ".git")) -and ($_.FullName -ne $targetPath) -and ($_.FullName -notmatch "_hors[-_]git") }
 
@@ -161,12 +161,12 @@ function Sync-Repo($url, $targetRelPath) {
 # --- Autres-Projets ---
 Sync-Repo "git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git" "Autres-Projets\Atlas-Metiers-Roadmaps"
 Sync-Repo "git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git" "Autres-Projets\Cardmarket-Wantlist-Optimizer"
-Sync-Repo "git@github.com-perso:floSa/feedbacks-projet.git" "Autres-Projets\feedbacks-projet"
+Sync-Repo "git@github.com-perso:floSa/Feedbacks-Projet.git" "Autres-Projets\Feedbacks-Projet"
 Sync-Repo "git@github.com-perso:floSa/Planning-Usine-CPSAT.git" "Autres-Projets\Planning-Usine-CPSAT"
 Sync-Repo "git@github.com-perso:floSa/PowerVision-S1-Backup.git" "Autres-Projets\PowerVision-S1-Backup"
 Sync-Repo "git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git" "Autres-Projets\Reels-Instagram-Graph-MD"
-Sync-Repo "git@github.com-perso:floSa/Template-services-docker.git" "Autres-Projets\Template-services-docker"
-Sync-Repo "git@github.com-perso:floSa/Test-pre-entretien-technique.git" "Autres-Projets\Test-pre-entretien-technique"
+Sync-Repo "git@github.com-perso:floSa/Template-Services-Docker.git" "Autres-Projets\Template-Services-Docker"
+Sync-Repo "git@github.com-perso:floSa/Test-Pre-Entretien-Technique.git" "Autres-Projets\Test-Pre-Entretien-Technique"
 
 # --- Jeu ---
 Sync-Repo "git@github.com-perso:floSa/7Wonders-BoardGame.git" "Jeu\Board-Games\7Wonders-BoardGame"
@@ -194,24 +194,24 @@ Sync-Repo "git@github.com-perso:floSa/Defi-IA-2021.git" "Projet-ML-DL\Defis-IA\D
 Sync-Repo "git@github.com-perso:floSa/Defi-IA-2022.git" "Projet-ML-DL\Defis-IA\Defi-IA-2022"
 Sync-Repo "git@github.com-perso:floSa/Defi-IA-2023.git" "Projet-ML-DL\Defis-IA\Defi-IA-2023"
 Sync-Repo "git@github.com-perso:floSa/Detection-Pneumonie-Radio.git" "Projet-ML-DL\Detection-Pneumonie-Radio"
-Sync-Repo "git@github.com-perso:floSa/Images-collection-clean.git" "Projet-ML-DL\Images-collection-clean"
+Sync-Repo "git@github.com-perso:floSa/Images-Collection-Clean.git" "Projet-ML-DL\Images-Collection-Clean"
 Sync-Repo "git@github.com-perso:floSa/Notebooks-Cheat-Sheet.git" "Projet-ML-DL\Notebooks-Cheat-Sheet"
-Sync-Repo "git@github.com-perso:floSa/sales-ops-planning-poc.git" "Projet-ML-DL\sales-ops-planning-poc"
+Sync-Repo "git@github.com-perso:floSa/Sales-Ops-Planning-POC.git" "Projet-ML-DL\Sales-Ops-Planning-POC"
 
 # --- Projet-IA ---
 Sync-Repo "git@github.com-perso:floSa/Agents-MCP-Orchestration.git" "Projet-IA\Agents-MCP-Orchestration"
-Sync-Repo "git@github.com-perso:floSa/data-analyst-agent.git" "Projet-IA\data-analyst-agent"
-Sync-Repo "git@github.com-perso:floSa/llm-service.git" "Projet-IA\llm-service"
-Sync-Repo "git@github.com-perso:floSa/MCP_maison.git" "Projet-IA\MCP_maison"
-Sync-Repo "git@github.com-perso:floSa/rag-agent-chat.git" "Projet-IA\rag-agent-chat"
+Sync-Repo "git@github.com-perso:floSa/Data-Analyst-Agent.git" "Projet-IA\Data-Analyst-Agent"
+Sync-Repo "git@github.com-perso:floSa/LLM-Service.git" "Projet-IA\LLM-Service"
+Sync-Repo "git@github.com-perso:floSa/MCP-Maison.git" "Projet-IA\MCP-Maison"
+Sync-Repo "git@github.com-perso:floSa/RAG-Agent-Chat.git" "Projet-IA\RAG-Agent-Chat"
 Sync-Repo "git@github.com-perso:floSa/RAG-Eval-Bench.git" "Projet-IA\RAG-Eval-Bench"
-Sync-Repo "git@github.com-perso:floSa/rag-ingestion-pipeline.git" "Projet-IA\rag-ingestion-pipeline"
-Sync-Repo "git@github.com-perso:floSa/traceable-agent.git" "Projet-IA\traceable-agent"
+Sync-Repo "git@github.com-perso:floSa/RAG-Ingestion-Pipeline.git" "Projet-IA\RAG-Ingestion-Pipeline"
+Sync-Repo "git@github.com-perso:floSa/Traceable-Agent.git" "Projet-IA\Traceable-Agent"
 
 # --- Musique ---
 Sync-Repo "git@github.com-perso:floSa/Bibliotheque-Musicale.git" "Musique\Bibliotheque-Musicale"
 Sync-Repo "git@github.com-perso:floSa/Classification-Genres-Musicaux.git" "Musique\Classification-Genres-Musicaux"
-Sync-Repo "git@github.com-perso:floSa/karaokit.git" "Musique\karaokit"
+Sync-Repo "git@github.com-perso:floSa/Karaokit.git" "Musique\Karaokit"
 
 # --- Productivite ---
 Sync-Repo "git@github.com-perso:floSa/Boite-A-Outils.git" "Productivite\Boite-A-Outils"
@@ -221,14 +221,14 @@ Sync-Repo "git@github.com-perso:floSa/Dev-Brain.git" "Productivite\Dev-Brain"
 Sync-Repo "git@github.com-perso:floSa/Fast-HTML-To-MD.git" "Productivite\Fast-HTML-To-MD"
 Sync-Repo "git@github.com-perso:floSa/Outil-Dictee-Audio.git" "Productivite\Outil-Dictee-Audio"
 Sync-Repo "git@github.com-perso:floSa/Veille-Repo.git" "Productivite\Veille-Repo"
-Sync-Repo "git@github.com-perso:floSa/mes-skills.git" "Productivite\mes-skills"
+Sync-Repo "git@github.com-perso:floSa/Mes-Skills.git" "Productivite\Mes-Skills"
 Sync-Repo "git@github.com-perso:floSa/floSa.git" "Productivite\floSa"
 
 # --- Tutoriels ---
 Sync-Repo "git@github.com-perso:floSa/LMStudio-Bionic.git" "Tutoriels\LMStudio-Bionic"
 Sync-Repo "git@github.com-perso:floSa/Tuto-Dagster.git" "Tutoriels\Tuto-Dagster"
 Sync-Repo "git@github.com-perso:floSa/Tuto-MLflow.git" "Tutoriels\Tuto-MLflow"
-Sync-Repo "git@github.com-perso:floSa/Tuto-openmetadata.git" "Tutoriels\Tuto-openmetadata"
+Sync-Repo "git@github.com-perso:floSa/Tuto-OpenMetadata.git" "Tutoriels\Tuto-OpenMetadata"
 
 # --- Projets hors référentiel : jamais supprimés, rangés dans _hors_git ---
 # Un dossier inconnu, non vide et pas réellement dans Git est DÉPLACÉ dans _hors_git
@@ -303,20 +303,20 @@ foreach ($od in $oldDirs) {
 }
 
 # --- Skills et plugins : installation / mise à jour ---
-# Source des skills : Productivite\mes-skills (install.sh) + skills de projet de
+# Source des skills : Productivite\Mes-Skills (install.sh) + skills de projet de
 # Productivite\Dev-Brain\.claude\skills. Windows refuse les liens symboliques sans
 # droits admin : copies (--mode copy), donc ce script les rafraîchit à chaque passage.
 # BMAD n'est pas ici : il s'installe projet par projet (voir le message final).
 if (-not $NoSkills) {
     Write-Host "`n--- Skills et plugins ---" -ForegroundColor Cyan
-    $skRepo = Join-Path $BASE_DIR "Productivite\mes-skills"
+    $skRepo = Join-Path $BASE_DIR "Productivite\Mes-Skills"
     $skTarget = if ($env:CLAUDE_SKILLS_DIR) { $env:CLAUDE_SKILLS_DIR } else { Join-Path $HOME ".claude\skills" }
     # bash de Git for Windows (et non celui de WSL, qui est dans le PATH de System32)
     $gitExe = (Get-Command git -ErrorAction SilentlyContinue).Source
     $bash = $null
     if ($gitExe) { $cand = Join-Path (Split-Path (Split-Path $gitExe)) "bin\bash.exe"; if (Test-Path $cand) { $bash = $cand } }
     if (-not (Test-Path (Join-Path $skRepo "install.sh"))) {
-        Write-Host "  $skRepo\install.sh introuvable : skills non installés (dépôt mes-skills absent ?)" -ForegroundColor Yellow
+        Write-Host "  $skRepo\install.sh introuvable : skills non installés (dépôt Mes-Skills absent ?)" -ForegroundColor Yellow
     } elseif (-not $bash) {
         Write-Host "  bash de Git for Windows introuvable : skills non installés" -ForegroundColor Yellow
     } else {
@@ -360,7 +360,7 @@ if (-not $NoSkills) {
                 Write-Host "  -> plugin(s) absent(s) : installation"
                 & powershell -NoProfile -ExecutionPolicy Bypass -File $outils -Install claude 2>&1 | ForEach-Object { "  $_" }
             }
-            Write-Host "  BMAD (par projet) : .\Productivite\mes-skills\outils-externes\install-outils.ps1 -Install bmad -Project <dossier>"
+            Write-Host "  BMAD (par projet) : .\Productivite\Mes-Skills\outils-externes\install-outils.ps1 -Install bmad -Project <dossier>"
         }
         Write-Host "  Skills présents dans $skTarget :"
         Get-ChildItem $skTarget -Directory | Where-Object { Test-Path (Join-Path $_.FullName "SKILL.md") } | ForEach-Object { Write-Host "    - $($_.Name)" }
