@@ -20,7 +20,7 @@ Remets cette machine à jour : projets hors Git, arborescence, dépôts, skills.
 Réponds en français, sans émoji. Ne supprime rien, jamais.
 
 1. Trouver l'arborescence
-- Prends le dossier courant s'il contient _hors_git et Productivite/floSa ; sinon cherche
+- Prends le dossier courant s'il contient Productivite/floSa ou _hors_git ; sinon cherche
   la racine de mes projets (Windows : Documents\Projets ; WSL, Linux, macOS : souvent
   ~/mes-projets ou ~/Projets). Si elle est absente ou ambiguë, demande-moi le chemin,
   une seule fois.
@@ -49,6 +49,8 @@ Réponds en français, sans émoji. Ne supprime rien, jamais.
       (git push, jamais --force), puis garde le projet en place et dis-moi s'il faut
       l'ajouter au référentiel ;
     - remote injoignable (hors ligne, droits) : ne déplace pas, signale-le.
+- Si le dossier _hors_git n'existe pas à la racine, crée-le (vide) avant tout déplacement.
+  Il est propre à cette machine : on n'y touche que pour y ajouter.
 - Montre-moi ce bilan en un tableau court (dossier, verdict, action), puis déplace dans
   _hors_git ce qui est à déplacer. Collision de nom : suffixe la date. Je ne veux rien
   perdre : un déplacement, jamais une suppression.
