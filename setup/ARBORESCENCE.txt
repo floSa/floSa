@@ -14,8 +14,12 @@
 # ou dont le remote est injoignable, n'est pas déplacé : il est signalé, pour être
 # ajouté à la liste ou rangé à la main.
 #
+# NOMS : chaque dossier porte exactement le nom de son dépôt GitHub (floSa/<nom>).
+# Un dossier existant sous un ancien nom (casse, tiret ou underscore) est migré par les
+# scripts ; un doublon d'un dépôt du référentiel est signalé, jamais supprimé d'office.
+#
 # SKILLS : les scripts installent aussi les skills (~/.claude/skills) depuis
-# Productivite/claude-skills et Productivite/Dev-Brain, ainsi que les plugins
+# Productivite/mes-skills et Productivite/Dev-Brain, ainsi que les plugins
 # i-have-adhd et ponytail. BMAD, lui, s'installe projet par projet.
 # ==============================================================================
 
@@ -26,11 +30,12 @@ Projets/
 ├── Autres-Projets/
 │   ├── Atlas-Metiers-Roadmaps                <- git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git
 │   ├── Cardmarket-Wantlist-Optimizer         <- git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git
+│   ├── feedbacks-projet                      <- git@github.com-perso:floSa/feedbacks-projet.git
 │   ├── Planning-Usine-CPSAT                  <- git@github.com-perso:floSa/Planning-Usine-CPSAT.git
 │   ├── PowerVision-S1-Backup                 <- git@github.com-perso:floSa/PowerVision-S1-Backup.git
 │   ├── Reels-Instagram-Graph-MD              <- git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git
-│   ├── Template-Services-Docker              <- git@github.com-perso:floSa/Template-services-docker.git
-│   └── Test-Pre-Entretien-Technique          <- git@github.com-perso:floSa/Test-pre-entretien-technique.git
+│   ├── Template-services-docker              <- git@github.com-perso:floSa/Template-services-docker.git
+│   └── Test-pre-entretien-technique          <- git@github.com-perso:floSa/Test-pre-entretien-technique.git
 │
 ├── Jeu/
 │   ├── Board-Games/
@@ -64,24 +69,24 @@ Projets/
 │   │   ├── Defi-IA-2022                      <- git@github.com-perso:floSa/Defi-IA-2022.git
 │   │   └── Defi-IA-2023                      <- git@github.com-perso:floSa/Defi-IA-2023.git
 │   ├── Detection-Pneumonie-Radio             <- git@github.com-perso:floSa/Detection-Pneumonie-Radio.git
-│   ├── Images-Collection-Clean               <- git@github.com-perso:floSa/Images-collection-clean.git
+│   ├── Images-collection-clean               <- git@github.com-perso:floSa/Images-collection-clean.git
 │   ├── Notebooks-Cheat-Sheet                 <- git@github.com-perso:floSa/Notebooks-Cheat-Sheet.git
-│   └── Sales-Ops-Planning-POC                <- git@github.com-perso:floSa/sales-ops-planning-poc.git
+│   └── sales-ops-planning-poc                <- git@github.com-perso:floSa/sales-ops-planning-poc.git
 │
 ├── Projet-IA/
 │   ├── Agents-MCP-Orchestration              <- git@github.com-perso:floSa/Agents-MCP-Orchestration.git
-│   ├── Data-Analyst-Agent                    <- git@github.com-perso:floSa/data-analyst-agent.git
-│   ├── LLM-Service                           <- git@github.com-perso:floSa/llm-service.git
-│   ├── MCP-Maison                            <- git@github.com-perso:floSa/MCP_maison.git
-│   ├── RAG-Agent-Chat                        <- git@github.com-perso:floSa/rag-agent-chat.git
+│   ├── data-analyst-agent                    <- git@github.com-perso:floSa/data-analyst-agent.git
+│   ├── llm-service                           <- git@github.com-perso:floSa/llm-service.git
+│   ├── MCP_maison                            <- git@github.com-perso:floSa/MCP_maison.git
+│   ├── rag-agent-chat                        <- git@github.com-perso:floSa/rag-agent-chat.git
 │   ├── RAG-Eval-Bench                        <- git@github.com-perso:floSa/RAG-Eval-Bench.git
-│   ├── RAG-Ingestion-Pipeline                <- git@github.com-perso:floSa/rag-ingestion-pipeline.git
-│   └── Traceable-Agent                       <- git@github.com-perso:floSa/traceable-agent.git
+│   ├── rag-ingestion-pipeline                <- git@github.com-perso:floSa/rag-ingestion-pipeline.git
+│   └── traceable-agent                       <- git@github.com-perso:floSa/traceable-agent.git
 │
 ├── Musique/
 │   ├── Bibliotheque-Musicale                 <- git@github.com-perso:floSa/Bibliotheque-Musicale.git
 │   ├── Classification-Genres-Musicaux        <- git@github.com-perso:floSa/Classification-Genres-Musicaux.git
-│   └── Karaokit                              <- git@github.com-perso:floSa/karaokit.git
+│   └── karaokit                              <- git@github.com-perso:floSa/karaokit.git
 │
 ├── Productivite/
 │   ├── Boite-A-Outils                        <- git@github.com-perso:floSa/Boite-A-Outils.git
@@ -91,11 +96,11 @@ Projets/
 │   ├── Fast-HTML-To-MD                       <- git@github.com-perso:floSa/Fast-HTML-To-MD.git
 │   ├── Outil-Dictee-Audio                    <- git@github.com-perso:floSa/Outil-Dictee-Audio.git
 │   ├── Veille-Repo                           <- git@github.com-perso:floSa/Veille-Repo.git
-│   ├── claude-skills                         <- git@github.com-perso:floSa/mes-skills.git
+│   ├── mes-skills                            <- git@github.com-perso:floSa/mes-skills.git
 │   └── floSa                                 <- git@github.com-perso:floSa/floSa.git
 │
 └── Tutoriels/
     ├── LMStudio-Bionic                       <- git@github.com-perso:floSa/LMStudio-Bionic.git
     ├── Tuto-Dagster                          <- git@github.com-perso:floSa/Tuto-Dagster.git
     ├── Tuto-MLflow                           <- git@github.com-perso:floSa/Tuto-MLflow.git
-    └── Tuto-OpenMetadata                     <- git@github.com-perso:floSa/Tuto-openmetadata.git
+    └── Tuto-openmetadata                     <- git@github.com-perso:floSa/Tuto-openmetadata.git

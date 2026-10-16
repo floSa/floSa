@@ -17,7 +17,8 @@ Sous WSL, la session Claude Desktop tourne dans WSL : les skills s'installent da
 
 ```text
 Remets cette machine à jour : projets hors Git, arborescence, dépôts, skills.
-Réponds en français, sans émoji. Ne supprime rien, jamais.
+Réponds en français, sans émoji. Ne supprime rien, jamais (seul un doublon validé par moi,
+voir l'étape 3).
 
 1. Trouver l'arborescence
 - Prends le dossier courant s'il contient Productivite/floSa ou _hors_git ; sinon cherche
@@ -39,7 +40,8 @@ Réponds en français, sans émoji. Ne supprime rien, jamais.
     a. il a un remote origin (mon GitHub, floSa) ;
     b. le dépôt existe côté GitHub (git ls-remote ou gh repo view) ;
     c. sa branche courante existe côté GitHub ;
-    d. ses commits sont poussés (rien en avance sur origin).
+    d. tous ses commits sont poussés, sur TOUTES les branches (git rev-list --branches
+       --not --remotes vide) et il n'a aucun stash (git stash list vide).
 - Pour chaque dossier de l'arborescence qui n'est PAS dans setup/ARBORESCENCE.txt
   (cherche aussi dans les anciens emplacements, jusqu'à 4 niveaux) :
     - dossier sans .git : à déplacer dans _hors_git ;
@@ -54,6 +56,11 @@ Réponds en français, sans émoji. Ne supprime rien, jamais.
 - Montre-moi ce bilan en un tableau court (dossier, verdict, action), puis déplace dans
   _hors_git ce qui est à déplacer. Collision de nom : suffixe la date. Je ne veux rien
   perdre : un déplacement, jamais une suppression.
+- Doublon : un dossier hors référentiel qui est le même dépôt qu'un dossier du référentiel
+  (même remote, ancien nom) se signale. Ne le supprime qu'avec mon accord, après avoir
+  vérifié : aucun commit absent de GitHub sur aucune branche, aucun stash, aucune
+  modification, aucun fichier local utile (.env, données, config) : recopie-les d'abord.
+  Les dossiers du référentiel portent exactement le nom du dépôt GitHub.
 - Même contrôle, en lecture seule, pour les dépôts du référentiel : commits non poussés,
   modifications non commitées, branche autre que main/master, remote cassé. Ne les déplace
   pas.
@@ -78,12 +85,12 @@ Réponds en français, sans émoji. Ne supprime rien, jamais.
   projet, toute écriture dans le contenu existant de _hors_git.
 
 6. Skills et plugins (dans le ~/.claude de cette machine)
-- Le script installe les skills de Productivite/claude-skills (install.sh) et ceux de
+- Le script installe les skills de Productivite/mes-skills (install.sh) et ceux de
   Productivite/Dev-Brain/.claude/skills dans ~/.claude/skills (copies sous Windows, liens
   symboliques ailleurs), puis les plugins i-have-adhd et ponytail avec
-  claude-skills/outils-externes/install-outils.
+  mes-skills/outils-externes/install-outils.
 - Vérifie ensuite : chaque dossier de ~/.claude/skills a un SKILL.md ; la liste correspond
-  au README de claude-skills (aosis-deck-builder, generer-documentation, generer-tutoriel,
+  au README de mes-skills (aosis-deck-builder, generer-documentation, generer-tutoriel,
   jupytext-notebooks, veille-github, watch-md, watch) plus planifier-projet, enrichir-brain
   et cloturer-brain de Dev-Brain ; claude plugin list montre i-have-adhd et ponytail
   activés ; install-outils --status ne signale aucun écart.

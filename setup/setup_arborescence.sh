@@ -117,11 +117,12 @@ REPOS=(
     # Autres-Projets
     "git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git|Autres-Projets/Atlas-Metiers-Roadmaps"
     "git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git|Autres-Projets/Cardmarket-Wantlist-Optimizer"
+    "git@github.com-perso:floSa/feedbacks-projet.git|Autres-Projets/feedbacks-projet"
     "git@github.com-perso:floSa/Planning-Usine-CPSAT.git|Autres-Projets/Planning-Usine-CPSAT"
     "git@github.com-perso:floSa/PowerVision-S1-Backup.git|Autres-Projets/PowerVision-S1-Backup"
     "git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git|Autres-Projets/Reels-Instagram-Graph-MD"
-    "git@github.com-perso:floSa/Template-services-docker.git|Autres-Projets/Template-Services-Docker"
-    "git@github.com-perso:floSa/Test-pre-entretien-technique.git|Autres-Projets/Test-Pre-Entretien-Technique"
+    "git@github.com-perso:floSa/Template-services-docker.git|Autres-Projets/Template-services-docker"
+    "git@github.com-perso:floSa/Test-pre-entretien-technique.git|Autres-Projets/Test-pre-entretien-technique"
     # Jeu
     "git@github.com-perso:floSa/7Wonders-BoardGame.git|Jeu/Board-Games/7Wonders-BoardGame"
     "git@github.com-perso:floSa/Dracula-VS-Van-Helsing-BoardGame.git|Jeu/Board-Games/Dracula-VS-Van-Helsing-BoardGame"
@@ -147,22 +148,22 @@ REPOS=(
     "git@github.com-perso:floSa/Defi-IA-2022.git|Projet-ML-DL/Defis-IA/Defi-IA-2022"
     "git@github.com-perso:floSa/Defi-IA-2023.git|Projet-ML-DL/Defis-IA/Defi-IA-2023"
     "git@github.com-perso:floSa/Detection-Pneumonie-Radio.git|Projet-ML-DL/Detection-Pneumonie-Radio"
-    "git@github.com-perso:floSa/Images-collection-clean.git|Projet-ML-DL/Images-Collection-Clean"
+    "git@github.com-perso:floSa/Images-collection-clean.git|Projet-ML-DL/Images-collection-clean"
     "git@github.com-perso:floSa/Notebooks-Cheat-Sheet.git|Projet-ML-DL/Notebooks-Cheat-Sheet"
-    "git@github.com-perso:floSa/sales-ops-planning-poc.git|Projet-ML-DL/Sales-Ops-Planning-POC"
+    "git@github.com-perso:floSa/sales-ops-planning-poc.git|Projet-ML-DL/sales-ops-planning-poc"
     # Projet-IA
     "git@github.com-perso:floSa/Agents-MCP-Orchestration.git|Projet-IA/Agents-MCP-Orchestration"
-    "git@github.com-perso:floSa/data-analyst-agent.git|Projet-IA/Data-Analyst-Agent"
-    "git@github.com-perso:floSa/llm-service.git|Projet-IA/LLM-Service"
-    "git@github.com-perso:floSa/MCP_maison.git|Projet-IA/MCP-Maison"
-    "git@github.com-perso:floSa/rag-agent-chat.git|Projet-IA/RAG-Agent-Chat"
+    "git@github.com-perso:floSa/data-analyst-agent.git|Projet-IA/data-analyst-agent"
+    "git@github.com-perso:floSa/llm-service.git|Projet-IA/llm-service"
+    "git@github.com-perso:floSa/MCP_maison.git|Projet-IA/MCP_maison"
+    "git@github.com-perso:floSa/rag-agent-chat.git|Projet-IA/rag-agent-chat"
     "git@github.com-perso:floSa/RAG-Eval-Bench.git|Projet-IA/RAG-Eval-Bench"
-    "git@github.com-perso:floSa/rag-ingestion-pipeline.git|Projet-IA/RAG-Ingestion-Pipeline"
-    "git@github.com-perso:floSa/traceable-agent.git|Projet-IA/Traceable-Agent"
+    "git@github.com-perso:floSa/rag-ingestion-pipeline.git|Projet-IA/rag-ingestion-pipeline"
+    "git@github.com-perso:floSa/traceable-agent.git|Projet-IA/traceable-agent"
     # Musique
     "git@github.com-perso:floSa/Bibliotheque-Musicale.git|Musique/Bibliotheque-Musicale"
     "git@github.com-perso:floSa/Classification-Genres-Musicaux.git|Musique/Classification-Genres-Musicaux"
-    "git@github.com-perso:floSa/karaokit.git|Musique/Karaokit"
+    "git@github.com-perso:floSa/karaokit.git|Musique/karaokit"
     # Productivite
     "git@github.com-perso:floSa/Boite-A-Outils.git|Productivite/Boite-A-Outils"
     "git@github.com-perso:floSa/Brain-Kit.git|Productivite/Brain-Kit"
@@ -171,13 +172,13 @@ REPOS=(
     "git@github.com-perso:floSa/Fast-HTML-To-MD.git|Productivite/Fast-HTML-To-MD"
     "git@github.com-perso:floSa/Outil-Dictee-Audio.git|Productivite/Outil-Dictee-Audio"
     "git@github.com-perso:floSa/Veille-Repo.git|Productivite/Veille-Repo"
-    "git@github.com-perso:floSa/mes-skills.git|Productivite/claude-skills"
+    "git@github.com-perso:floSa/mes-skills.git|Productivite/mes-skills"
     "git@github.com-perso:floSa/floSa.git|Productivite/floSa"
     # Tutoriels
     "git@github.com-perso:floSa/LMStudio-Bionic.git|Tutoriels/LMStudio-Bionic"
     "git@github.com-perso:floSa/Tuto-Dagster.git|Tutoriels/Tuto-Dagster"
     "git@github.com-perso:floSa/Tuto-MLflow.git|Tutoriels/Tuto-MLflow"
-    "git@github.com-perso:floSa/Tuto-openmetadata.git|Tutoriels/Tuto-OpenMetadata"
+    "git@github.com-perso:floSa/Tuto-openmetadata.git|Tutoriels/Tuto-openmetadata"
 )
 
 # --- 4. Étape de préparation : Migration des répertoires existants & Clonage ---
@@ -205,16 +206,16 @@ for entry in "${REPOS[@]}"; do
             found_dir="$match_dir"
             break
         fi
-    done < <(find "$BASE_DIR" -maxdepth 4 -type d -name "$repo_name" 2>/dev/null)
+    done < <(find "$BASE_DIR" -maxdepth 4 -type d \( -iname "$repo_name" -o -iname "${repo_name//_/-}" -o -iname "${repo_name//-/_}" \) 2>/dev/null)
 
-    # Alias exceptionnel : Mes-Skills -> claude-skills
-    if [ -z "$found_dir" ] && [ "$repo_name" = "claude-skills" ]; then
+    # Alias exceptionnel : claude-skills (ancien nom) -> mes-skills
+    if [ -z "$found_dir" ] && [ "$repo_name" = "mes-skills" ]; then
         while IFS= read -r match_dir; do
             if [ -d "$match_dir/.git" ]; then
                 found_dir="$match_dir"
                 break
             fi
-        done < <(find "$BASE_DIR" -maxdepth 4 -type d -name "Mes-Skills" 2>/dev/null)
+        done < <(find "$BASE_DIR" -maxdepth 4 -type d -iname "claude-skills" 2>/dev/null)
     fi
 
     if [ -n "$found_dir" ]; then
@@ -316,7 +317,7 @@ done
 # commit en retard. Verdict : pousse | deplacer:<raison> | examiner:<raison>.
 # Remote injoignable (hors ligne, droits) = examiner, jamais déplacé.
 git_push_verdict() {
-    local d="$1" url br heads ahead
+    local d="$1" url br heads ahead orph stash
     url="$(git -C "$d" remote get-url origin 2>/dev/null)" || { echo "deplacer:git init sans remote"; return; }
     br="$(git -C "$d" rev-parse --abbrev-ref HEAD 2>/dev/null)"
     git -C "$d" rev-parse --verify -q HEAD >/dev/null 2>&1 || { echo "deplacer:aucun commit"; return; }
@@ -324,6 +325,8 @@ git_push_verdict() {
     if ! echo "$heads" | grep -q "refs/heads/$br\$"; then
         echo "deplacer:branche $br jamais poussée"; return
     fi
+    orph="$(git -C "$d" rev-list --branches --not --remotes 2>/dev/null | wc -l)"; stash="$(git -C "$d" stash list 2>/dev/null | wc -l)"
+    if [ "$orph" -gt 0 ] || [ "$stash" -gt 0 ]; then echo "examiner:$orph commit(s) sur des branches jamais poussées, $stash stash(s)"; return; fi
     git -C "$d" fetch -q origin "$br" 2>/dev/null
     ahead="$(git -C "$d" rev-list --count "origin/$br..HEAD" 2>/dev/null || echo 1)"
     if [ "$ahead" -gt 0 ]; then
@@ -379,13 +382,13 @@ for old_d in apprentissage data-ml ia-agents infra jeux outils pro; do
 done
 
 # --- 7. Skills et plugins : installation / mise à jour ---
-# Source des skills : Productivite/claude-skills (install.sh) + skills de projet de
+# Source des skills : Productivite/mes-skills (install.sh) + skills de projet de
 # Productivite/Dev-Brain/.claude/skills. Cibles : ~/.claude/skills (liens vers les
 # dépôts : un git pull met tout à jour) et les plugins i-have-adhd / ponytail.
 # BMAD n'est pas ici : il s'installe projet par projet (voir la fin du script).
 if [ "$NO_SKILLS" -eq 0 ]; then
     echo -e "\n--- Skills et plugins ---"
-    SK_REPO="$BASE_DIR/Productivite/claude-skills"
+    SK_REPO="$BASE_DIR/Productivite/mes-skills"
     SK_TARGET="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
     if [ -f "$SK_REPO/install.sh" ]; then
         # --force : remplace une ancienne copie par le lien vers le dépôt (la source
@@ -415,7 +418,7 @@ if [ "$NO_SKILLS" -eq 0 ]; then
         for d in "$SK_TARGET"/*/; do [ -f "${d}SKILL.md" ] && echo "    - $(basename "$d")"; done
         echo "  BMAD (par projet) : bash $OUT --install bmad --project <dossier>"
     else
-        echo "  $SK_REPO/install.sh introuvable : skills non installés (dépôt claude-skills absent ?)"
+        echo "  $SK_REPO/install.sh introuvable : skills non installés (dépôt mes-skills absent ?)"
     fi
 fi
 
