@@ -5,8 +5,15 @@
 # Le dossier '_hors_git' est STRICTEMENT propre à chaque machine hôte.
 # Il accueille les données locales, sauvegardes, caches de modèles et projets
 # confidentiels ou non versionnés.
-# Ce dossier et son contenu ne doivent JAMAIS être modifiés, déplacés ni supprimés
-# par les scripts de synchronisation ou d'arborescence.
+# Son contenu existant ne doit JAMAIS être modifié, déplacé ni supprimé par les
+# scripts de synchronisation ou d'arborescence. Ils peuvent seulement y AJOUTER :
+# tout dossier non versionné trouvé dans l'arborescence (donc absent de la liste
+# ci-dessous) y est déplacé, jamais supprimé. Un dépôt git hors liste n'est pas
+# déplacé : il est signalé, pour être ajouté à la liste ou rangé à la main.
+#
+# SKILLS : les scripts installent aussi les skills (~/.claude/skills) depuis
+# Productivite/claude-skills et Productivite/Dev-Brain, ainsi que les plugins
+# i-have-adhd et ponytail. BMAD, lui, s'installe projet par projet.
 # ==============================================================================
 
 Projets/

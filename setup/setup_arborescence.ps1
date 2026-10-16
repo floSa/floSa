@@ -1,18 +1,33 @@
-# ==============================================================================
+﻿# ==============================================================================
 # Script de reproduction, migration et synchronisation automatique de l'arborescence Windows (PowerShell)
 #
 # RÈGLE IMPORTANTE SUR '_hors_git' :
 # Le dossier '_hors_git' est strictement réservé aux données locales propres à la
 # machine hôte (sauvegardes, caches, documents locaux, projets hors git).
 # Il est STRICTEMENT SANCTUARISÉ : ce script ne modifie, ne déplace et ne supprime
-# JAMAIS son contenu.
+# JAMAIS son contenu existant. Il n'y fait qu'ajouter : les dossiers non versionnés
+# trouvés dans l'arborescence y sont rangés (jamais supprimés).
+#
+# Ce que fait le script, dans l'ordre :
+#   1. clone / migre / met à jour (pull --ff-only) tous les dépôts du référentiel ;
+#   2. signale les commits non poussés (-Push les pousse) et les modifs locales ;
+#   3. range dans _hors_git tout dossier non versionné hors référentiel
+#      (un dépôt git hors référentiel est seulement signalé, jamais déplacé) ;
+#   4. installe / met à jour les skills de ~\.claude\skills (copies, car Windows
+#      refuse les liens symboliques sans droits admin) et les plugins
+#      (i-have-adhd, ponytail), sauf avec -NoSkills.
 #
 # Usage :
-#   .\setup_arborescence.ps1 [-TargetDir "C:\chemin\vers\Projets"]
+#   .\setup_arborescence.ps1 [-TargetDir "C:\chemin\vers\Projets"] [-Push] [-NoSkills]
+#
+# Ce fichier doit rester en UTF-8 AVEC BOM : Windows PowerShell 5.1 lit sinon les
+# accents de travers et le script ne se charge plus.
 # ==============================================================================
 
 param(
-    [string]$TargetDir = ""
+    [string]$TargetDir = "",
+    [switch]$Push,
+    [switch]$NoSkills
 )
 
 $ErrorActionPreference = "Continue"
@@ -75,13 +90,28 @@ foreach ($d in $dirs) {
     }
 }
 
+$script:Leaves = @{}
+$script:Groups = @{}
+
 function Sync-Repo($url, $targetRelPath) {
     $targetPath = Join-Path $BASE_DIR $targetRelPath
     $repoName = Split-Path -Leaf $targetRelPath
 
+    # Référentiel : dépôts (feuilles) et leurs dossiers parents (groupes), pour l'étape hors-référentiel
+    $script:Leaves[$targetRelPath] = $true
+    $parent = Split-Path -Parent $targetRelPath
+    while ($parent) { $script:Groups[$parent] = $true; $parent = Split-Path -Parent $parent }
+
     # 1. Si déjà en place
     if (Test-Path (Join-Path $targetPath ".git")) {
         Write-Host -NoNewline "[DÉJÀ EN PLACE] $targetRelPath ... " -ForegroundColor Gray
+        $ahead = [int](git -C $targetPath rev-list --count '@{u}..HEAD' 2>$null)
+        if ($ahead -gt 0) {
+            $pushed = $false
+            if ($Push) { git -C $targetPath push -q 2>$null; $pushed = ($LASTEXITCODE -eq 0) }
+            if ($pushed) { Write-Host -NoNewline "$ahead commit(s) poussés, " -ForegroundColor Green }
+            else { Write-Host -NoNewline "$ahead commit(s) NON POUSSÉS, " -ForegroundColor Yellow }
+        }
         $dirty = git -C $targetPath status --porcelain 2>$null
         if (-not $dirty) {
             git -C $targetPath pull --ff-only -q 2>$null
@@ -196,12 +226,94 @@ Sync-Repo "git@github.com-perso:floSa/Tuto-Dagster.git" "Tutoriels\Tuto-Dagster"
 Sync-Repo "git@github.com-perso:floSa/Tuto-MLflow.git" "Tutoriels\Tuto-MLflow"
 Sync-Repo "git@github.com-perso:floSa/Tuto-openmetadata.git" "Tutoriels\Tuto-OpenMetadata"
 
+# --- Projets hors référentiel : jamais supprimés, rangés dans _hors_git ---
+# Un dossier inconnu, non versionné et non vide est DÉPLACÉ dans _hors_git (nom suffixé
+# de la date en cas de collision). Un dossier inconnu qui contient un dépôt git est
+# seulement SIGNALÉ : à toi de l'ajouter au référentiel ou de le ranger.
+Write-Host "`n--- Projets hors référentiel ---" -ForegroundColor Cyan
+$script:Flagged = $false
+function Find-Unknown($dir) {
+    foreach ($item in (Get-ChildItem -Path $dir -Directory -Force | Sort-Object Name)) {
+        $name = $item.Name
+        if ($name.StartsWith(".") -or $name -eq "_hors_git" -or $name -eq "_hors-git") { continue }
+        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { continue }
+        $rel = $item.FullName.Substring($BASE_DIR.Length).TrimStart('\')
+        if ($script:Leaves.ContainsKey($rel)) { continue }
+        if ($script:Groups.ContainsKey($rel)) { Find-Unknown $item.FullName; continue }
+        $script:Flagged = $true
+        $hasGit = (Test-Path (Join-Path $item.FullName ".git")) -or
+            [bool](Get-ChildItem -Path $item.FullName -Directory -Recurse -Depth 3 -Force -Filter ".git" -ErrorAction SilentlyContinue | Select-Object -First 1)
+        if ($hasGit) {
+            $remote = git -C $item.FullName remote get-url origin 2>$null
+            if (-not $remote) { $remote = "remote inconnu" }
+            Write-Host "[À EXAMINER] $rel : dépôt git hors référentiel ($remote), non déplacé" -ForegroundColor Yellow
+        } elseif (-not (Get-ChildItem -Path $item.FullName -Force | Select-Object -First 1)) {
+            continue
+        } else {
+            $dest = Join-Path $horsGitUnder $name
+            if (Test-Path $dest) { $dest = "${dest}_$(Get-Date -Format 'yyyyMMdd-HHmmss')" }
+            Move-Item -LiteralPath $item.FullName -Destination $dest
+            Write-Host "[HORS-GIT] $rel -> _hors_git\$(Split-Path -Leaf $dest)" -ForegroundColor Yellow
+        }
+    }
+}
+Find-Unknown $BASE_DIR
+if (-not $script:Flagged) { Write-Host "Rien à ranger : l'arborescence ne contient que le référentiel." -ForegroundColor Gray }
+
 # Nettoyage
 $oldDirs = @("apprentissage", "data-ml", "ia-agents", "infra", "jeux", "outils", "pro")
 foreach ($od in $oldDirs) {
     $odPath = Join-Path $BASE_DIR $od
     if ((Test-Path $odPath) -and ((Get-ChildItem -Path $odPath -Force | Measure-Object).Count -eq 0)) {
         Remove-Item -Path $odPath -Force
+    }
+}
+
+# --- Skills et plugins : installation / mise à jour ---
+# Source des skills : Productivite\claude-skills (install.sh) + skills de projet de
+# Productivite\Dev-Brain\.claude\skills. Windows refuse les liens symboliques sans
+# droits admin : copies (--mode copy), donc ce script les rafraîchit à chaque passage.
+# BMAD n'est pas ici : il s'installe projet par projet (voir le message final).
+if (-not $NoSkills) {
+    Write-Host "`n--- Skills et plugins ---" -ForegroundColor Cyan
+    $skRepo = Join-Path $BASE_DIR "Productivite\claude-skills"
+    $skTarget = if ($env:CLAUDE_SKILLS_DIR) { $env:CLAUDE_SKILLS_DIR } else { Join-Path $HOME ".claude\skills" }
+    # bash de Git for Windows (et non celui de WSL, qui est dans le PATH de System32)
+    $gitExe = (Get-Command git -ErrorAction SilentlyContinue).Source
+    $bash = $null
+    if ($gitExe) { $cand = Join-Path (Split-Path (Split-Path $gitExe)) "bin\bash.exe"; if (Test-Path $cand) { $bash = $cand } }
+    if (-not (Test-Path (Join-Path $skRepo "install.sh"))) {
+        Write-Host "  $skRepo\install.sh introuvable : skills non installés (dépôt claude-skills absent ?)" -ForegroundColor Yellow
+    } elseif (-not $bash) {
+        Write-Host "  bash de Git for Windows introuvable : skills non installés" -ForegroundColor Yellow
+    } else {
+        # --force : remplace l'ancienne copie par la version du dépôt (source de vérité).
+        # Seuls les skills du dépôt sont touchés, pas les autres dossiers de la cible.
+        $env:HOME = $HOME
+        $tgtArgs = if ($env:CLAUDE_SKILLS_DIR) { @("--target", $skTarget) } else { @() }
+        & $bash (Join-Path $skRepo "install.sh") --mode copy --force @tgtArgs 2>&1 | ForEach-Object { "  $_" }
+        $dbSk = Join-Path $BASE_DIR "Productivite\Dev-Brain\.claude\skills"
+        if (Test-Path $dbSk) {
+            foreach ($d in (Get-ChildItem $dbSk -Directory)) {
+                if (-not (Test-Path (Join-Path $d.FullName "SKILL.md"))) { continue }
+                $dst = Join-Path $skTarget $d.Name
+                if (Test-Path $dst) { Remove-Item $dst -Recurse -Force }
+                Copy-Item $d.FullName $dst -Recurse
+                Write-Host "  ✓ $($d.Name) (Dev-Brain)"
+            }
+        }
+        $outils = Join-Path $skRepo "outils-externes\install-outils.ps1"
+        if (Test-Path $outils) {
+            $plug = (& powershell -NoProfile -ExecutionPolicy Bypass -File $outils -Status 2>&1 | Out-String)
+            $plug.TrimEnd() -split "`r?`n" | ForEach-Object { "  $_" }
+            if ($plug -match '(i-have-adhd|ponytail)\s+Claude Code\s+absent') {
+                Write-Host "  -> plugin(s) absent(s) : installation"
+                & powershell -NoProfile -ExecutionPolicy Bypass -File $outils -Install claude 2>&1 | ForEach-Object { "  $_" }
+            }
+            Write-Host "  BMAD (par projet) : .\Productivite\claude-skills\outils-externes\install-outils.ps1 -Install bmad -Project <dossier>"
+        }
+        Write-Host "  Skills présents dans $skTarget :"
+        Get-ChildItem $skTarget -Directory | Where-Object { Test-Path (Join-Path $_.FullName "SKILL.md") } | ForEach-Object { Write-Host "    - $($_.Name)" }
     }
 }
 

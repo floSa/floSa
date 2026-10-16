@@ -7,24 +7,37 @@
 # Le dossier '_hors_git' est strictement réservé aux données locales propres à la
 # machine hôte (sauvegardes, caches, documents locaux, projets hors git).
 # Il est STRICTEMENT SANCTUARISÉ : ce script ne modifie, ne déplace et ne supprime
-# JAMAIS son contenu.
+# JAMAIS son contenu existant. Il n'y fait qu'ajouter : les dossiers non versionnés
+# trouvés dans l'arborescence y sont rangés (jamais supprimés).
+#
+# Ce que fait le script, dans l'ordre :
+#   1. clone / migre / met à jour (pull --ff-only) tous les dépôts du référentiel ;
+#   2. signale les commits non poussés (--push les pousse) et les modifs locales ;
+#   3. range dans _hors_git tout dossier non versionné hors référentiel
+#      (un dépôt git hors référentiel est seulement signalé, jamais déplacé) ;
+#   4. installe / met à jour les skills de ~/.claude/skills et les plugins
+#      (i-have-adhd, ponytail), sauf avec --no-skills.
 #
 # Usage :
-#   bash setup_arborescence.sh [TARGET_DIR] [--sequential]
+#   bash setup_arborescence.sh [TARGET_DIR] [--sequential] [--push] [--no-skills]
 # Exemples :
 #   bash setup_arborescence.sh ~/mes_projets
-#   bash setup_arborescence.sh .
+#   bash setup_arborescence.sh . --push
 # ==============================================================================
 
 set -uo pipefail
 
 PARALLEL_JOBS=8
 SEQUENTIAL=0
+PUSH=0
+NO_SKILLS=0
 
 TARGET_ARG=""
 for arg in "$@"; do
     case "$arg" in
         --sequential|-s) SEQUENTIAL=1 ;;
+        --push) PUSH=1 ;;
+        --no-skills) NO_SKILLS=1 ;;
         *) [ -z "$TARGET_ARG" ] && TARGET_ARG="$arg" ;;
     esac
 done
@@ -245,8 +258,16 @@ pull_single_repo() {
     fi
 
     local dirty; dirty="$(git -C "$full_path" status --porcelain 2>/dev/null || true)"
+    local ahead; ahead="$(git -C "$full_path" rev-list --count '@{u}..HEAD' 2>/dev/null || echo 0)"
+    if [ "${ahead:-0}" -gt 0 ]; then
+        if [ "$PUSH" = "1" ] && git -C "$full_path" push -q 2>/dev/null; then
+            echo "PUSHED: $rel_path ($ahead commit(s) poussés)"
+        else
+            echo "AHEAD: $rel_path ($ahead commit(s) non poussés)"
+        fi
+    fi
     if [ -n "$dirty" ]; then
-        echo "DIRTY: $rel_path (modifications locales préservées)"
+        echo "DIRTY: $rel_path (modifications locales non commitées, préservées)"
         return 0
     fi
 
@@ -262,7 +283,7 @@ pull_single_repo() {
     fi
 }
 
-export BASE_DIR
+export BASE_DIR PUSH
 export -f pull_single_repo
 
 if [ "$SEQUENTIAL" -eq 1 ]; then
@@ -274,12 +295,95 @@ else
     printf "%s\n" "${REPOS_TO_PULL[@]}" | xargs -P "$PARALLEL_JOBS" -I {} bash -c 'pull_single_repo "$@"' _ {} | sort
 fi
 
+# --- 5b. Projets hors référentiel : jamais supprimés, rangés dans _hors_git ---
+# Connu = les dépôts de REPOS (feuilles) et leurs dossiers parents (groupes).
+# Un dossier inconnu, non versionné et non vide est DÉPLACÉ dans _hors_git (nom
+# suffixé de la date en cas de collision). Un dossier inconnu qui contient un dépôt
+# git est seulement SIGNALÉ : à toi de l'ajouter au référentiel ou de le ranger.
+declare -A LEAF=() GROUP=()
+for entry in "${REPOS[@]}"; do
+    rel="${entry##*|}"
+    LEAF["$rel"]=1
+    p="$(dirname "$rel")"
+    while [ "$p" != "." ]; do GROUP["$p"]=1; p="$(dirname "$p")"; done
+done
+
+echo -e "\n--- Projets hors référentiel ---"
+MOVED_OR_FLAGGED=0
+scan_unknown() {
+    local dir="$1" item name rel dest
+    while IFS= read -r item; do
+        name="$(basename "$item")"
+        rel="${item#"$BASE_DIR"/}"
+        case "$name" in .*|_hors_git|_hors-git) continue ;; esac
+        if [ -n "${LEAF[$rel]:-}" ]; then
+            continue
+        elif [ -n "${GROUP[$rel]:-}" ]; then
+            scan_unknown "$item"
+            continue
+        fi
+        MOVED_OR_FLAGGED=1
+        if [ -d "$item/.git" ] || [ -n "$(find "$item" -maxdepth 3 -name .git -print -quit 2>/dev/null)" ]; then
+            echo "[A EXAMINER] $rel : dépôt git hors référentiel ($(git -C "$item" remote get-url origin 2>/dev/null || echo 'remote inconnu')), non déplacé"
+        elif [ -z "$(ls -A "$item" 2>/dev/null)" ]; then
+            :
+        else
+            dest="$BASE_DIR/_hors_git/$name"
+            [ -e "$dest" ] && dest="${dest}_$(date +%Y%m%d-%H%M%S)"
+            mv "$item" "$dest" && echo "[HORS-GIT] $rel -> _hors_git/$(basename "$dest")"
+        fi
+    done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d | sort)
+}
+scan_unknown "$BASE_DIR"
+[ "$MOVED_OR_FLAGGED" -eq 0 ] && echo "Rien à ranger : l'arborescence ne contient que le référentiel."
+
 # --- 6. Nettoyage des anciens dossiers orphelins devenus vides ---
 for old_d in apprentissage data-ml ia-agents infra jeux outils pro; do
     if [ -d "$BASE_DIR/$old_d" ] && [ -z "$(ls -A "$BASE_DIR/$old_d" 2>/dev/null)" ]; then
         rmdir "$BASE_DIR/$old_d"
     fi
 done
+
+# --- 7. Skills et plugins : installation / mise à jour ---
+# Source des skills : Productivite/claude-skills (install.sh) + skills de projet de
+# Productivite/Dev-Brain/.claude/skills. Cibles : ~/.claude/skills (liens vers les
+# dépôts : un git pull met tout à jour) et les plugins i-have-adhd / ponytail.
+# BMAD n'est pas ici : il s'installe projet par projet (voir la fin du script).
+if [ "$NO_SKILLS" -eq 0 ]; then
+    echo -e "\n--- Skills et plugins ---"
+    SK_REPO="$BASE_DIR/Productivite/claude-skills"
+    SK_TARGET="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+    if [ -f "$SK_REPO/install.sh" ]; then
+        # --force : remplace une ancienne copie par le lien vers le dépôt (la source
+        # de vérité). Seuls les skills du dépôt sont touchés, pas les autres dossiers.
+        bash "$SK_REPO/install.sh" --force 2>&1 | sed 's/^/  /'
+        DB_SK="$BASE_DIR/Productivite/Dev-Brain/.claude/skills"
+        if [ -d "$DB_SK" ]; then
+            for d in "$DB_SK"/*/; do
+                [ -f "${d}SKILL.md" ] || continue
+                n="$(basename "$d")"
+                rm -rf "${SK_TARGET:?}/$n"
+                ln -s "${d%/}" "$SK_TARGET/$n" && echo "  ✓ $n (Dev-Brain)"
+            done
+        fi
+        OUT="$SK_REPO/outils-externes/install-outils.sh"
+        if [ -f "$OUT" ] && command -v claude >/dev/null 2>&1; then
+            plug="$(bash "$OUT" --status 2>&1)"
+            echo "$plug" | sed 's/^/  /'
+            if echo "$plug" | grep -Eq '(i-have-adhd|ponytail) +Claude Code +absent'; then
+                echo "  -> plugin(s) absent(s) : installation"
+                bash "$OUT" --install claude 2>&1 | sed 's/^/  /'
+            fi
+        else
+            echo "  (commande 'claude' introuvable : plugins non vérifiés)"
+        fi
+        echo "  Skills présents dans $SK_TARGET :"
+        for d in "$SK_TARGET"/*/; do [ -f "${d}SKILL.md" ] && echo "    - $(basename "$d")"; done
+        echo "  BMAD (par projet) : bash $OUT --install bmad --project <dossier>"
+    else
+        echo "  $SK_REPO/install.sh introuvable : skills non installés (dépôt claude-skills absent ?)"
+    fi
+fi
 
 echo -e "\n=============================================================================="
 echo "  Terminé ! Arborescence et dépôts synchronisés avec succès."
