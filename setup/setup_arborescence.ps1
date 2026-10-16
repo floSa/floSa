@@ -161,8 +161,6 @@ function Sync-Repo($url, $targetRelPath) {
 # --- Autres-Projets ---
 Sync-Repo "git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git" "Autres-Projets\Atlas-Metiers-Roadmaps"
 Sync-Repo "git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git" "Autres-Projets\Cardmarket-Wantlist-Optimizer"
-Sync-Repo "git@github.com-perso:floSa/Feedbacks-Projet.git" "Autres-Projets\Feedbacks-Projet"
-Sync-Repo "git@github.com-perso:floSa/Feedbacks-Projet-Dev-Skill-V2.git" "Autres-Projets\Feedbacks-Projet-Dev-Skill-V2"
 Sync-Repo "git@github.com-perso:floSa/Planning-Usine-CPSAT.git" "Autres-Projets\Planning-Usine-CPSAT"
 Sync-Repo "git@github.com-perso:floSa/PowerVision-S1-Backup.git" "Autres-Projets\PowerVision-S1-Backup"
 Sync-Repo "git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git" "Autres-Projets\Reels-Instagram-Graph-MD"
