@@ -162,6 +162,7 @@ function Sync-Repo($url, $targetRelPath) {
 Sync-Repo "git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git" "Autres-Projets\Atlas-Metiers-Roadmaps"
 Sync-Repo "git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git" "Autres-Projets\Cardmarket-Wantlist-Optimizer"
 Sync-Repo "git@github.com-perso:floSa/Feedbacks-Projet.git" "Autres-Projets\Feedbacks-Projet"
+Sync-Repo "git@github.com-perso:floSa/Feedbacks-Projet-Dev-Skill-V2.git" "Autres-Projets\Feedbacks-Projet-Dev-Skill-V2"
 Sync-Repo "git@github.com-perso:floSa/Planning-Usine-CPSAT.git" "Autres-Projets\Planning-Usine-CPSAT"
 Sync-Repo "git@github.com-perso:floSa/PowerVision-S1-Backup.git" "Autres-Projets\PowerVision-S1-Backup"
 Sync-Repo "git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git" "Autres-Projets\Reels-Instagram-Graph-MD"
@@ -214,6 +215,7 @@ Sync-Repo "git@github.com-perso:floSa/Classification-Genres-Musicaux.git" "Musiq
 Sync-Repo "git@github.com-perso:floSa/Karaokit.git" "Musique\Karaokit"
 
 # --- Productivite ---
+Sync-Repo "git@github.com-perso:floSa/Aosis-Deck-Builder.git" "Productivite\Aosis-Deck-Builder"
 Sync-Repo "git@github.com-perso:floSa/Boite-A-Outils.git" "Productivite\Boite-A-Outils"
 Sync-Repo "git@github.com-perso:floSa/Brain-Kit.git" "Productivite\Brain-Kit"
 Sync-Repo "git@github.com-perso:floSa/Catalogue-Comparateur-Solutions-IA.git" "Productivite\Catalogue-Comparateur-Solutions-IA"

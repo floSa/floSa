@@ -118,6 +118,7 @@ REPOS=(
     "git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git|Autres-Projets/Atlas-Metiers-Roadmaps"
     "git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git|Autres-Projets/Cardmarket-Wantlist-Optimizer"
     "git@github.com-perso:floSa/Feedbacks-Projet.git|Autres-Projets/Feedbacks-Projet"
+    "git@github.com-perso:floSa/Feedbacks-Projet-Dev-Skill-V2.git|Autres-Projets/Feedbacks-Projet-Dev-Skill-V2"
     "git@github.com-perso:floSa/Planning-Usine-CPSAT.git|Autres-Projets/Planning-Usine-CPSAT"
     "git@github.com-perso:floSa/PowerVision-S1-Backup.git|Autres-Projets/PowerVision-S1-Backup"
     "git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git|Autres-Projets/Reels-Instagram-Graph-MD"
@@ -165,6 +166,7 @@ REPOS=(
     "git@github.com-perso:floSa/Classification-Genres-Musicaux.git|Musique/Classification-Genres-Musicaux"
     "git@github.com-perso:floSa/Karaokit.git|Musique/Karaokit"
     # Productivite
+    "git@github.com-perso:floSa/Aosis-Deck-Builder.git|Productivite/Aosis-Deck-Builder"
     "git@github.com-perso:floSa/Boite-A-Outils.git|Productivite/Boite-A-Outils"
     "git@github.com-perso:floSa/Brain-Kit.git|Productivite/Brain-Kit"
     "git@github.com-perso:floSa/Catalogue-Comparateur-Solutions-IA.git|Productivite/Catalogue-Comparateur-Solutions-IA"
