@@ -59,6 +59,11 @@ Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floS
    `install-outils --status` ne signale aucun écart. Node.js du système absent (pas celui de
    `/mnt/c`) : le dire, ne l'installer qu'avec mon accord. BMAD : seulement dans les projets
    que je nomme.
+7. **ARBORESCENCE.txt à la racine.** En dernière étape, copier `setup/ARBORESCENCE.txt` à la
+   racine de mes projets, une seule fois, sous le nom `ARBORESCENCE.txt` (le dossier qui contient
+   `Autres-Projets`, `Jeu`, `Productivite`, `_hors_git`, etc., pas dans chaque projet). Écraser la
+   copie précédente : elle est toujours identique à celle de floSa, et c'est floSa qu'on modifie,
+   jamais la copie. Cela me permet de l'ouvrir et de voir où se trouve chaque projet.
 
 ## Quoi contrôler dans chaque dépôt
 
