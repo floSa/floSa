@@ -1,103 +1,118 @@
 # Consigne : mettre une machine à jour
 
-À dire à Claude Code sur n'importe quelle machine (Windows, WSL, Linux, macOS) :
+À dire à Claude Code sur n'importe quelle machine (WSL, Linux, macOS, SSH distant, Windows) :
 
 > Prends le repo floSa, suis CONSIGNE.md pour mettre à jour mes projets et mes skills.
 
-Si `floSa` n'est pas encore sur la machine : `git clone git@github.com-perso:floSa/floSa.git`
-(repli `https://github.com/floSa/floSa.git`), puis lis ce fichier.
+Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floSa.git`
+(repli `https://github.com/floSa/floSa.git`) dans `Productivite/floSa`, puis lire ce fichier.
 
-## Règles, pour toute la consigne
+## Règles
 
-- Réponds en français, sans émoji, court. Une tâche à la fois, un résultat clair.
-- Ne supprime rien. Seule exception : un doublon que j'ai validé (étape 4).
-- Interdits : `git reset --hard`, `git clean`, `git stash drop`, `git push --force`, `rm -rf`
-  sur un projet, toute écriture dans le contenu existant de `_hors_git`.
-- Commits : jamais de mention de Claude, ni `Co-Authored-By`, ni « Generated with Claude ».
-  Identité git du dépôt inchangée, message court, sans émoji. Jamais de `git add -A` à l'aveugle.
-- Le référentiel (`setup/ARBORESCENCE.txt`) est la vérité : un dossier = un dépôt GitHub perso
-  (`floSa`), et **le dossier porte exactement le nom du dépôt**. Si ce n'est pas le cas,
-  corrige `ARBORESCENCE.txt` et les deux scripts, committe et pousse dans `floSa`.
+- GitHub fait foi. Le référentiel est `setup/ARBORESCENCE.txt` : un dossier = un dépôt
+  GitHub perso (`floSa`), et le dossier porte exactement le nom du dépôt.
+- Commits : aucune mention de Claude (ni `Co-Authored-By`, ni « Generated with »). Cela vaut
+  pour les nouveaux commits. Les anciens commits ne sont ni signalés, ni modifiés.
+- Après un commit, push immédiat. Jamais `--force`, jamais de réécriture d'historique,
+  jamais `git reset --hard`, `git clean`, `git stash drop`.
+- Rien n'est supprimé sans mon accord explicite. Le contenu de `_hors_git` ne change que sur
+  ma demande.
+- Jamais de `git add -A` à l'aveugle.
+- Réponses en français, courtes, sans émoji, sans phrases de remplissage.
 
-## 1. Trouver la racine
+## Étapes, dans cet ordre
 
-- Si le dossier courant est dans `Productivite/floSa`, la racine est deux niveaux au-dessus.
-  S'il contient `Productivite/floSa` ou `_hors_git`, c'est la racine.
-- Sinon : Windows `Documents\Projets` ; WSL, Linux, macOS souvent `~/mes-projets` ou
-  `~/Projets`. Absente ou ambiguë : demande-moi le chemin, une seule fois.
-- `Productivite/floSa` absent : clone-le dedans. Présent : `git pull --ff-only`, puis relis
-  cette consigne si elle a changé.
-- Sous WSL, les skills vont dans le `~/.claude` de WSL, distinct de celui de Windows.
+1. **Racine.** Dossier courant dans `Productivite/floSa` : la racine est deux niveaux au-dessus.
+   Sinon : WSL/Linux/macOS souvent `~/mes_projets` ou `~/Projets`, Windows `Documents\Projets`.
+   Absente ou ambiguë : demander le chemin, une seule fois.
+2. **floSa.** `git pull --ff-only`, puis relire cette consigne si elle a changé.
+3. **Ranger.** Tout dossier absent du référentiel (4 niveaux de profondeur, dépôts imbriqués
+   compris) va dans `_hors_git`. Avant de déplacer, vérifier :
+   - doublon : même remote qu'un projet du référentiel, ou ancien nom. Dans ce cas ne rien
+     déplacer, le présenter dans le tableau ;
+   - travail non poussé (commits sur n'importe quelle branche, stash, modifications). Dans ce
+     cas ne rien déplacer, le présenter dans le tableau ;
+   - sinon (sans `.git`, ou entièrement poussé) : déplacer. Collision de nom : suffixer la date.
+   Un dossier retiré du référentiel pendant la mise à jour est traité de la même façon.
+4. **Mettre à jour.** `setup/setup_arborescence.sh <racine> --push` (WSL, Linux, macOS, SSH) ou
+   `setup\setup_arborescence.ps1 -TargetDir <racine> -Push` (Windows). Ce qui est sans ambiguïté
+   se fait sans question : pull `--ff-only`, clones manquants, renommages vers le nom GitHub.
+   Si le référentiel change pendant l'exécution, le relire et relancer.
+5. **Contrôler.** `setup/statut.sh` (lecture seule). Sous Windows, faire les mêmes contrôles
+   avec les commandes git de la section suivante. Le verdict vient des contrôles, jamais de
+   mon impression : tant qu'un problème subsiste, ne jamais écrire « tout est OK ».
+6. **Skills et plugins.** Vérifier que chaque skill de `mes-skills` et de `Dev-Brain` a un
+   `SKILL.md`, que `i-have-adhd` et `ponytail` sont activés (`claude plugin list`) et que
+   `install-outils --status` ne signale aucun écart. Node.js du système absent (pas celui de
+   `/mnt/c`) : le dire, ne l'installer qu'avec mon accord. BMAD : seulement dans les projets
+   que je nomme.
 
-## 2. Vérifier le référentiel
+## Quoi contrôler dans chaque dépôt
 
-Confirme-moi que `setup/ARBORESCENCE.txt` contient la règle `_hors_git` (contenu existant
-intouchable ; tout dossier hors référentiel qui n'est pas réellement dans Git y est rangé)
-et la règle des noms. Sinon, dis-le avant d'aller plus loin.
+Après `git fetch`, pour la branche courante ET toutes les autres branches locales :
 
-## 3. Avant le script : ranger ce qui n'est pas réellement dans Git
+- commits locaux absents de GitHub : `git rev-list --branches --not --remotes`
+- commits de GitHub absents ici : `git rev-list <branche>..origin/<branche>`
+- fichiers modifiés non commités : `git status --porcelain`
+- stashs : `git stash list`
+- remote cassé ou branche absente de GitHub : `git ls-remote --heads origin`
+- fichiers appartenant à root (Docker) : `find <dossier> ! -user $USER`
 
-Un projet n'est « dans Git » que si TOUT est vrai (un simple `git init` ne compte pas) :
-remote `origin` sur mon GitHub ; dépôt existant (`git ls-remote`) ; branche courante présente
-côté GitHub ; **tous** les commits poussés **sur toutes les branches**
-(`git rev-list --branches --not --remotes` vide) ; aucun stash (`git stash list` vide).
+Une seule connexion SSH partagée pour tous les dépôts (`ControlMaster`), deux essais, puis
+« injoignable » dans le tableau.
 
-Pour chaque dossier hors référentiel (cherche aussi les anciens emplacements, 4 niveaux) :
+## Règle de tri
 
-| Cas | Action |
-|---|---|
-| sans `.git`, ou `git init` sans remote / sans commit / branche jamais poussée | déplacer dans `_hors_git` |
-| commits ou branches non poussés sur un dépôt qui existe côté GitHub | proposer `git push` (jamais `--force`), garder en place, dire s'il faut l'ajouter au référentiel |
-| remote injoignable (hors ligne, droits) | ne pas déplacer, signaler |
-| même dépôt qu'un dossier du référentiel (ancien nom) | doublon, voir étape 4 |
+- **Aucun fichier ne diffère** entre ma machine et GitHub (même contenu, historique réécrit ou
+  branche de sauvegarde) : ne rien pousser.
+- **Des fichiers diffèrent, ma machine est plus récente** : conseiller de pousser (commit des
+  fichiers choisis un par un, puis push).
+- **Des fichiers diffèrent, GitHub est plus récent, et seules les fins de ligne changent** : GitHub
+  gagne. Sauvegarder d'abord une copie des fichiers dans `_hors_git/sauvegarde-modifs_<date>`.
+- **Des fichiers diffèrent, GitHub est plus récent, et le contenu change des deux côtés** : ne pas
+  conseiller, montrer les fichiers, me laisser trancher.
 
-Montre le bilan en un tableau court (dossier, verdict, action), puis déplace. `_hors_git` est
-créé vide s'il manque ; collision de nom : suffixe la date ; un déplacement, jamais une
-suppression. Dépôts du référentiel : même contrôle en lecture seule (commits non poussés,
-modifications non commitées, branche autre que main/master, remote cassé), sans les déplacer.
+## Présenter un problème (format obligatoire)
 
-## 4. Doublons
+Un seul tableau, une ligne par problème. Chaque cellule est une liste à puces (`<br>•`). Pas de
+phrase, pas de numéro. Colonnes, dans cet ordre :
 
-Un doublon est un dossier hors référentiel qui est le même dépôt qu'un dossier du référentiel
-(même remote, ou ancien nom). Ne le supprime qu'avec mon accord, et seulement après avoir
-vérifié et montré : aucun commit absent de GitHub sur aucune branche, aucun stash, aucune
-modification, aucun fichier local utile (`.env`, données, réglages Obsidian, `.brainkit-local`).
-Recopie ce qui est local dans la copie du référentiel, garde un `git bundle --all` et les
-stashs dans `_hors_git/sauvegarde-doublons_<date>`, puis supprime.
+| Projet | Problème | Ta machine | GitHub | Fichiers | Conseil |
+|---|---|---|---|---|---|
 
-## 5. Lancer le script
+- **Projet** : nom du dossier, puis la branche entre parenthèses.
+- **Problème** : le type en quelques mots (les deux côtés ont avancé ; fichiers modifiés non
+  commités ; branche locale absente de GitHub ; en retard sur GitHub ; doublon ; dossier hors
+  référentiel ; fichiers de root ; injoignable).
+- **Ta machine** : date de début et date de fin du problème, nombre de commits en plus (ou
+  fichiers modifiés avec leur date et heure), puis ce que font ces commits, en puces.
+- **GitHub** : mêmes informations, pour GitHub.
+- **Fichiers** : les fichiers concernés, un par puce. Au-delà de 10 : le nombre et les dossiers,
+  la liste complète dans un fichier à part. Préciser contenu ou fins de ligne seulement.
+  Signaler en premier les fichiers sensibles (`.env`, clés) ou très gros.
+- **Conseil** : ce que je conseille en gras, puis ce que provoque le oui et ce que provoque le
+  non, selon la règle de tri.
 
-- Windows : `powershell -NoProfile -ExecutionPolicy Bypass -File <racine>\Productivite\floSa\setup\setup_arborescence.ps1 -TargetDir <racine> -Push`
-- Linux, WSL, macOS : `bash <racine>/Productivite/floSa/setup/setup_arborescence.sh <racine> --push`
+Je réponds par le nom du projet : « RAG-Eval-Bench oui, Atlas non ».
 
-Il clone ou met à jour (`pull --ff-only`) chaque dépôt du référentiel, migre les anciens
-noms de dossier, pousse les commits déjà faits, range dans `_hors_git` ce qui a échappé à
-l'étape 3, puis installe skills et plugins. Une copie locale de skill modifiée est
-sauvegardée dans `_hors_git/sauvegarde-skills_<date>` avant d'être remplacée.
+Exemple de ligne :
 
-## 6. Ce que le script ne décide pas
+| Projet | Problème | Ta machine | GitHub | Fichiers | Conseil |
+|---|---|---|---|---|---|
+| **RAG-Eval-Bench**<br>(branche `tuto`) | Les deux côtés ont avancé chacun de leur côté | • Du 28/09 au 29/09<br>• 4 commits en plus :<br>• tutoriel web pour élèves<br>• chapitres 10 et 11 (mesures GPU) | • Du 29/09 au 15/10<br>• 10 commits en plus :<br>• reranker Qwen3<br>• support GPU<br>• modèles granite4.2, gemma4 | • 15 fichiers touchés des deux côtés<br>• dont `retrieve.py`, `uv.lock` | • **Pousser `tuto`**<br>• Oui : tutoriel sauvegardé, `main` ne bouge pas<br>• Non : il n'existe que sur cette machine |
 
-- Modifications non commitées : montre la liste des fichiers (données, gros fichiers,
-  sensibles) ; ne committe et ne pousse qu'après mon accord, fichiers choisis un par un.
-- Remote cassé : corrige-le vers le bon nom si GitHub le confirme (`git ls-remote`),
-  puis refais le pull.
-- Clone qui échoue sous Windows (nom de fichier interdit, chemin trop long) : répare sur
-  place (`core.longpaths`, sparse-checkout du fichier fautif), ne supprime rien, signale-le.
+## Cas particuliers
 
-## 7. Skills et plugins (dans le `~/.claude` de cette machine)
+- Fichiers appartenant à root (créés par Docker) : donner la commande `sudo` exacte, ne pas
+  contourner.
+- Clone qui échoue sous Windows (nom interdit, chemin trop long) : réparer sur place
+  (`core.longpaths`, sparse-checkout), ne rien supprimer.
+- Remote cassé : le corriger vers le bon nom si `git ls-remote` le confirme, puis refaire le pull.
 
-- Vérifie : chaque skill listé a un `SKILL.md` (`aosis-deck-builder`, `generer-documentation`,
-  `generer-tutoriel`, `jupytext-notebooks`, `veille-github`, `watch-md`, `watch`, plus
-  `planifier-projet`, `enrichir-brain`, `cloturer-brain` de Dev-Brain) ; les plugins
-  `i-have-adhd` et `ponytail` sont activés ; `install-outils --status` ne signale aucun écart.
-- Node.js du système absent (pas celui de `/mnt/c` sous WSL) : dis-le, propose l'installation,
-  ne la fais qu'avec mon accord.
-- BMAD n'est pas global : `install-outils --install bmad --project <dossier>`, seulement dans
-  les projets que je te nomme.
+## Rapport final
 
-## 8. Rapport final
-
-Dépôts mis à jour / déjà à jour / en échec, commits poussés, dossiers rangés dans `_hors_git`
-(nouveau nom et raison), doublons traités, dépôts hors référentiel signalés, skills et plugins
-présents, et ce qui attend ma décision. Rappelle de redémarrer Claude Code (ou `/reload-plugins`)
-pour voir les skills.
+- Tout est aligné : une seule ligne, `A JOUR : N dépôts alignés sur GitHub.`, plus les skills et
+  plugins en une ligne.
+- Sinon : le tableau des problèmes, rien d'autre. Ce qui a été fait sans question tient en une
+  ligne avant le tableau (par exemple « 4 dépôts mis à jour, 1 rangé dans `_hors_git` »).
+- Rappeler de redémarrer Claude Code (ou `/reload-plugins`) pour voir les skills.
