@@ -2,7 +2,20 @@
 
 À dire à Claude Code sur n'importe quelle machine (WSL, Linux, macOS, SSH distant, Windows) :
 
-> Prends le repo floSa, suis CONSIGNE.md pour mettre à jour mes projets et mes skills.
+> Mets-moi à jour mes projets et mes skills en suivant CONSIGNE.md du repo floSa.
+
+## Déroulé en 3 temps (toujours le même, sur toute machine)
+
+1. **Récupérer et exécuter.** Récupérer le repo floSa, puis suivre dans l'ordre : l'arborescence
+   (`setup/ARBORESCENCE.txt`), le script (`setup/`), puis cette consigne. Ce qui est sans
+   ambiguïté se fait sans question.
+2. **S'arrêter au premier blocage.** Dès qu'un point demande mon choix (travail non poussé, fichiers
+   modifiés, doublon, dossier hors référentiel, fichiers de root, injoignable), arrêter, ne rien
+   décider à ma place, et me présenter le tableau des problèmes (format plus bas). J'attends mes
+   réponses.
+3. **Conclure après mes choix.** Appliquer mes réponses, refaire le contrôle, puis écrire
+   exactement : « Tous tes projets, tous tes skills et tous tes plugins sont à jour. » Cette phrase
+   n'est écrite que si le contrôle ne signale plus aucun problème. Sinon, retour à l'étape 2.
 
 Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floSa.git`
 (repli `https://github.com/floSa/floSa.git`) dans `Productivite/floSa`, puis lire ce fichier.
@@ -111,8 +124,8 @@ Exemple de ligne :
 
 ## Rapport final
 
-- Tout est aligné : une seule ligne, `A JOUR : N dépôts alignés sur GitHub.`, plus les skills et
-  plugins en une ligne.
+- Tout est aligné : la phrase « Tous tes projets, tous tes skills et tous tes plugins sont à
+  jour. », suivie de `N dépôts alignés sur GitHub`, du nombre de skills et des plugins activés.
 - Sinon : le tableau des problèmes, rien d'autre. Ce qui a été fait sans question tient en une
   ligne avant le tableau (par exemple « 4 dépôts mis à jour, 1 rangé dans `_hors_git` »).
 - Rappeler de redémarrer Claude Code (ou `/reload-plugins`) pour voir les skills.
