@@ -170,6 +170,7 @@ REPOS=(
     "git@github.com-perso:floSa/Catalogue-Comparateur-Solutions-IA.git|Productivite/Catalogue-Comparateur-Solutions-IA"
     "git@github.com-perso:floSa/Dev-Brain.git|Productivite/Dev-Brain"
     "git@github.com-perso:floSa/Fast-HTML-To-MD.git|Productivite/Fast-HTML-To-MD"
+    "git@github.com-perso:floSa/Letterboxd-Perso.git|Productivite/Letterboxd-Perso"
     "git@github.com-perso:floSa/Outil-Dictee-Audio.git|Productivite/Outil-Dictee-Audio"
     "git@github.com-perso:floSa/Veille-Repo.git|Productivite/Veille-Repo"
     "git@github.com-perso:floSa/Mes-Skills.git|Productivite/Mes-Skills"

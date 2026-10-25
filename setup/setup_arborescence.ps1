@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # Script de reproduction, migration et synchronisation automatique de l'arborescence Windows (PowerShell)
 #
 # RÈGLE IMPORTANTE SUR '_hors_git' :
@@ -219,6 +219,7 @@ Sync-Repo "git@github.com-perso:floSa/Brain-Kit.git" "Productivite\Brain-Kit"
 Sync-Repo "git@github.com-perso:floSa/Catalogue-Comparateur-Solutions-IA.git" "Productivite\Catalogue-Comparateur-Solutions-IA"
 Sync-Repo "git@github.com-perso:floSa/Dev-Brain.git" "Productivite\Dev-Brain"
 Sync-Repo "git@github.com-perso:floSa/Fast-HTML-To-MD.git" "Productivite\Fast-HTML-To-MD"
+Sync-Repo "git@github.com-perso:floSa/Letterboxd-Perso.git" "Productivite\Letterboxd-Perso"
 Sync-Repo "git@github.com-perso:floSa/Outil-Dictee-Audio.git" "Productivite\Outil-Dictee-Audio"
 Sync-Repo "git@github.com-perso:floSa/Veille-Repo.git" "Productivite\Veille-Repo"
 Sync-Repo "git@github.com-perso:floSa/Mes-Skills.git" "Productivite\Mes-Skills"
