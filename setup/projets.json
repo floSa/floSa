@@ -1,0 +1,85 @@
+{
+  "Autres-Projets": [
+    "Atlas-Metiers-Roadmaps",
+    "Cardmarket-Wantlist-Optimizer",
+    "Planning-Usine-CPSAT",
+    "PowerVision-S1-Backup",
+    "Reels-Instagram-Graph-MD",
+    "Template-Services-Docker",
+    "Test-Pre-Entretien-Technique"
+  ],
+  "Jeu/Board-Games": [
+    "7Wonders-BoardGame",
+    "Dracula-VS-Van-Helsing-BoardGame",
+    "Sea-Salt-And-Paper-BoardGame",
+    "Toy-Battle-BoardGame"
+  ],
+  "Jeu/Courtisan": [
+    "Courtisans-BoardGame",
+    "Courtisans-IA-Game"
+  ],
+  "Jeu/IA": [
+    "Crossy-Road-AI-Game"
+  ],
+  "Jeu/Quiz": [
+    "Quiz-Geo",
+    "Quiz-Hist"
+  ],
+  "Jeu/Urban-Rivals": [
+    "Urban-Rivals-Game",
+    "Urban-Rivals-Scraper"
+  ],
+  "Projet-ML-DL": [
+    "Analyse-Esperance-De-Vie-FR",
+    "Analyse-Habitudes-Alimentaires",
+    "Analyse-Vente-Prosol",
+    "Annotation-Images",
+    "Annotation-Text-Streamlit",
+    "Classification-Bulles",
+    "Detection-Pneumonie-Radio",
+    "Images-Collection-Clean",
+    "Notebooks-Cheat-Sheet",
+    "Sales-Ops-Planning-POC"
+  ],
+  "Projet-ML-DL/Defis-IA": [
+    "Defi-IA-2019",
+    "Defi-IA-2020",
+    "Defi-IA-2021",
+    "Defi-IA-2022",
+    "Defi-IA-2023"
+  ],
+  "Projet-IA": [
+    "Agents-MCP-Orchestration",
+    "Data-Analyst-Agent",
+    "LLM-Service",
+    "MCP-Maison",
+    "RAG-Agent-Chat",
+    "RAG-Eval-Bench",
+    "RAG-Ingestion-Pipeline",
+    "Traceable-Agent"
+  ],
+  "Musique": [
+    "Bibliotheque-Musicale",
+    "Classification-Genres-Musicaux",
+    "Karaokit"
+  ],
+  "Productivite": [
+    "Aosis-Deck-Builder",
+    "Boite-A-Outils",
+    "Brain-Kit",
+    "Catalogue-Comparateur-Solutions-IA",
+    "Dev-Brain",
+    "Fast-HTML-To-MD",
+    "Letterboxd-Perso",
+    "Outil-Dictee-Audio",
+    "Veille-Repo",
+    "Mes-Skills",
+    "floSa"
+  ],
+  "Tutoriels": [
+    "LMStudio-Bionic",
+    "Tuto-Dagster",
+    "Tuto-MLflow",
+    "Tuto-OpenMetadata"
+  ]
+}

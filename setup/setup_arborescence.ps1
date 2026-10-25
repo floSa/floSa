@@ -1,4 +1,4 @@
-# ==============================================================================
+﻿# ==============================================================================
 # Script de reproduction, migration et synchronisation automatique de l'arborescence Windows (PowerShell)
 #
 # RÈGLE IMPORTANTE SUR '_hors_git' :
@@ -70,25 +70,44 @@ if ((Test-Path $horsGitDash) -and (-not (Test-Path $horsGitUnder))) {
 
 Write-Host "[HORS-GIT] Dossier '_hors_git' vérifié : sanctuarisé (aucun fichier interne touché)." -ForegroundColor Green
 
-# --- 2. Création de l'arborescence cible ---
-$dirs = @(
-    "Autres-Projets",
-    "Jeu\Board-Games",
-    "Jeu\Courtisan",
-    "Jeu\IA",
-    "Jeu\Quiz",
-    "Jeu\Urban-Rivals",
-    "Projet-ML-DL\Defis-IA",
-    "Projet-IA",
-    "Musique",
-    "Productivite",
-    "Tutoriels"
-)
+# Détection de projets.json et update_arborescence.py
+$setupDir = ""
+if ($PSScriptRoot -and (Test-Path (Join-Path $PSScriptRoot "projets.json"))) {
+    $setupDir = $PSScriptRoot
+} elseif ($PSScriptRoot -and (Test-Path (Join-Path $PSScriptRoot "setup\projets.json"))) {
+    $setupDir = Join-Path $PSScriptRoot "setup"
+} elseif (Test-Path (Join-Path $BASE_DIR "Productivite\floSa\setup\projets.json")) {
+    $setupDir = Join-Path $BASE_DIR "Productivite\floSa\setup"
+}
 
-foreach ($d in $dirs) {
-    $fullPath = Join-Path $BASE_DIR $d
-    if (-not (Test-Path $fullPath)) {
-        New-Item -ItemType Directory -Path $fullPath -Force | Out-Null
+$jsonPath = if ($setupDir -and (Test-Path (Join-Path $setupDir "projets.json"))) {
+    Join-Path $setupDir "projets.json"
+} elseif (Test-Path (Join-Path $BASE_DIR "projets.json")) {
+    Join-Path $BASE_DIR "projets.json"
+} else {
+    $null
+}
+
+if (-not $jsonPath -or -not (Test-Path $jsonPath)) {
+    Write-Error "[ERREUR] Impossible de trouver 'projets.json' !"
+    exit 1
+}
+
+# Mise à jour automatique de ARBORESCENCE.txt via python si disponible
+$pyCmd = (Get-Command python, python3 -ErrorAction SilentlyContinue | Select-Object -First 1)
+if ($pyCmd -and $setupDir -and (Test-Path (Join-Path $setupDir "update_arborescence.py"))) {
+    Write-Host "`n--- Mise à jour automatique de ARBORESCENCE.txt depuis projets.json ---" -ForegroundColor Cyan
+    & $pyCmd.Source (Join-Path $setupDir "update_arborescence.py") --target-dir $BASE_DIR
+}
+
+$jsonContent = Get-Content $jsonPath -Raw -Encoding UTF8 | ConvertFrom-Json
+
+# --- 2. Création de l'arborescence cible ---
+foreach ($prop in $jsonContent.PSObject.Properties) {
+    $catRel = $prop.Name -replace '/', '\'
+    $fullCatPath = Join-Path $BASE_DIR $catRel
+    if (-not (Test-Path $fullCatPath)) {
+        New-Item -ItemType Directory -Path $fullCatPath -Force | Out-Null
     }
 }
 
@@ -158,78 +177,18 @@ function Sync-Repo($url, $targetRelPath) {
     }
 }
 
-# --- Autres-Projets ---
-Sync-Repo "git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git" "Autres-Projets\Atlas-Metiers-Roadmaps"
-Sync-Repo "git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git" "Autres-Projets\Cardmarket-Wantlist-Optimizer"
-Sync-Repo "git@github.com-perso:floSa/Planning-Usine-CPSAT.git" "Autres-Projets\Planning-Usine-CPSAT"
-Sync-Repo "git@github.com-perso:floSa/PowerVision-S1-Backup.git" "Autres-Projets\PowerVision-S1-Backup"
-Sync-Repo "git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git" "Autres-Projets\Reels-Instagram-Graph-MD"
-Sync-Repo "git@github.com-perso:floSa/Template-Services-Docker.git" "Autres-Projets\Template-Services-Docker"
-Sync-Repo "git@github.com-perso:floSa/Test-Pre-Entretien-Technique.git" "Autres-Projets\Test-Pre-Entretien-Technique"
-
-# --- Jeu ---
-Sync-Repo "git@github.com-perso:floSa/7Wonders-BoardGame.git" "Jeu\Board-Games\7Wonders-BoardGame"
-Sync-Repo "git@github.com-perso:floSa/Dracula-VS-Van-Helsing-BoardGame.git" "Jeu\Board-Games\Dracula-VS-Van-Helsing-BoardGame"
-Sync-Repo "git@github.com-perso:floSa/Sea-Salt-And-Paper-BoardGame.git" "Jeu\Board-Games\Sea-Salt-And-Paper-BoardGame"
-Sync-Repo "git@github.com-perso:floSa/Toy-Battle-BoardGame.git" "Jeu\Board-Games\Toy-Battle-BoardGame"
-Sync-Repo "git@github.com-perso:floSa/Courtisans-BoardGame.git" "Jeu\Courtisan\Courtisans-BoardGame"
-Sync-Repo "git@github.com-perso:floSa/Courtisans-IA-Game.git" "Jeu\Courtisan\Courtisans-IA-Game"
-Sync-Repo "git@github.com-perso:floSa/Crossy-Road-AI-Game.git" "Jeu\IA\Crossy-Road-AI-Game"
-Sync-Repo "git@github.com-perso:floSa/Quiz-Geo.git" "Jeu\Quiz\Quiz-Geo"
-Sync-Repo "git@github.com-perso:floSa/Quiz-Hist.git" "Jeu\Quiz\Quiz-Hist"
-Sync-Repo "git@github.com-perso:floSa/Urban-Rivals-Game.git" "Jeu\Urban-Rivals\Urban-Rivals-Game"
-Sync-Repo "git@github.com-perso:floSa/Urban-Rivals-Scraper.git" "Jeu\Urban-Rivals\Urban-Rivals-Scraper"
-
-# --- Projet-ML-DL ---
-Sync-Repo "git@github.com-perso:floSa/Analyse-Esperance-De-Vie-FR.git" "Projet-ML-DL\Analyse-Esperance-De-Vie-FR"
-Sync-Repo "git@github.com-perso:floSa/Analyse-Habitudes-Alimentaires.git" "Projet-ML-DL\Analyse-Habitudes-Alimentaires"
-Sync-Repo "git@github.com-perso:floSa/Analyse-Vente-Prosol.git" "Projet-ML-DL\Analyse-Vente-Prosol"
-Sync-Repo "git@github.com-perso:floSa/Annotation-Images.git" "Projet-ML-DL\Annotation-Images"
-Sync-Repo "git@github.com-perso:floSa/Annotation-Text-Streamlit.git" "Projet-ML-DL\Annotation-Text-Streamlit"
-Sync-Repo "git@github.com-perso:floSa/Classification-Bulles.git" "Projet-ML-DL\Classification-Bulles"
-Sync-Repo "git@github.com-perso:floSa/Defi-IA-2019.git" "Projet-ML-DL\Defis-IA\Defi-IA-2019"
-Sync-Repo "git@github.com-perso:floSa/Defi-IA-2020.git" "Projet-ML-DL\Defis-IA\Defi-IA-2020"
-Sync-Repo "git@github.com-perso:floSa/Defi-IA-2021.git" "Projet-ML-DL\Defis-IA\Defi-IA-2021"
-Sync-Repo "git@github.com-perso:floSa/Defi-IA-2022.git" "Projet-ML-DL\Defis-IA\Defi-IA-2022"
-Sync-Repo "git@github.com-perso:floSa/Defi-IA-2023.git" "Projet-ML-DL\Defis-IA\Defi-IA-2023"
-Sync-Repo "git@github.com-perso:floSa/Detection-Pneumonie-Radio.git" "Projet-ML-DL\Detection-Pneumonie-Radio"
-Sync-Repo "git@github.com-perso:floSa/Images-Collection-Clean.git" "Projet-ML-DL\Images-Collection-Clean"
-Sync-Repo "git@github.com-perso:floSa/Notebooks-Cheat-Sheet.git" "Projet-ML-DL\Notebooks-Cheat-Sheet"
-Sync-Repo "git@github.com-perso:floSa/Sales-Ops-Planning-POC.git" "Projet-ML-DL\Sales-Ops-Planning-POC"
-
-# --- Projet-IA ---
-Sync-Repo "git@github.com-perso:floSa/Agents-MCP-Orchestration.git" "Projet-IA\Agents-MCP-Orchestration"
-Sync-Repo "git@github.com-perso:floSa/Data-Analyst-Agent.git" "Projet-IA\Data-Analyst-Agent"
-Sync-Repo "git@github.com-perso:floSa/LLM-Service.git" "Projet-IA\LLM-Service"
-Sync-Repo "git@github.com-perso:floSa/MCP-Maison.git" "Projet-IA\MCP-Maison"
-Sync-Repo "git@github.com-perso:floSa/RAG-Agent-Chat.git" "Projet-IA\RAG-Agent-Chat"
-Sync-Repo "git@github.com-perso:floSa/RAG-Eval-Bench.git" "Projet-IA\RAG-Eval-Bench"
-Sync-Repo "git@github.com-perso:floSa/RAG-Ingestion-Pipeline.git" "Projet-IA\RAG-Ingestion-Pipeline"
-Sync-Repo "git@github.com-perso:floSa/Traceable-Agent.git" "Projet-IA\Traceable-Agent"
-
-# --- Musique ---
-Sync-Repo "git@github.com-perso:floSa/Bibliotheque-Musicale.git" "Musique\Bibliotheque-Musicale"
-Sync-Repo "git@github.com-perso:floSa/Classification-Genres-Musicaux.git" "Musique\Classification-Genres-Musicaux"
-Sync-Repo "git@github.com-perso:floSa/Karaokit.git" "Musique\Karaokit"
-
-# --- Productivite ---
-Sync-Repo "git@github.com-perso:floSa/Aosis-Deck-Builder.git" "Productivite\Aosis-Deck-Builder"
-Sync-Repo "git@github.com-perso:floSa/Boite-A-Outils.git" "Productivite\Boite-A-Outils"
-Sync-Repo "git@github.com-perso:floSa/Brain-Kit.git" "Productivite\Brain-Kit"
-Sync-Repo "git@github.com-perso:floSa/Catalogue-Comparateur-Solutions-IA.git" "Productivite\Catalogue-Comparateur-Solutions-IA"
-Sync-Repo "git@github.com-perso:floSa/Dev-Brain.git" "Productivite\Dev-Brain"
-Sync-Repo "git@github.com-perso:floSa/Fast-HTML-To-MD.git" "Productivite\Fast-HTML-To-MD"
-Sync-Repo "git@github.com-perso:floSa/Letterboxd-Perso.git" "Productivite\Letterboxd-Perso"
-Sync-Repo "git@github.com-perso:floSa/Outil-Dictee-Audio.git" "Productivite\Outil-Dictee-Audio"
-Sync-Repo "git@github.com-perso:floSa/Veille-Repo.git" "Productivite\Veille-Repo"
-Sync-Repo "git@github.com-perso:floSa/Mes-Skills.git" "Productivite\Mes-Skills"
-Sync-Repo "git@github.com-perso:floSa/floSa.git" "Productivite\floSa"
-
-# --- Tutoriels ---
-Sync-Repo "git@github.com-perso:floSa/LMStudio-Bionic.git" "Tutoriels\LMStudio-Bionic"
-Sync-Repo "git@github.com-perso:floSa/Tuto-Dagster.git" "Tutoriels\Tuto-Dagster"
-Sync-Repo "git@github.com-perso:floSa/Tuto-MLflow.git" "Tutoriels\Tuto-MLflow"
-Sync-Repo "git@github.com-perso:floSa/Tuto-OpenMetadata.git" "Tutoriels\Tuto-OpenMetadata"
+# --- 3. Synchronisation des dépôts définis dans projets.json ---
+foreach ($prop in $jsonContent.PSObject.Properties) {
+    $catRel = $prop.Name -replace '/', '\'
+    $repoList = $prop.Value
+    Write-Host "`n--- $catRel ---" -ForegroundColor Cyan
+    foreach ($r in $repoList) {
+        $repoName = if ($r -is [string]) { $r.Trim() } else { $r.name.Trim() }
+        $repoUrl = if ($r -is [string] -or -not $r.url) { "git@github.com-perso:floSa/$repoName.git" } else { $r.url.Trim() }
+        $targetRelPath = Join-Path $catRel $repoName
+        Sync-Repo $repoUrl $targetRelPath
+    }
+}
 
 # --- Projets hors référentiel : jamais supprimés, rangés dans _hors_git ---
 # Un dossier inconnu, non vide et pas réellement dans Git est DÉPLACÉ dans _hors_git

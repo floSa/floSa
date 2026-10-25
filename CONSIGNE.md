@@ -22,8 +22,9 @@ Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floS
 
 ## Règles
 
-- GitHub fait foi. Le référentiel est `setup/ARBORESCENCE.txt` : un dossier = un dépôt
-  GitHub perso (`floSa`), et le dossier porte exactement le nom du dépôt.
+- GitHub fait foi. La Source Unique de Vérité est `setup/projets.json` : un dossier = un dépôt
+  GitHub perso (`floSa`), et le dossier porte exactement le nom du dépôt. L'arborescence
+  `setup/ARBORESCENCE.txt` est régénérée automatiquement à partir de ce fichier JSON.
 - Commits : aucune mention de Claude (ni `Co-Authored-By`, ni « Generated with »). Cela vaut
   pour les nouveaux commits. Les anciens commits ne sont ni signalés, ni modifiés.
 - Après un commit, push immédiat. Jamais `--force`, jamais de réécriture d'historique,

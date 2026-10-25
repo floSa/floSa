@@ -76,18 +76,57 @@ fi
 
 echo "[HORS-GIT] Dossier '_hors_git' vérifié : sanctuarisé (aucun fichier interne touché)."
 
+# Détection de Python (python3 ou python) pour update_arborescence.py
+PYTHON_BIN=""
+if command -v python3 >/dev/null 2>&1; then
+    PYTHON_BIN="python3"
+elif command -v python >/dev/null 2>&1; then
+    PYTHON_BIN="python"
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SETUP_DIR=""
+if [ -f "$SCRIPT_DIR/update_arborescence.py" ]; then
+    SETUP_DIR="$SCRIPT_DIR"
+elif [ -f "$SCRIPT_DIR/setup/update_arborescence.py" ]; then
+    SETUP_DIR="$SCRIPT_DIR/setup"
+elif [ -f "$BASE_DIR/Productivite/floSa/setup/update_arborescence.py" ]; then
+    SETUP_DIR="$BASE_DIR/Productivite/floSa/setup"
+fi
+
+JSON_FILE=""
+if [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/projets.json" ]; then
+    JSON_FILE="$SETUP_DIR/projets.json"
+elif [ -f "$SCRIPT_DIR/projets.json" ]; then
+    JSON_FILE="$SCRIPT_DIR/projets.json"
+elif [ -f "$BASE_DIR/projets.json" ]; then
+    JSON_FILE="$BASE_DIR/projets.json"
+fi
+
+# Régénération automatique de ARBORESCENCE.txt depuis la Source Unique de Vérité (projets.json)
+if [ -n "$PYTHON_BIN" ] && [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/update_arborescence.py" ]; then
+    echo -e "\n--- Mise à jour automatique de ARBORESCENCE.txt depuis projets.json ---"
+    "$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --target-dir "$BASE_DIR" 2>&1 | sed 's/^/  /'
+fi
+
 # --- 2. Création de l'arborescence cible ---
-mkdir -p "$BASE_DIR/Autres-Projets"
-mkdir -p "$BASE_DIR/Jeu/Board-Games"
-mkdir -p "$BASE_DIR/Jeu/Courtisan"
-mkdir -p "$BASE_DIR/Jeu/IA"
-mkdir -p "$BASE_DIR/Jeu/Quiz"
-mkdir -p "$BASE_DIR/Jeu/Urban-Rivals"
-mkdir -p "$BASE_DIR/Projet-ML-DL/Defis-IA"
-mkdir -p "$BASE_DIR/Projet-IA"
-mkdir -p "$BASE_DIR/Musique"
-mkdir -p "$BASE_DIR/Productivite"
-mkdir -p "$BASE_DIR/Tutoriels"
+if [ -n "$PYTHON_BIN" ] && [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/update_arborescence.py" ]; then
+    while IFS= read -r dir_rel; do
+        [ -n "$dir_rel" ] && mkdir -p "$BASE_DIR/$dir_rel"
+    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-dirs 2>/dev/null)
+else
+    mkdir -p "$BASE_DIR/Autres-Projets"
+    mkdir -p "$BASE_DIR/Jeu/Board-Games"
+    mkdir -p "$BASE_DIR/Jeu/Courtisan"
+    mkdir -p "$BASE_DIR/Jeu/IA"
+    mkdir -p "$BASE_DIR/Jeu/Quiz"
+    mkdir -p "$BASE_DIR/Jeu/Urban-Rivals"
+    mkdir -p "$BASE_DIR/Projet-ML-DL/Defis-IA"
+    mkdir -p "$BASE_DIR/Projet-IA"
+    mkdir -p "$BASE_DIR/Musique"
+    mkdir -p "$BASE_DIR/Productivite"
+    mkdir -p "$BASE_DIR/Tutoriels"
+fi
 
 # Fonction pour réparer les chemins dans un .venv après déplacement
 repair_venv() {
@@ -112,75 +151,22 @@ repair_venv() {
     done
 }
 
-# --- 3. Définition de l'ensemble des dépôts répertoriés ---
-REPOS=(
-    # Autres-Projets
-    "git@github.com-perso:floSa/Atlas-Metiers-Roadmaps.git|Autres-Projets/Atlas-Metiers-Roadmaps"
-    "git@github.com-perso:floSa/Cardmarket-Wantlist-Optimizer.git|Autres-Projets/Cardmarket-Wantlist-Optimizer"
-    "git@github.com-perso:floSa/Planning-Usine-CPSAT.git|Autres-Projets/Planning-Usine-CPSAT"
-    "git@github.com-perso:floSa/PowerVision-S1-Backup.git|Autres-Projets/PowerVision-S1-Backup"
-    "git@github.com-perso:floSa/Reels-Instagram-Graph-MD.git|Autres-Projets/Reels-Instagram-Graph-MD"
-    "git@github.com-perso:floSa/Template-Services-Docker.git|Autres-Projets/Template-Services-Docker"
-    "git@github.com-perso:floSa/Test-Pre-Entretien-Technique.git|Autres-Projets/Test-Pre-Entretien-Technique"
-    # Jeu
-    "git@github.com-perso:floSa/7Wonders-BoardGame.git|Jeu/Board-Games/7Wonders-BoardGame"
-    "git@github.com-perso:floSa/Dracula-VS-Van-Helsing-BoardGame.git|Jeu/Board-Games/Dracula-VS-Van-Helsing-BoardGame"
-    "git@github.com-perso:floSa/Sea-Salt-And-Paper-BoardGame.git|Jeu/Board-Games/Sea-Salt-And-Paper-BoardGame"
-    "git@github.com-perso:floSa/Toy-Battle-BoardGame.git|Jeu/Board-Games/Toy-Battle-BoardGame"
-    "git@github.com-perso:floSa/Courtisans-BoardGame.git|Jeu/Courtisan/Courtisans-BoardGame"
-    "git@github.com-perso:floSa/Courtisans-IA-Game.git|Jeu/Courtisan/Courtisans-IA-Game"
-    "git@github.com-perso:floSa/Crossy-Road-AI-Game.git|Jeu/IA/Crossy-Road-AI-Game"
-    "git@github.com-perso:floSa/Quiz-Geo.git|Jeu/Quiz/Quiz-Geo"
-    "git@github.com-perso:floSa/Quiz-Hist.git|Jeu/Quiz/Quiz-Hist"
-    "git@github.com-perso:floSa/Urban-Rivals-Game.git|Jeu/Urban-Rivals/Urban-Rivals-Game"
-    "git@github.com-perso:floSa/Urban-Rivals-Scraper.git|Jeu/Urban-Rivals/Urban-Rivals-Scraper"
-    # Projet-ML-DL
-    "git@github.com-perso:floSa/Analyse-Esperance-De-Vie-FR.git|Projet-ML-DL/Analyse-Esperance-De-Vie-FR"
-    "git@github.com-perso:floSa/Analyse-Habitudes-Alimentaires.git|Projet-ML-DL/Analyse-Habitudes-Alimentaires"
-    "git@github.com-perso:floSa/Analyse-Vente-Prosol.git|Projet-ML-DL/Analyse-Vente-Prosol"
-    "git@github.com-perso:floSa/Annotation-Images.git|Projet-ML-DL/Annotation-Images"
-    "git@github.com-perso:floSa/Annotation-Text-Streamlit.git|Projet-ML-DL/Annotation-Text-Streamlit"
-    "git@github.com-perso:floSa/Classification-Bulles.git|Projet-ML-DL/Classification-Bulles"
-    "git@github.com-perso:floSa/Defi-IA-2019.git|Projet-ML-DL/Defis-IA/Defi-IA-2019"
-    "git@github.com-perso:floSa/Defi-IA-2020.git|Projet-ML-DL/Defis-IA/Defi-IA-2020"
-    "git@github.com-perso:floSa/Defi-IA-2021.git|Projet-ML-DL/Defis-IA/Defi-IA-2021"
-    "git@github.com-perso:floSa/Defi-IA-2022.git|Projet-ML-DL/Defis-IA/Defi-IA-2022"
-    "git@github.com-perso:floSa/Defi-IA-2023.git|Projet-ML-DL/Defis-IA/Defi-IA-2023"
-    "git@github.com-perso:floSa/Detection-Pneumonie-Radio.git|Projet-ML-DL/Detection-Pneumonie-Radio"
-    "git@github.com-perso:floSa/Images-Collection-Clean.git|Projet-ML-DL/Images-Collection-Clean"
-    "git@github.com-perso:floSa/Notebooks-Cheat-Sheet.git|Projet-ML-DL/Notebooks-Cheat-Sheet"
-    "git@github.com-perso:floSa/Sales-Ops-Planning-POC.git|Projet-ML-DL/Sales-Ops-Planning-POC"
-    # Projet-IA
-    "git@github.com-perso:floSa/Agents-MCP-Orchestration.git|Projet-IA/Agents-MCP-Orchestration"
-    "git@github.com-perso:floSa/Data-Analyst-Agent.git|Projet-IA/Data-Analyst-Agent"
-    "git@github.com-perso:floSa/LLM-Service.git|Projet-IA/LLM-Service"
-    "git@github.com-perso:floSa/MCP-Maison.git|Projet-IA/MCP-Maison"
-    "git@github.com-perso:floSa/RAG-Agent-Chat.git|Projet-IA/RAG-Agent-Chat"
-    "git@github.com-perso:floSa/RAG-Eval-Bench.git|Projet-IA/RAG-Eval-Bench"
-    "git@github.com-perso:floSa/RAG-Ingestion-Pipeline.git|Projet-IA/RAG-Ingestion-Pipeline"
-    "git@github.com-perso:floSa/Traceable-Agent.git|Projet-IA/Traceable-Agent"
-    # Musique
-    "git@github.com-perso:floSa/Bibliotheque-Musicale.git|Musique/Bibliotheque-Musicale"
-    "git@github.com-perso:floSa/Classification-Genres-Musicaux.git|Musique/Classification-Genres-Musicaux"
-    "git@github.com-perso:floSa/Karaokit.git|Musique/Karaokit"
-    # Productivite
-    "git@github.com-perso:floSa/Aosis-Deck-Builder.git|Productivite/Aosis-Deck-Builder"
-    "git@github.com-perso:floSa/Boite-A-Outils.git|Productivite/Boite-A-Outils"
-    "git@github.com-perso:floSa/Brain-Kit.git|Productivite/Brain-Kit"
-    "git@github.com-perso:floSa/Catalogue-Comparateur-Solutions-IA.git|Productivite/Catalogue-Comparateur-Solutions-IA"
-    "git@github.com-perso:floSa/Dev-Brain.git|Productivite/Dev-Brain"
-    "git@github.com-perso:floSa/Fast-HTML-To-MD.git|Productivite/Fast-HTML-To-MD"
-    "git@github.com-perso:floSa/Letterboxd-Perso.git|Productivite/Letterboxd-Perso"
-    "git@github.com-perso:floSa/Outil-Dictee-Audio.git|Productivite/Outil-Dictee-Audio"
-    "git@github.com-perso:floSa/Veille-Repo.git|Productivite/Veille-Repo"
-    "git@github.com-perso:floSa/Mes-Skills.git|Productivite/Mes-Skills"
-    "git@github.com-perso:floSa/floSa.git|Productivite/floSa"
-    # Tutoriels
-    "git@github.com-perso:floSa/LMStudio-Bionic.git|Tutoriels/LMStudio-Bionic"
-    "git@github.com-perso:floSa/Tuto-Dagster.git|Tutoriels/Tuto-Dagster"
-    "git@github.com-perso:floSa/Tuto-MLflow.git|Tutoriels/Tuto-MLflow"
-    "git@github.com-perso:floSa/Tuto-OpenMetadata.git|Tutoriels/Tuto-OpenMetadata"
-)
+# --- 3. Définition de l'ensemble des dépôts répertoriés (chargés depuis projets.json) ---
+REPOS=()
+if [ -n "$PYTHON_BIN" ] && [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/update_arborescence.py" ]; then
+    while IFS= read -r line; do
+        [ -n "$line" ] && REPOS+=("$line")
+    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-repos 2>/dev/null)
+elif [ -n "$JSON_FILE" ] && command -v jq >/dev/null 2>&1; then
+    while IFS= read -r line; do
+        [ -n "$line" ] && REPOS+=("$line")
+    done < <(jq -r 'to_entries[] | .key as $k | .value[] | (if type=="string" then . else .name end) as $n | (if type=="object" and .url then .url else "git@github.com-perso:floSa/" + $n + ".git" end) + "|" + $k + "/" + $n' "$JSON_FILE" 2>/dev/null)
+fi
+
+if [ ${#REPOS[@]} -eq 0 ]; then
+    echo "[ERREUR] Impossible de charger les dépôts depuis projets.json !" >&2
+    exit 1
+fi
 
 # --- 4. Étape de préparation : Migration des répertoires existants & Clonage ---
 echo -e "\n--- Vérification de la présence locale des dépôts ---"
