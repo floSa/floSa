@@ -6,16 +6,15 @@
 
 ## Déroulé en 3 temps (toujours le même, sur toute machine)
 
-1. **Récupérer et exécuter.** Récupérer le repo floSa, puis suivre dans l'ordre : l'arborescence
-   (`setup/ARBORESCENCE.txt`), le script (`setup/`), puis cette consigne. Ce qui est sans
-   ambiguïté se fait sans question.
-2. **S'arrêter au premier blocage.** Dès qu'un point demande mon choix (travail non poussé, fichiers
-   modifiés, doublon, dossier hors référentiel, fichiers de root, injoignable), arrêter, ne rien
-   décider à ma place, et me présenter le tableau des problèmes (format plus bas). J'attends mes
-   réponses.
-3. **Conclure après mes choix.** Appliquer mes réponses, refaire le contrôle, puis écrire
-   exactement : « Tous tes projets, tous tes skills et tous tes plugins sont à jour. » Cette phrase
-   n'est écrite que si le contrôle ne signale plus aucun problème. Sinon, retour à l'étape 2.
+1. **Vérifier d'abord, avant toute modification.** Lancer `setup/statut.sh` sur la racine de mes
+   projets (bash : WSL, Linux, macOS, SSH, ou Git Bash sous Windows). Si des commits ne sont pas
+   poussés, ou si des fichiers sont modifiés sans commit, le dire tout de suite, en tête, et
+   s'arrêter : j'attends mes réponses (format « Présenter un problème »). Rien d'autre ne se fait
+   avant.
+2. **Mettre à jour.** Récupérer floSa, puis lancer le script `setup/` de la machine : tout ce qui est
+   sans ambiguïté se fait sans question (pull, clones, renommages, rangement dans `_hors_git`).
+3. **Conclure.** Refaire le contrôle, puis présenter le rapport final (format plus bas), sans
+   répétition. Le rapport ne dit « à jour » que si le contrôle ne signale plus aucun problème.
 
 Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floSa.git`
 (repli `https://github.com/floSa/floSa.git`) dans `Productivite/floSa`, puis lire ce fichier.
@@ -52,9 +51,9 @@ Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floS
    `setup\setup_arborescence.ps1 -TargetDir <racine> -Push` (Windows). Ce qui est sans ambiguïté
    se fait sans question : pull `--ff-only`, clones manquants, renommages vers le nom GitHub.
    Si le référentiel change pendant l'exécution, le relire et relancer.
-5. **Contrôler.** `setup/statut.sh` (lecture seule). Sous Windows, faire les mêmes contrôles
-   avec les commandes git de la section suivante. Le verdict vient des contrôles, jamais de
-   mon impression : tant qu'un problème subsiste, ne jamais écrire « tout est OK ».
+5. **Contrôler.** `setup/statut.sh` (lecture seule), à lancer aussi sous Windows avec Git Bash.
+   Le verdict vient des contrôles, jamais de mon impression : tant qu'un problème subsiste,
+   ne jamais écrire « tout est à jour ».
 6. **Skills et plugins.** Vérifier que chaque skill de `mes-skills` et de `Dev-Brain` a un
    `SKILL.md`, que `i-have-adhd` et `ponytail` sont activés (`claude plugin list`) et que
    `install-outils --status` ne signale aucun écart. Node.js du système absent (pas celui de
@@ -93,32 +92,28 @@ Une seule connexion SSH partagée pour tous les dépôts (`ControlMaster`), deux
 
 ## Présenter un problème (format obligatoire)
 
-Un seul tableau, une ligne par problème. Chaque cellule est une liste à puces (`<br>•`). Pas de
-phrase, pas de numéro. Colonnes, dans cet ordre :
+Pas de tableau (illisible dans Claude Desktop). Un bloc par problème, court, sans ligne vide
+inutile, sans mise en forme lourde :
 
-| Projet | Problème | Ta machine | GitHub | Fichiers | Conseil |
-|---|---|---|---|---|---|
+```
+Projet : RAG-Eval-Bench (branche tuto)
+Problème : les deux côtés ont avancé
+Machine : 28/09 au 29/09, 4 commits (tutoriel web pour élèves, chapitres 10 et 11)
+GitHub : 29/09 au 15/10, 10 commits (reranker Qwen3, support GPU, modèles granite4.2 et gemma4)
+Fichiers :
+- retrieve.py, uv.lock (src/ragbench/rag), scripts/calibration_juge_externe.py
+Conseil : pousser tuto. Oui : tutoriel sauvegardé, main ne bouge pas. Non : il reste sur cette machine.
+```
 
-- **Projet** : nom du dossier, puis la branche entre parenthèses.
-- **Problème** : le type en quelques mots (les deux côtés ont avancé ; fichiers modifiés non
-  commités ; branche locale absente de GitHub ; en retard sur GitHub ; doublon ; dossier hors
-  référentiel ; fichiers de root ; injoignable).
-- **Ta machine** : date de début et date de fin du problème, nombre de commits en plus (ou
-  fichiers modifiés avec leur date et heure), puis ce que font ces commits, en puces.
-- **GitHub** : mêmes informations, pour GitHub.
-- **Fichiers** : les fichiers concernés, un par puce. Au-delà de 10 : le nombre et les dossiers,
-  la liste complète dans un fichier à part. Préciser contenu ou fins de ligne seulement.
-  Signaler en premier les fichiers sensibles (`.env`, clés) ou très gros.
-- **Conseil** : ce que je conseille en gras, puis ce que provoque le oui et ce que provoque le
-  non, selon la règle de tri.
+- **Projet / Problème** : le nom du dossier (et la branche), puis le type en quelques mots.
+- **Machine / GitHub** : date de début et de fin, nombre de commits (ou fichiers modifiés avec
+  leur date), puis leur contenu entre parenthèses. Une seule ligne chacun.
+- **Fichiers** : en puces, regroupés : `nom, nom, nom (chemin/relatif)`. Pas de CRC ni de
+  détail technique. Au-delà de 10 : le nombre et les dossiers. Préciser « fins de ligne
+  seulement » le cas échéant. Signaler en premier un fichier sensible (`.env`, clés) ou très gros.
+- **Conseil** : une ligne, selon la règle de tri.
 
 Je réponds par le nom du projet : « RAG-Eval-Bench oui, Atlas non ».
-
-Exemple de ligne :
-
-| Projet | Problème | Ta machine | GitHub | Fichiers | Conseil |
-|---|---|---|---|---|---|
-| **RAG-Eval-Bench**<br>(branche `tuto`) | Les deux côtés ont avancé chacun de leur côté | • Du 28/09 au 29/09<br>• 4 commits en plus :<br>• tutoriel web pour élèves<br>• chapitres 10 et 11 (mesures GPU) | • Du 29/09 au 15/10<br>• 10 commits en plus :<br>• reranker Qwen3<br>• support GPU<br>• modèles granite4.2, gemma4 | • 15 fichiers touchés des deux côtés<br>• dont `retrieve.py`, `uv.lock` | • **Pousser `tuto`**<br>• Oui : tutoriel sauvegardé, `main` ne bouge pas<br>• Non : il n'existe que sur cette machine |
 
 ## Cas particuliers
 
@@ -130,8 +125,23 @@ Exemple de ligne :
 
 ## Rapport final
 
-- Tout est aligné : la phrase « Tous tes projets, tous tes skills et tous tes plugins sont à
-  jour. », suivie de `N dépôts alignés sur GitHub`, du nombre de skills et des plugins activés.
-- Sinon : le tableau des problèmes, rien d'autre. Ce qui a été fait sans question tient en une
-  ligne avant le tableau (par exemple « 4 dépôts mis à jour, 1 rangé dans `_hors_git` »).
-- Rappeler de redémarrer Claude Code (ou `/reload-plugins`) pour voir les skills.
+Trois blocs, dans cet ordre, visibles d'un coup d'œil, sans rien répéter ni détailler :
+
+1. **Problèmes** (s'il y en a) : les blocs ci-dessus, en tête. Sinon, ne pas écrire ce bloc.
+2. **Déplacés** : une ligne par projet rangé dans `_hors_git`, `Nom → _hors_git` (le chemin
+   d'origine seulement s'il n'est pas évident). Aucune explication.
+3. **État** : une ligne. `Tout est à jour : N projets, skills et plugins.` Ne pas lister les
+   noms des skills, des plugins ni des projets à jour.
+
+Exemple de sortie :
+
+```
+Déplacés
+Citadel-BoardGame → _hors_git
+Taketime-BoardGame → _hors_git
+
+Tout est à jour : 59 projets, skills et plugins.
+```
+
+Rappeler de redémarrer Claude Code (ou `/reload-plugins`) seulement si des skills ou plugins ont
+changé.
