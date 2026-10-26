@@ -113,7 +113,7 @@ fi
 if [ -n "$PYTHON_BIN" ] && [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/update_arborescence.py" ]; then
     while IFS= read -r dir_rel; do
         [ -n "$dir_rel" ] && mkdir -p "$BASE_DIR/$dir_rel"
-    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-dirs 2>/dev/null)
+    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-dirs 2>/dev/null | tr -d '')
 else
     mkdir -p "$BASE_DIR/Autres-Projets"
     mkdir -p "$BASE_DIR/Jeu/Board-Games"
@@ -156,11 +156,11 @@ REPOS=()
 if [ -n "$PYTHON_BIN" ] && [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/update_arborescence.py" ]; then
     while IFS= read -r line; do
         [ -n "$line" ] && REPOS+=("$line")
-    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-repos 2>/dev/null)
+    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-repos 2>/dev/null | tr -d '')
 elif [ -n "$JSON_FILE" ] && command -v jq >/dev/null 2>&1; then
     while IFS= read -r line; do
         [ -n "$line" ] && REPOS+=("$line")
-    done < <(jq -r 'to_entries[] | .key as $k | .value[] | (if type=="string" then . else .name end) as $n | (if type=="object" and .url then .url else "git@github.com-perso:floSa/" + $n + ".git" end) + "|" + $k + "/" + $n' "$JSON_FILE" 2>/dev/null)
+    done < <(jq -r 'to_entries[] | .key as $k | .value[] | (if type=="string" then . else .name end) as $n | (if type=="object" and .url then .url else "git@github.com-perso:floSa/" + $n + ".git" end) + "|" + $k + "/" + $n' "$JSON_FILE" 2>/dev/null | tr -d '')
 fi
 
 if [ ${#REPOS[@]} -eq 0 ]; then

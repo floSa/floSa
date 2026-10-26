@@ -184,6 +184,8 @@ def check_projets(data):
     return True
 
 def main():
+    # Sortie LF/UTF-8 sur tous les OS (sinon Windows ajoute un CR aux noms lus par bash)
+    sys.stdout.reconfigure(newline='\n', encoding='utf-8')
     parser = argparse.ArgumentParser(description="Générateur d'arborescence floSa")
     parser.add_argument("--json", help="Chemin vers projets.json", default=None)
     parser.add_argument("--check", action="store_true", help="Vérifier projets.json")
