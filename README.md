@@ -2,7 +2,9 @@
 
 Conception de systèmes LLM de bout en bout, pensés pour tourner **on-premise** : RAG avancés, agents et orchestration multi-agents, le tout dockerisé.
 
-[Français](#français) · [English](#english)
+**70 dépôts : 45 publics, présentés ci-dessous avec leurs liens, et 25 privés, décrits sans lien.**
+
+[Français](#français) · [English summary](#english-summary)
 
 ---
 
@@ -14,62 +16,77 @@ Je conçois principalement des **systèmes LLM complets** : RAG au-delà du simp
 
 Autour de ce cœur : **ML/DL appliqué** (PyTorch, gradient boosting, séries temporelles), **MLOps** (MLflow, Docker) et l'ensemble de la chaîne data — collecte (scraping, annotation), modélisation, restitution applicative. Mes projets personnels me servent de terrain d'essai pour éprouver techniques et frameworks.
 
-### Compétences & techniques
+### Sommaire
 
-**LLM / IA générative** — RAG (graphe de connaissances, RAG local), agents ReAct, orchestration multi-agents, MCP, LangGraph, human-in-the-loop, NL→SQL.
-Preuves : [rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeline) · [rag-agent-chat](https://github.com/floSa/rag-agent-chat) · [data-analyst-agent](https://github.com/floSa/data-analyst-agent) · [Agents-MCP-Orchestration](https://github.com/floSa/Agents-MCP-Orchestration)
+- [Projets publics mis en avant](#projets-publics-mis-en-avant)
+- [Défis IA](#défis-ia)
+- [Autres projets publics](#autres-projets-publics)
+- [Projets privés](#projets-privés)
+- [Compétences et preuves](#compétences-et-preuves)
+- [Contact](#contact)
 
-**LLM local / on-premise** — Ollama, pgvector, ChromaDB, NebulaGraph. Déploiement sans cloud, contrainte de confidentialité.
+---
 
-**Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, IA par self-play (MCTS + ResNet), audio (séparation de sources, alignement forcé, ASR).
-Preuves : [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia) · [karaokit](https://github.com/floSa/karaokit)
+### Projets publics mis en avant
 
-**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, NLP supervisé, séries temporelles.
-Preuves : voir la section [Défis IA](#défis-ia) plus bas.
+#### LLM, RAG et agents
 
-**MLOps & reproductibilité** — MLflow, Docker, environnements de services réutilisables.
-Preuves : [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-services-docker](https://github.com/floSa/Template-services-docker).
-
-**Architecture & micro-services** — Docker Compose, FastAPI, PostgreSQL, MongoDB, MinIO/S3, services temps réel.
-Preuves : [classification_bubbles](https://github.com/floSa/classification_bubbles) (détection acoustique temps réel) · [MCP_maison](https://github.com/floSa/MCP_maison).
-
-**Collecte de données & scraping** — Selenium, Playwright, BeautifulSoup, structuration de données web.
-Preuves : [urban-rivals-scraper](https://github.com/floSa/urban-rivals-scraper) · [cardmarket-wantlist-optimizer](https://github.com/floSa/cardmarket-wantlist-optimizer) (scraping + optimisation MIP).
-
-**Annotation & datasets** — outils d'annotation, exports COCO / YOLO / Pascal VOC, NER.
-Preuves : [Annotation-Images](https://github.com/floSa/Annotation-Images) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit).
-
-**Analyse de données & dataviz** — pandas, EDA, sources publiques (INSEE, Eurostat, HMD), applications Streamlit multi-pages.
-Preuves : [food-habits-analysis](https://github.com/floSa/food-habits-analysis) · [esperance_de_vie_FR](https://github.com/floSa/esperance_de_vie_FR).
-
-**Veille & dev assisté par IA** — mémoire technique versionnée, exploitée par un agent IA comme contexte de développement.
-Preuves : [DevBrain](https://github.com/floSa/DevBrain).
-
-### Projets phares
-
-**[rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeline)** — Pipeline d'ingestion PDF/HTML pour assistant RAG : extraction structurée via Docling, graphe de connaissances NebulaGraph, base vectorielle ChromaDB, médias sur MinIO, orchestration Dagster.
+**[RAG-Ingestion-Pipeline](https://github.com/floSa/RAG-Ingestion-Pipeline)** — Pipeline d'ingestion PDF/HTML pour assistant RAG : extraction structurée via Docling, graphe de connaissances NebulaGraph, base vectorielle ChromaDB, médias sur MinIO, orchestration Dagster.
 `Docling` · `NebulaGraph` · `ChromaDB` · `MinIO` · `Dagster` · `Docker`
 
-**[rag-agent-chat](https://github.com/floSa/rag-agent-chat)** — Agent conversationnel qui consomme ce pipeline. Plutôt que d'injecter des chunks isolés, il exploite le graphe de connaissances pour reconstruire la section complète autour de chaque passage trouvé. Machine à états LangGraph avec sélection des sources par l'utilisateur.
+**[RAG-Agent-Chat](https://github.com/floSa/RAG-Agent-Chat)** — Agent conversationnel qui consomme ce pipeline. Plutôt que d'injecter des chunks isolés, il exploite le graphe de connaissances pour reconstruire la section complète autour de chaque passage trouvé. Machine à états LangGraph avec sélection des sources par l'utilisateur.
 `LangGraph` · `ChromaDB` · `NebulaGraph` · `Ollama` · `FastAPI`
 
-**[DevBrain](https://github.com/floSa/DevBrain)** — Base de connaissance technique versionnée (600+ fiches) couplée à deux skills Claude Code : `planifier-projet` propose un stack argumenté en début de projet, `enrichir-brain` capture les retours d'expérience en langage naturel. Chaque projet démarre sur les choix déjà faits, pas de zéro.
-`Claude Code` · `Obsidian` · `Développement assisté par IA`
+**[RAG-Eval-Bench](https://github.com/floSa/RAG-Eval-Bench)** — Banc d'évaluation RAG on-premise : comparer des configurations entre elles sur des chiffres fiables.
+`RAG` · `Évaluation` · `On-premise` · `Python`
 
-**[data-analyst-agent](https://github.com/floSa/data-analyst-agent)** — Agent conversationnel sur données, on-premise : à partir d'un fichier (Excel/CSV) ou d'une base Postgres multi-tables, génère la requête (SQL avec jointures, ou DuckDB sur fichier) et répond en langage naturel.
+**[Data-Analyst-Agent](https://github.com/floSa/Data-Analyst-Agent)** — Agent conversationnel sur données, on-premise : à partir d'un fichier (Excel/CSV) ou d'une base Postgres multi-tables, génère la requête (SQL avec jointures, ou DuckDB sur fichier) et répond en langage naturel.
 `LangGraph` · `NL→SQL` · `DuckDB` · `PostgreSQL` · `Ollama`
+
+**[Traceable-Agent](https://github.com/floSa/Traceable-Agent)** — Moteur d'investigation : une question complexe est décomposée en tâches atomiques, exécutées une par une dans un contexte LLM vierge, avec un fichier markdown pour seule mémoire.
+`Agent` · `Décomposition de tâches` · `Traçabilité` · `Python`
 
 **[Agents-MCP-Orchestration](https://github.com/floSa/Agents-MCP-Orchestration)** — Tutoriel d'orchestration multi-agents + MCP sur un fil rouge concret (une usine à la commande) : orchestrateur, sous-agents, outils exposés via MCP.
 `Multi-agents` · `MCP` · `Ollama` · `Docker`
 
-**[MCP_maison](https://github.com/floSa/MCP_maison)** — Socle réutilisable et entièrement dockerisé pour construire des agents ReAct s'appuyant sur des serveurs MCP, avec un petit LLM local.
+**[MCP-Maison](https://github.com/floSa/MCP-Maison)** — Socle réutilisable et entièrement dockerisé pour construire des agents ReAct s'appuyant sur des serveurs MCP, avec un petit LLM local.
 `Agent ReAct` · `MCP` · `FastAPI` · `Ollama` · `Docker`
 
-**[sales-ops-planning-poc](https://github.com/floSa/sales-ops-planning-poc)** — POC de prévision des ventes (magasin × SKU × jour) pour une enseigne retail : moteur GBM Tweedie robuste aux ruptures, cascade de calcul jusqu'au CA net, dimensionnement des effectifs (ETP), analyse d'écarts prix/volume/mix et rolling forecast. Données 100 % synthétiques ; mission AOSIS Consulting.
+#### Outillage et développement assisté par IA
+
+**[Dev-Brain](https://github.com/floSa/Dev-Brain)** — Base de connaissance technique versionnée (600+ fiches) couplée à deux skills Claude Code : `planifier-projet` propose un stack argumenté en début de projet, `enrichir-brain` capture les retours d'expérience en langage naturel. Chaque projet démarre sur les choix déjà faits, pas de zéro.
+`Claude Code` · `Obsidian` · `Développement assisté par IA`
+
+**[Brain-Kit](https://github.com/floSa/Brain-Kit)** — Noyau générique d'un second brain : un vault Obsidian de fichiers markdown qui se valide, se génère et se propage tout seul, sur n'importe quel sujet.
+`Obsidian` · `Markdown` · `Python`
+
+**[Veille-Repo](https://github.com/floSa/Veille-Repo)** — Catalogue des dépôts passés par le trending GitHub depuis septembre 2024 : chacun décrit, classé et résumé en une page, avec son schéma d'architecture.
+`Veille` · `Catalogue` · `GitHub`
+
+**[Catalogue-Comparateur-Solutions-IA](https://github.com/floSa/Catalogue-Comparateur-Solutions-IA)** — « Tandem » : référentiel ouvert de l'offre de développement assisté par IA, qui mesure modèles et harnais ensemble (classements, coût contre performance, tarifs et forfaits). [Page interactive](https://flosa.github.io/Catalogue-Comparateur-Solutions-IA/).
+`Benchmarks` · `Dataviz` · `HTML`
+
+**[Aosis-Deck-Builder](https://github.com/floSa/Aosis-Deck-Builder)** — Skill Claude qui génère des présentations PowerPoint à une charte graphique d'entreprise, à partir d'une spécification structurée : 17 mises en page modèles et une mise en page libre.
+`Claude Skill` · `python-pptx` · `matplotlib`
+
+#### ML/DL et data
+
+**[Sales-Ops-Planning-POC](https://github.com/floSa/Sales-Ops-Planning-POC)** — POC de prévision des ventes (magasin × SKU × jour) pour une enseigne retail : moteur GBM Tweedie robuste aux ruptures, cascade de calcul jusqu'au CA net, dimensionnement des effectifs (ETP), analyse d'écarts prix/volume/mix et rolling forecast. Données 100 % synthétiques ; mission AOSIS Consulting.
 `Prévision` · `GBM Tweedie` · `Séries temporelles` · `Simulation` · `Python`
 
-**[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implémentation du jeu de cartes Courtisans avec une IA inspirée d'AlphaZero (MCTS + ResNet) et une interface pour jouer contre elle.
-`PyTorch` · `MCTS` · `ResNet` · `Streamlit`
+**[Classification-Bulles](https://github.com/floSa/Classification-Bulles)** — Architecture micro-services de détection de bouchage industriel par analyse acoustique en temps réel : simulation d'usine, capteurs audio, prédictions MobileNetV2, tableau de bord Streamlit.
+`PyTorch` · `Micro-services` · `Streamlit` · `Docker`
+
+**[Detection-Pneumonie-Radio](https://github.com/floSa/Detection-Pneumonie-Radio)** — Aide au diagnostic : un modèle EfficientNet-B4 (transfer learning) classe une radiographie thoracique en normal / pneumonie, optimisé pour minimiser les faux négatifs, avec une interface Streamlit.
+`PyTorch` · `EfficientNet` · `Transfer learning` · `Streamlit`
+
+**[Karaokit](https://github.com/floSa/Karaokit)** — Karaoké maison, 100 % local : sépare la voix de la musique, récupère les paroles, les synchronise mot à mot et les affiche dans un lecteur web.
+`Séparation de sources` · `Alignement forcé` · `ASR` · `Python`
+
+**[Genealogie-Partis-France](https://github.com/floSa/Genealogie-Partis-France)** — Graphe de connaissances et frise interactive des partis politiques français depuis 1958 : scissions, fusions, changements de nom, personnes qui les ont fondés ou dirigés. Sources : Wikipédia, Wikidata, ParlGov, CHES.
+`Graphe de connaissances` · `SQLite` · `JavaScript` · `Python`
+
+---
 
 ### Défis IA
 
@@ -83,6 +100,52 @@ Le **Défi IA** est un concours annuel de data science qui réunit une vingtaine
 | [2022](https://github.com/floSa/Defi-IA-2022) | Prévision du cumul de pluie quotidien sur les stations du nord-ouest de la France — MeteoNet (MAPE). |
 | [2023](https://github.com/floSa/Defi-IA-2023) | Pricing dynamique d'hôtels, dataset reconstitué via une API de requêtes limitée — « 1001 Nights » (RMSE). |
 
+---
+
+### Autres projets publics
+
+- **Tutoriels exécutables** : [Tuto-MLflow](https://github.com/floSa/Tuto-MLflow) (MLflow + Docker, bonnes pratiques) · [Tuto-OpenMetadata](https://github.com/floSa/Tuto-OpenMetadata) (16 chapitres avec laboratoire Docker).
+- **Infra réutilisable** : [Template-Services-Docker](https://github.com/floSa/Template-Services-Docker) (bases de données, Python, environnement CUDA).
+- **Annotation et images** : [Annotation-Images](https://github.com/floSa/Annotation-Images) (exports COCO / YOLO / Pascal VOC) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit) (NER) · [Images-Collection-Clean](https://github.com/floSa/Images-Collection-Clean) (extraction de cartes gradées par vision par ordinateur).
+- **Analyse de données** : [Analyse-Esperance-De-Vie-FR](https://github.com/floSa/Analyse-Esperance-De-Vie-FR) · [Analyse-Habitudes-Alimentaires](https://github.com/floSa/Analyse-Habitudes-Alimentaires) · [Notebooks-Cheat-Sheet](https://github.com/floSa/Notebooks-Cheat-Sheet).
+- **Collecte et optimisation** : [Cardmarket-Wantlist-Optimizer](https://github.com/floSa/Cardmarket-Wantlist-Optimizer) (scraping + optimisation MIP) · [Reels-Instagram-Graph-MD](https://github.com/floSa/Reels-Instagram-Graph-MD) (reels transformés en vault Obsidian).
+- **Applications personnelles** : [Boite-A-Outils](https://github.com/floSa/Boite-A-Outils) (utilitaires Streamlit) · [Letterboxd-Perso](https://github.com/floSa/Letterboxd-Perso) (base de films, TMDb) · [Outil-Dictee-Audio](https://github.com/floSa/Outil-Dictee-Audio) (dictée vocale, Whisper local sur GPU) · [Fast-HTML-To-MD](https://github.com/floSa/Fast-HTML-To-MD) (documents vers Markdown) · [Atlas-Metiers-Roadmaps](https://github.com/floSa/Atlas-Metiers-Roadmaps) (parcours d'apprentissage pour 13 métiers IA/data).
+- **Jeux et révision** : [Crossy-Road-AI-Game](https://github.com/floSa/Crossy-Road-AI-Game) (robots et IA apprenantes) · [Quiz-Geo](https://github.com/floSa/Quiz-Geo) · [Quiz-Hist](https://github.com/floSa/Quiz-Hist) (révision par répétition espacée).
+
+---
+
+### Projets privés
+
+Dépôts non publics, décrits ici sans lien.
+
+| Domaine | Ce qui a été fait | Technos |
+|---|---|---|
+| Jeux de société numériques (9) | Sept adaptations jouables hors-ligne dans le navigateur (7 Wonders, Dracula vs Van Helsing, Sea Salt & Paper, Toy Battle, Courtisans, Labyrinthe, Urban Rivals) et deux créations originales (Lumibois, Fil des Âges). IA sans triche, jusqu'à 5 niveaux. | React 19 · TypeScript · Vite |
+| IA de jeu | Moteur de règles testé du jeu Courtisans, base d'une IA de type AlphaZero. | Python · MCTS · ResNet |
+| Optimisation | Générateur de planning hebdomadaire d'usine : affectation de salariés à des postes selon compétences et disponibilités. | OR-Tools CP-SAT |
+| Infra IA locale | Serveur LLM central partagé entre tous les projets : un modèle téléchargé une fois, chargé une fois en VRAM. | Ollama · Docker |
+| Collecte de données | Scraper haute définition de cartes et pipeline NoSQL pour le jeu Urban Rivals. | Python · NoSQL |
+| Apprentissage | Tutoriel Dagster sur un pipeline de données musicales partitionné ; manuels LM Studio pour faire tourner des LLM en local. | Dagster · LM Studio |
+| Musique | Boîte à outils personnelle (albums à récupérer, artistes à découvrir) et classification de genres musicaux multi-services. | Python · Notebooks |
+| Outillage personnel | Mes skills Claude Code synchronisés entre machines ; page HTML autonome pour conduire un pré-entretien technique. | Claude Code · HTML |
+| Missions pour des clients | Automatisation de relances et recherche dans un référentiel d'établissements. Données non publiques. | Python · LLM |
+
+---
+
+### Compétences et preuves
+
+- **LLM / IA générative** — RAG (graphe de connaissances, RAG local), agents ReAct, orchestration multi-agents, MCP, LangGraph, NL→SQL. Preuves : [RAG-Ingestion-Pipeline](https://github.com/floSa/RAG-Ingestion-Pipeline) · [RAG-Agent-Chat](https://github.com/floSa/RAG-Agent-Chat) · [Data-Analyst-Agent](https://github.com/floSa/Data-Analyst-Agent) · [Traceable-Agent](https://github.com/floSa/Traceable-Agent).
+- **LLM local / on-premise** — Ollama, pgvector, ChromaDB, NebulaGraph, déploiement sans cloud. Preuves : [RAG-Eval-Bench](https://github.com/floSa/RAG-Eval-Bench) · [MCP-Maison](https://github.com/floSa/MCP-Maison) · LLM-Service (privé).
+- **Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, audio (séparation de sources, alignement forcé, ASR), IA par self-play (MCTS + ResNet, privé). Preuves : [Detection-Pneumonie-Radio](https://github.com/floSa/Detection-Pneumonie-Radio) · [Classification-Bulles](https://github.com/floSa/Classification-Bulles) · [Karaokit](https://github.com/floSa/Karaokit).
+- **Machine Learning et séries temporelles** — gradient boosting (XGBoost / LightGBM), scikit-learn, NLP supervisé. Preuves : [Sales-Ops-Planning-POC](https://github.com/floSa/Sales-Ops-Planning-POC) · [Défis IA](#défis-ia).
+- **MLOps et architecture** — MLflow, Docker Compose, FastAPI, PostgreSQL, MongoDB, MinIO/S3. Preuves : [Tuto-MLflow](https://github.com/floSa/Tuto-MLflow) · [Template-Services-Docker](https://github.com/floSa/Template-Services-Docker) · [Classification-Bulles](https://github.com/floSa/Classification-Bulles).
+- **Collecte de données et annotation** — Selenium, Playwright, BeautifulSoup, COCO / YOLO / Pascal VOC. Preuves : [Cardmarket-Wantlist-Optimizer](https://github.com/floSa/Cardmarket-Wantlist-Optimizer) · [Annotation-Images](https://github.com/floSa/Annotation-Images) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit).
+- **Analyse de données et dataviz** — pandas, EDA, sources publiques (INSEE, Eurostat, HMD), Streamlit. Preuves : [Analyse-Habitudes-Alimentaires](https://github.com/floSa/Analyse-Habitudes-Alimentaires) · [Analyse-Esperance-De-Vie-FR](https://github.com/floSa/Analyse-Esperance-De-Vie-FR) · [Genealogie-Partis-France](https://github.com/floSa/Genealogie-Partis-France).
+- **Développement web** — React 19, TypeScript, Vite, applications hors-ligne. Preuves : [Quiz-Geo](https://github.com/floSa/Quiz-Geo) · [Quiz-Hist](https://github.com/floSa/Quiz-Hist) · jeux de société numériques (privés).
+- **Capitalisation et développement assisté par IA** — mémoire technique versionnée, exploitée par un agent IA. Preuves : [Dev-Brain](https://github.com/floSa/Dev-Brain) · [Brain-Kit](https://github.com/floSa/Brain-Kit) · [Veille-Repo](https://github.com/floSa/Veille-Repo).
+
+---
+
 ### Contact
 
 - Email : florian_horellou@laposte.net
@@ -91,85 +154,11 @@ Le **Défi IA** est un concours annuel de data science qui réunit une vingtaine
 
 ---
 
-## English
+## English summary
 
-### In a nutshell
+**Florian Horellou — ML, AI & Data Engineer.** End-to-end LLM systems built to run **on-premise**: advanced RAG (knowledge graphs, local RAG), tool-using agents and multi-agent orchestration with **MCP** and **LangGraph**, fully dockerised, with no cloud dependency.
 
-I mainly build **end-to-end LLM systems**: RAG beyond plain chunking (knowledge graphs, local RAG), tool-using agents and multi-agent orchestration through **MCP** and **LangGraph**, deployed without cloud dependency to keep full control over the data.
-
-Around this core: **applied ML/DL** (PyTorch, gradient boosting, time series), **MLOps** (MLflow, Docker) and the full data chain — collection (scraping, annotation), modelling, application delivery. My personal projects act as a testing ground for techniques and frameworks.
-
-### Skills & techniques
-
-**LLM / Generative AI** — RAG (knowledge graph, local RAG), ReAct agents, multi-agent orchestration, MCP, LangGraph, human-in-the-loop, NL→SQL.
-Evidence: [rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeline) · [rag-agent-chat](https://github.com/floSa/rag-agent-chat) · [data-analyst-agent](https://github.com/floSa/data-analyst-agent) · [Agents-MCP-Orchestration](https://github.com/floSa/Agents-MCP-Orchestration)
-
-**Local / on-premise LLM** — Ollama, pgvector, ChromaDB, NebulaGraph. Cloud-free deployment for data-sensitive settings.
-
-**Deep Learning** — PyTorch, transfer learning (EfficientNet), CNN, self-play AI (MCTS + ResNet), audio (source separation, forced alignment, ASR).
-Evidence: [Courtisans_Game](https://github.com/floSa/Courtisans_Game) · [classification_bubbles](https://github.com/floSa/classification_bubbles) · [image_detection_pneumonia](https://github.com/floSa/image_detection_pneumonia) · [karaokit](https://github.com/floSa/karaokit)
-
-**Machine Learning & NLP** — gradient boosting (XGBoost / LightGBM), scikit-learn, supervised NLP, time series.
-Evidence: see the [Défi IA challenges](#défi-ia-challenges) section below.
-
-**MLOps & reproducibility** — MLflow, Docker, reusable service environments.
-Evidence: [mlflow_tuto](https://github.com/floSa/mlflow_tuto) · [Template-services-docker](https://github.com/floSa/Template-services-docker).
-
-**Architecture & micro-services** — Docker Compose, FastAPI, PostgreSQL, MongoDB, MinIO/S3, real-time services.
-Evidence: [classification_bubbles](https://github.com/floSa/classification_bubbles) (real-time acoustic detection) · [MCP_maison](https://github.com/floSa/MCP_maison).
-
-**Data collection & scraping** — Selenium, Playwright, BeautifulSoup, structuring web data.
-Evidence: [urban-rivals-scraper](https://github.com/floSa/urban-rivals-scraper) · [cardmarket-wantlist-optimizer](https://github.com/floSa/cardmarket-wantlist-optimizer) (scraping + MIP optimisation).
-
-**Annotation & datasets** — annotation tools, COCO / YOLO / Pascal VOC exports, NER.
-Evidence: [Annotation-Images](https://github.com/floSa/Annotation-Images) · [Annotation-Text-Streamlit](https://github.com/floSa/Annotation-Text-Streamlit).
-
-**Data analysis & dataviz** — pandas, EDA, public data sources (INSEE, Eurostat, HMD), multi-page Streamlit apps.
-Evidence: [food-habits-analysis](https://github.com/floSa/food-habits-analysis) · [esperance_de_vie_FR](https://github.com/floSa/esperance_de_vie_FR).
-
-**Knowledge management & AI-assisted development** — versioned technical memory used by an AI agent as development context.
-Evidence: [DevBrain](https://github.com/floSa/DevBrain).
-
-### Featured projects
-
-**[rag-ingestion-pipeline](https://github.com/floSa/rag-ingestion-pipeline)** — PDF/HTML ingestion pipeline for a RAG assistant: structured extraction with Docling, NebulaGraph knowledge graph, ChromaDB vector store, media on MinIO, Dagster orchestration.
-`Docling` · `NebulaGraph` · `ChromaDB` · `MinIO` · `Dagster` · `Docker`
-
-**[rag-agent-chat](https://github.com/floSa/rag-agent-chat)** — Conversational agent consuming that pipeline. Instead of injecting isolated chunks, it uses the knowledge graph to rebuild the full section around each retrieved passage. LangGraph state machine with user-driven source selection.
-`LangGraph` · `ChromaDB` · `NebulaGraph` · `Ollama` · `FastAPI`
-
-**[DevBrain](https://github.com/floSa/DevBrain)** — Versioned technical knowledge base (600+ notes) paired with two custom Claude Code skills: `planifier-projet` proposes a sourced stack at project kickoff, `enrichir-brain` captures lessons learned in natural language. Every project starts from choices already made, not from scratch.
-`Claude Code` · `Obsidian` · `AI-assisted development`
-
-**[data-analyst-agent](https://github.com/floSa/data-analyst-agent)** — On-premise conversational agent over data: from a file (Excel/CSV) or a multi-table Postgres database, it generates the query (SQL with joins, or DuckDB over a file) and answers in natural language.
-`LangGraph` · `NL→SQL` · `DuckDB` · `PostgreSQL` · `Ollama`
-
-**[Agents-MCP-Orchestration](https://github.com/floSa/Agents-MCP-Orchestration)** — Multi-agent + MCP orchestration tutorial built around a concrete example (a made-to-order factory): orchestrator, sub-agents, tools exposed through MCP.
-`Multi-agents` · `MCP` · `Ollama` · `Docker`
-
-**[MCP_maison](https://github.com/floSa/MCP_maison)** — Reusable, fully dockerised foundation for building ReAct agents backed by MCP servers, with a small local LLM.
-`ReAct agent` · `MCP` · `FastAPI` · `Ollama` · `Docker`
-
-**[sales-ops-planning-poc](https://github.com/floSa/sales-ops-planning-poc)** — Sales-forecasting POC (store × SKU × day) for a retail chain: rupture-robust Tweedie GBM engine, calculation cascade down to net revenue, staffing (FTE) sizing, price/volume/mix variance analysis and rolling forecast. Fully synthetic data; AOSIS Consulting engagement.
-`Forecasting` · `Tweedie GBM` · `Time series` · `Simulation` · `Python`
-
-**[Courtisans_Game](https://github.com/floSa/Courtisans_Game)** — Implementation of the Courtisans card game with an AlphaZero-inspired AI (MCTS + ResNet) and an interface to play against it.
-`PyTorch` · `MCTS` · `ResNet` · `Streamlit`
-
-### Défi IA challenges
-
-The **Défi IA** is an annual data-science competition bringing together around twenty francophone *grandes écoles* and engineering schools. I took part in the following editions:
-
-| Edition | Description |
-|---|---|
-| [2019](https://github.com/floSa/Defi-IA-2019) | Fake-news detection from article content and the social sharing graph (F1). |
-| [2020](https://github.com/floSa/Defi-IA-2020) | Predicting Reddit comment upvotes, combining text mining and network mining (MAE). |
-| [2021](https://github.com/floSa/Defi-IA-2021) | Classifying biographies into 28 job categories, with a gender-fairness axis (Macro-F1). |
-| [2022](https://github.com/floSa/Defi-IA-2022) | Daily rainfall forecasting over ground stations in north-west France — MeteoNet (MAPE). |
-| [2023](https://github.com/floSa/Defi-IA-2023) | Hotel dynamic pricing, dataset rebuilt through a rate-limited query API — "1001 Nights" (RMSE). |
-
-### Contact
-
-- Email: florian_horellou@laposte.net
-- LinkedIn: [florian-horellou](https://www.linkedin.com/in/florian-horellou/)
-- GitHub: [floSa](https://github.com/floSa)
+- **Public projects (45 repositories)**: [RAG-Ingestion-Pipeline](https://github.com/floSa/RAG-Ingestion-Pipeline) and [RAG-Agent-Chat](https://github.com/floSa/RAG-Agent-Chat) (knowledge-graph RAG), [RAG-Eval-Bench](https://github.com/floSa/RAG-Eval-Bench) (RAG evaluation), [Data-Analyst-Agent](https://github.com/floSa/Data-Analyst-Agent) (NL→SQL), [Traceable-Agent](https://github.com/floSa/Traceable-Agent), [Dev-Brain](https://github.com/floSa/Dev-Brain) (versioned technical memory for AI-assisted development), [Sales-Ops-Planning-POC](https://github.com/floSa/Sales-Ops-Planning-POC) (sales forecasting).
+- **Défi IA**: five editions (2019–2023) of the annual francophone inter-school data-science challenge, listed [above](#défis-ia).
+- **Private projects (25 repositories)**: offline browser adaptations of nine board games (React 19, TypeScript, Vite), an AlphaZero-style game AI, a factory-scheduling optimiser (OR-Tools CP-SAT), a shared local LLM server, and client work under confidentiality. Described in the [French section](#projets-privés).
+- **Contact**: [LinkedIn](https://www.linkedin.com/in/florian-horellou/) · florian_horellou@laposte.net
