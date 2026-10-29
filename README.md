@@ -1,4 +1,4 @@
-# Ingénieur IA / ML / MLOps — data scientist et data engineer
+# Ingénieur IA / ML / MLOps — Data Scientist et Data Engineer
 
 70 dépôts GitHub.
 
