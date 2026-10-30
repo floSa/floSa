@@ -214,10 +214,10 @@ if [ ${#REPOS[@]} -eq 0 ]; then
 fi
 
 
-# Nouveau nom d'un dépôt renommé sur GitHub : GitHub répond « This repository moved.
-# Please use the new location: <url> » sur le canal d'erreur. Affiche le nouveau nom.
-moved_new_name() {
-    git -C "$1" ls-remote origin HEAD 2>&1 >/dev/null | sed -n 's/^remote: *\(.*\.git\) *$/\1/p' | tail -1 | sed 's|.*/||; s|\.git$||'
+# Dernier commit distant d'un dépôt (identique avant et après un renommage sur GitHub,
+# qui redirige l'ancienne adresse vers la nouvelle) : sert à reconnaître un dépôt renommé.
+remote_head_sha() {
+    git -C "$1" ls-remote origin HEAD 2>/dev/null | cut -f1 | head -1
 }
 declare -A REPO_BY_NAME=() ORPHAN_NEW=()
 for entry in "${REPOS[@]}"; do
@@ -231,7 +231,7 @@ scan_orphans() {
         d="${g%/.git}"; rel="${d#"$BASE_DIR"/}"
         case "$rel" in _hors_git*|_hors-git*) continue ;; esac
         [ -n "${REPO_BY_NAME[$(basename "$rel" | tr 'A-Z' 'a-z')]:-}" ] && [ "${REPO_BY_NAME[$(basename "$rel" | tr 'A-Z' 'a-z')]}" = "$rel" ] && continue
-        ORPHAN_NEW["$d"]="$(moved_new_name "$d" | tr 'A-Z' 'a-z')"
+        ORPHAN_NEW["$d"]="$(remote_head_sha "$d")"
     done < <(find "$BASE_DIR" -maxdepth 4 -name .git -prune 2>/dev/null)
 }
 
@@ -272,13 +272,15 @@ for entry in "${REPOS[@]}"; do
         done < <(find "$BASE_DIR" -maxdepth 4 -type d -iname "claude-skills" 2>/dev/null)
     fi
 
-    # Dépôt renommé sur GitHub : retrouver l'ancien dossier par la redirection de GitHub
+    # Dépôt renommé sur GitHub : l'ancien dossier a le même dernier commit distant
     if [ -z "$found_dir" ]; then
         scan_orphans
-        lname="$(echo "$repo_name" | tr 'A-Z' 'a-z')"
-        for od in "${!ORPHAN_NEW[@]}"; do
-            if [ "${ORPHAN_NEW[$od]}" = "$lname" ]; then found_dir="$od"; renamed=1; break; fi
-        done
+        target_sha="$(git ls-remote "$repo_url" HEAD 2>/dev/null | cut -f1 | head -1)"
+        if [ -n "$target_sha" ]; then
+            for od in "${!ORPHAN_NEW[@]}"; do
+                if [ "${ORPHAN_NEW[$od]}" = "$target_sha" ]; then found_dir="$od"; break; fi
+            done
+        fi
     fi
 
     if [ -n "$found_dir" ]; then
@@ -428,8 +430,13 @@ scan_unknown() {
                 echo "[A EXAMINER] $rel : ${verdict#examiner:}, non déplacé" ;;
             pousse)
                 rn="$(basename "$(git -C "$item" remote get-url origin)" .git | tr 'A-Z' 'a-z')"
-                nn="$(moved_new_name "$item" | tr 'A-Z' 'a-z')"
-                dup="${REPO_BY_NAME[$rn]:-${REPO_BY_NAME[$nn]:-}}"
+                dup="${REPO_BY_NAME[$rn]:-}"
+                if [ -z "$dup" ]; then
+                    hd="$(git -C "$item" rev-parse HEAD 2>/dev/null)"
+                    for lf in "${!LEAF[@]}"; do
+                        [ -d "$BASE_DIR/$lf/.git" ] && git -C "$BASE_DIR/$lf" cat-file -e "$hd^{commit}" 2>/dev/null && { dup="$lf"; break; }
+                    done
+                fi
                 if [ -n "$dup" ]; then
                     echo "[A EXAMINER] $rel : doublon de $dup, comparer et garder la version la plus récente"
                 else

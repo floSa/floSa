@@ -34,7 +34,7 @@ Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floS
 4. **Mettre à jour.** `bash setup/setup_arborescence.sh <racine> --push` (WSL, Linux, macOS, SSH,
    et Windows avec Git Bash : un seul script, le `.ps1` n'est plus maintenu). Il fait : pull
    `--ff-only` en parallèle, clones manquants, renommage automatique des dossiers dont le dépôt a
-   été renommé sur GitHub (détecté par la redirection de GitHub), rangement dans `_hors_git`,
+   été renommé sur GitHub (détecté car l'ancien et le nouveau nom ont le même dernier commit sur GitHub), rangement dans `_hors_git`,
    skills et plugins, `ARBORESCENCE.txt` à la racine. Il affiche déjà le rapport final compact
    (`--verbose` pour le détail). Régler ce qu'il marque « À régler », puis le relancer.
 5. **Contrôler de nouveau**, puis présenter le rapport final. Le verdict vient du contrôle, jamais
