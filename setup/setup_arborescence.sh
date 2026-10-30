@@ -33,6 +33,7 @@ PARALLEL_JOBS=8
 SEQUENTIAL=0
 PUSH=0
 NO_SKILLS=0
+VERBOSE=0
 
 TARGET_ARG=""
 for arg in "$@"; do
@@ -40,6 +41,7 @@ for arg in "$@"; do
         --sequential|-s) SEQUENTIAL=1 ;;
         --push) PUSH=1 ;;
         --no-skills) NO_SKILLS=1 ;;
+        --verbose|-v) VERBOSE=1 ;;
         *) [ -z "$TARGET_ARG" ] && TARGET_ARG="$arg" ;;
     esac
 done
@@ -56,6 +58,49 @@ fi
 
 mkdir -p "$BASE_DIR"
 BASE_DIR="$(cd "$BASE_DIR" && pwd)"
+
+# --- Rapport compact par défaut : le script s'exécute en silence puis affiche l'essentiel ---
+# (--verbose pour voir la sortie complète). Trois blocs : À régler, Réglé, État.
+summarize_log() {
+    local log="$1" line rel name n_pull=0 n_upd=0 n_sk=0
+    local problems=() done_=() 
+    while IFS= read -r line; do
+        case "$line" in
+            "[MIGRATION] "*) src="${line#\[MIGRATION\] }"; done_+=("$(basename "${src%% -> *}") → ${src##* -> }") ;;
+            "[CLONAGE] "*) rel="${line##* -> }"; done_+=("$(basename "$rel") : cloné") ;;
+            "[HORS-GIT] "*" -> _hors_git/"*) rel="${line#\[HORS-GIT\] }"; rel="${rel%% (*}"; done_+=("$(basename "$rel") → _hors_git") ;;
+            "PUSHED: "*) rel="${line#PUSHED: }"; n="${rel#*(}"; done_+=("$(basename "${rel%% (*}") : travail poussé (${n%% *} commits)") ;;
+            "UPDATED: "*) n_upd=$((n_upd+1)) ;;
+            "DIRTY: "*) rel="${line#DIRTY: }"; problems+=("À régler : $(basename "${rel%% (*}") : fichiers modifiés non commités") ;;
+            "AHEAD: "*) rel="${line#AHEAD: }"; n="${rel#*(}"; problems+=("À régler : $(basename "${rel%% (*}") : ${n%% *} commits non poussés") ;;
+            "DIVERGED: "*) rel="${line#DIVERGED: }"; problems+=("DIVERGENCE : $(basename "${rel%% (*}")") ;;
+            "[A EXAMINER] "*) problems+=("À examiner : ${line#\[A EXAMINER\] }") ;;
+            "ERR: "*|"[ERREUR]"*) problems+=("Erreur : ${line#*: }") ;;
+            *"Synchronisation Git (git pull) sur "*) n_pull="${line#*sur }"; n_pull="${n_pull%% *}" ;;
+            *"commande 'claude' introuvable"*) problems+=("Plugins non vérifiés : commande claude introuvable") ;;
+            "    - "*) n_sk=$((n_sk+1)) ;;
+        esac
+    done < "$log"
+    if [ ${#problems[@]} -gt 0 ]; then printf '%s\n' "${problems[@]}"; echo; fi
+    if [ ${#done_[@]} -gt 0 ] || [ "$n_upd" -gt 0 ]; then
+        echo "Réglé"
+        [ ${#done_[@]} -gt 0 ] && printf '%s\n' "${done_[@]}"
+        [ "$n_upd" -gt 0 ] && echo "$n_upd projets mis à jour"
+        echo
+    fi
+    if [ ${#problems[@]} -eq 0 ]; then
+        echo "Tout est à jour : $n_pull projets, skills ($n_sk) et plugins."
+    else
+        echo "${#problems[@]} point(s) à traiter avant de pouvoir dire que tout est à jour."
+    fi
+}
+if [ "$VERBOSE" -eq 0 ] && [ "${SETUP_INNER:-0}" != 1 ]; then
+    SETUP_LOG="$(mktemp)"
+    SETUP_INNER=1 bash "$0" "$@" >"$SETUP_LOG" 2>&1
+    summarize_log "$SETUP_LOG"
+    rm -f "$SETUP_LOG"
+    exit 0
+fi
 
 echo "=============================================================================="
 echo "  Arborescence des Projets — Synchronisation & Mise à jour"
@@ -113,7 +158,7 @@ fi
 if [ -n "$PYTHON_BIN" ] && [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/update_arborescence.py" ]; then
     while IFS= read -r dir_rel; do
         [ -n "$dir_rel" ] && mkdir -p "$BASE_DIR/$dir_rel"
-    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-dirs 2>/dev/null | tr -d '')
+    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-dirs 2>/dev/null | tr -d '\r')
 else
     mkdir -p "$BASE_DIR/Autres-Projets"
     mkdir -p "$BASE_DIR/Jeu/Board-Games"
@@ -156,17 +201,39 @@ REPOS=()
 if [ -n "$PYTHON_BIN" ] && [ -n "$SETUP_DIR" ] && [ -f "$SETUP_DIR/update_arborescence.py" ]; then
     while IFS= read -r line; do
         [ -n "$line" ] && REPOS+=("$line")
-    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-repos 2>/dev/null | tr -d '')
+    done < <("$PYTHON_BIN" "$SETUP_DIR/update_arborescence.py" --list-repos 2>/dev/null | tr -d '\r')
 elif [ -n "$JSON_FILE" ] && command -v jq >/dev/null 2>&1; then
     while IFS= read -r line; do
         [ -n "$line" ] && REPOS+=("$line")
-    done < <(jq -r 'to_entries[] | .key as $k | .value[] | (if type=="string" then . else .name end) as $n | (if type=="object" and .url then .url else "git@github.com-perso:floSa/" + $n + ".git" end) + "|" + $k + "/" + $n' "$JSON_FILE" 2>/dev/null | tr -d '')
+    done < <(jq -r 'to_entries[] | .key as $k | .value[] | (if type=="string" then . else .name end) as $n | (if type=="object" and .url then .url else "git@github.com-perso:floSa/" + $n + ".git" end) + "|" + $k + "/" + $n' "$JSON_FILE" 2>/dev/null | tr -d '\r')
 fi
 
 if [ ${#REPOS[@]} -eq 0 ]; then
     echo "[ERREUR] Impossible de charger les dépôts depuis projets.json !" >&2
     exit 1
 fi
+
+
+# Nouveau nom d'un dépôt renommé sur GitHub : GitHub répond « This repository moved.
+# Please use the new location: <url> » sur le canal d'erreur. Affiche le nouveau nom.
+moved_new_name() {
+    git -C "$1" ls-remote origin HEAD 2>&1 >/dev/null | sed -n 's/^remote: *\(.*\.git\) *$/\1/p' | tail -1 | sed 's|.*/||; s|\.git$||'
+}
+declare -A REPO_BY_NAME=() ORPHAN_NEW=()
+for entry in "${REPOS[@]}"; do
+    t="${entry##*|}"; REPO_BY_NAME["$(basename "$t" | tr 'A-Z' 'a-z')"]="$t"
+done
+ORPHANS_SCANNED=0
+scan_orphans() {
+    [ "$ORPHANS_SCANNED" -eq 1 ] && return; ORPHANS_SCANNED=1
+    local g d rel
+    while IFS= read -r g; do
+        d="${g%/.git}"; rel="${d#"$BASE_DIR"/}"
+        case "$rel" in _hors_git*|_hors-git*) continue ;; esac
+        [ -n "${REPO_BY_NAME[$(basename "$rel" | tr 'A-Z' 'a-z')]:-}" ] && [ "${REPO_BY_NAME[$(basename "$rel" | tr 'A-Z' 'a-z')]}" = "$rel" ] && continue
+        ORPHAN_NEW["$d"]="$(moved_new_name "$d" | tr 'A-Z' 'a-z')"
+    done < <(find "$BASE_DIR" -maxdepth 4 -name .git -prune 2>/dev/null)
+}
 
 # --- 4. Étape de préparation : Migration des répertoires existants & Clonage ---
 echo -e "\n--- Vérification de la présence locale des dépôts ---"
@@ -205,10 +272,20 @@ for entry in "${REPOS[@]}"; do
         done < <(find "$BASE_DIR" -maxdepth 4 -type d -iname "claude-skills" 2>/dev/null)
     fi
 
+    # Dépôt renommé sur GitHub : retrouver l'ancien dossier par la redirection de GitHub
+    if [ -z "$found_dir" ]; then
+        scan_orphans
+        lname="$(echo "$repo_name" | tr 'A-Z' 'a-z')"
+        for od in "${!ORPHAN_NEW[@]}"; do
+            if [ "${ORPHAN_NEW[$od]}" = "$lname" ]; then found_dir="$od"; renamed=1; break; fi
+        done
+    fi
+
     if [ -n "$found_dir" ]; then
         echo "[MIGRATION] $found_dir -> $target_rel"
         mkdir -p "$(dirname "$target_full")"
         mv "$found_dir" "$target_full"
+        git -C "$target_full" remote set-url origin "$repo_url" 2>/dev/null || true
         if [ -d "$target_full/.venv" ]; then
             repair_venv "$target_full/.venv" "$found_dir" "$target_full"
         fi
@@ -350,7 +427,14 @@ scan_unknown() {
             examiner:*)
                 echo "[A EXAMINER] $rel : ${verdict#examiner:}, non déplacé" ;;
             pousse)
-                echo "[A EXAMINER] $rel : dépôt poussé ($(git -C "$item" remote get-url origin)) mais absent du référentiel, non déplacé" ;;
+                rn="$(basename "$(git -C "$item" remote get-url origin)" .git | tr 'A-Z' 'a-z')"
+                nn="$(moved_new_name "$item" | tr 'A-Z' 'a-z')"
+                dup="${REPO_BY_NAME[$rn]:-${REPO_BY_NAME[$nn]:-}}"
+                if [ -n "$dup" ]; then
+                    echo "[A EXAMINER] $rel : doublon de $dup, comparer et garder la version la plus récente"
+                else
+                    echo "[A EXAMINER] $rel : dépôt poussé ($(git -C "$item" remote get-url origin)) mais absent du référentiel, non déplacé"
+                fi ;;
             *)
                 dest="$BASE_DIR/_hors_git/$name"
                 [ -e "$dest" ] && dest="${dest}_$(date +%Y%m%d-%H%M%S)"
