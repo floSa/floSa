@@ -31,11 +31,12 @@ Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floS
 3. **Régler le travail non poussé**, sans me demander (voir plus bas), puis **présenter les
    divergences** et attendre mes réponses. Rien d'autre ne se fait tant qu'une divergence est en
    attente.
-4. **Mettre à jour.** `setup/setup_arborescence.sh <racine> --push` (WSL, Linux, macOS, SSH, Git
-   Bash) ou `setup\setup_arborescence.ps1 -TargetDir <racine> -Push` (Windows) : pull `--ff-only`,
-   clones manquants, renommages vers le nom GitHub, rangement dans `_hors_git`, skills et plugins,
-   `ARBORESCENCE.txt` à la racine. Si le référentiel change pendant l'exécution, le relire et
-   relancer.
+4. **Mettre à jour.** `bash setup/setup_arborescence.sh <racine> --push` (WSL, Linux, macOS, SSH,
+   et Windows avec Git Bash : un seul script, le `.ps1` n'est plus maintenu). Il fait : pull
+   `--ff-only` en parallèle, clones manquants, renommage automatique des dossiers dont le dépôt a
+   été renommé sur GitHub (détecté par la redirection de GitHub), rangement dans `_hors_git`,
+   skills et plugins, `ARBORESCENCE.txt` à la racine. Il affiche déjà le rapport final compact
+   (`--verbose` pour le détail). Régler ce qu'il marque « À régler », puis le relancer.
 5. **Contrôler de nouveau**, puis présenter le rapport final. Le verdict vient du contrôle, jamais
    de mon impression : tant qu'un problème subsiste, ne pas écrire « tout est à jour ».
 
@@ -127,7 +128,8 @@ en premier.
 
 ## Rapport final
 
-Trois blocs, dans cet ordre, visibles d'un coup d'œil, sans rien répéter :
+Le rapport est celui du script (`setup_arborescence.sh`, dernière exécution) : l'afficher tel quel,
+mot pour mot, sans rien ajouter ni reformuler, sauf l'explication des divergences. Trois blocs :
 
 1. **Problèmes** (s'il y en a) : les divergences, puis « Autre ». Sinon, ne pas écrire ce bloc.
 2. **Réglé** : une ligne par action. `Nom → _hors_git` pour un déplacement, `Nom : travail poussé
