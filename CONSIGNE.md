@@ -69,6 +69,13 @@ Si `floSa` n'est pas sur la machine : `git clone git@github.com-perso:floSa/floS
   ne le pousse pas, ne le signale pas, et un `pull` ne le supprime pas. S'il est présent, il reste ;
   s'il manque, tant pis. Si un gros dossier n'est pas dans le `.gitignore`, ajouter la ligne au
   `.gitignore`, commiter et pousser. Jamais signalé.
+- **Historique réécrit sur GitHub.** Plus aucun ancêtre commun entre la machine et GitHub (`git
+  merge-base` vide). Comparer les titres des commits : s'ils sont tous présents sur GitHub, et que
+  GitHub n'a en plus que des commits récents, la cause est une réécriture (par exemple pour retirer
+  une mention de Claude). Il n'y a rien de local à garder : sauvegarde `git bundle --all` dans
+  `_hors_git/sauvegarde-divergence_<date>`, puis `git checkout -B <branche> origin/<branche>`.
+  Une ligne dans le rapport : `Nom : aligné sur GitHub (historique réécrit)`. Si la machine a des
+  titres de commits que GitHub n'a pas, c'est une vraie divergence (voir plus bas).
 - **Doublon d'un projet du référentiel** (même remote, ancien nom). Garder la version la plus
   récente dans le dossier du référentiel (recopier ce qui est plus récent : données locales,
   journaux, `.env`), puis ranger l'autre copie dans `_hors_git`.
