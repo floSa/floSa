@@ -41,6 +41,7 @@ Projets/
 │   │   ├── 7Wonders-BoardGame                <- git@github.com-perso:floSa/7Wonders-BoardGame.git
 │   │   ├── Dracula-VS-Van-Helsing-BoardGame  <- git@github.com-perso:floSa/Dracula-VS-Van-Helsing-BoardGame.git
 │   │   ├── Sea-Salt-And-Paper-BoardGame      <- git@github.com-perso:floSa/Sea-Salt-And-Paper-BoardGame.git
+│   │   ├── Skyjo-BoardGame                   <- git@github.com-perso:floSa/Skyjo-BoardGame.git
 │   │   └── Toy-Battle-BoardGame              <- git@github.com-perso:floSa/Toy-Battle-BoardGame.git
 │   ├── Courtisan/
 │   │   ├── Courtisans-BoardGame              <- git@github.com-perso:floSa/Courtisans-BoardGame.git
