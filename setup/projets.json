@@ -52,7 +52,7 @@
     "Agents-MCP-Orchestration",
     "Data-Analyst-Agent",
     "LLM-Service",
-    "MCP-Maison",
+    "MCP-Agent-Test-Bench",
     "RAG-Agent-Chat",
     "RAG-Eval-Bench",
     "RAG-Ingestion-Pipeline",
@@ -77,9 +77,9 @@
     "floSa"
   ],
   "Tutoriels": [
+    "Dagster-Test-Bench",
     "LMStudio-Bionic",
-    "Tuto-Dagster",
-    "Tuto-MLflow",
-    "Tuto-OpenMetadata"
+    "MLflow-Test-Bench",
+    "OpenMetadata-Test-Bench"
   ]
 }

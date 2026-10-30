@@ -40,8 +40,8 @@ Ingénieur IA depuis début 2024. Je ne partage ici mes **projets personnels**.
 **[Agents-MCP-Orchestration](https://github.com/floSa/Agents-MCP-Orchestration)** — Socle d'orchestration multi-agents + MCP sur un fil rouge concret (une usine à la commande) : orchestrateur, sous-agents, outils exposés via MCP.
 `Multi-agents` · `MCP` · `Ollama` · `Docker`
 
-**[MCP-Maison](https://github.com/floSa/MCP-Maison)** — Socle réutilisable et entièrement dockerisé pour construire des agents ReAct s'appuyant sur des serveurs MCP, avec un petit LLM local.
-`Agent ReAct` · `MCP` · `FastAPI` · `Ollama` · `Docker`
+**[MCP-Agent-Test-Bench](https://github.com/floSa/MCP-Agent-Test-Bench)** — Banc d'essai pour brancher un ou plusieurs serveurs MCP sur un agent LangGraph, avec un LLM externe (Ollama ou vLLM). La branche `exemple/calculatrice` en donne un cas concret : un LLM qui calcule uniquement via des outils MCP, sous le contrôle d'un arbitre. Anciennement MCP-Maison.
+`Agent` · `LangGraph` · `MCP` · `Ollama` · `vLLM` · `Docker`
 
 **LLM-Service** (privé) — Serveur LLM central partagé entre tous mes projets : un modèle téléchargé une fois, chargé une fois en VRAM.
 `Ollama` · `Docker`
@@ -109,13 +109,13 @@ Ingénieur IA depuis début 2024. Je ne partage ici mes **projets personnels**.
 
 #### MLOps, infrastructure et tutoriels
 
-**[Tuto-MLflow](https://github.com/floSa/Tuto-MLflow)** — MLflow + Docker, bonnes pratiques.
+**[MLflow-Test-Bench](https://github.com/floSa/MLflow-Test-Bench)** — MLflow + Docker, bonnes pratiques.
 `MLflow` · `Docker`
 
-**[Tuto-OpenMetadata](https://github.com/floSa/Tuto-OpenMetadata)** — 16 chapitres avec laboratoire Docker.
+**[OpenMetadata-Test-Bench](https://github.com/floSa/OpenMetadata-Test-Bench)** — 16 chapitres avec laboratoire Docker.
 `OpenMetadata` · `Docker`
 
-**[Tuto-Dagster](https://github.com/floSa/Tuto-Dagster)** — L'orchestrateur Dagster et ses Software-Defined Assets, sur un pipeline de données musicales partitionné.
+**[Dagster-Test-Bench](https://github.com/floSa/Dagster-Test-Bench)** — L'orchestrateur Dagster et ses Software-Defined Assets, sur un pipeline de données musicales partitionné.
 `Dagster` · `Python`
 
 **[LMStudio-Bionic](https://github.com/floSa/LMStudio-Bionic)** — Manuels pratiques pour faire tourner des LLM en local avec LM Studio et son application agent Bionic, vérifiés par l'essai.
@@ -187,7 +187,7 @@ Data scientist since 2016, AI engineer since early 2024. I only share personal p
 
 **ML, deep learning, data and optimisation** — [Sales-Ops-Planning-POC](https://github.com/floSa/Sales-Ops-Planning-POC) (retail sales forecasting), [Classification-Bulles](https://github.com/floSa/Classification-Bulles) (acoustic anomaly detection), [Detection-Pneumonie-Radio](https://github.com/floSa/Detection-Pneumonie-Radio) (chest X-ray classification), **Planning-Usine-CPSAT** (factory scheduling with OR-Tools CP-SAT). I took part in five editions (2019–2023) of the annual **Défi IA**, a data-science challenge between francophone engineering schools: [2019](https://github.com/floSa/Defi-IA-2019) · [2020](https://github.com/floSa/Defi-IA-2020) · [2021](https://github.com/floSa/Defi-IA-2021) · [2022](https://github.com/floSa/Defi-IA-2022) · [2023](https://github.com/floSa/Defi-IA-2023).
 
-**MLOps and tutorials** — [Tuto-MLflow](https://github.com/floSa/Tuto-MLflow), [Tuto-OpenMetadata](https://github.com/floSa/Tuto-OpenMetadata), [Tuto-Dagster](https://github.com/floSa/Tuto-Dagster), [LMStudio-Bionic](https://github.com/floSa/LMStudio-Bionic) (hands-on manuals for running LLMs locally), [Template-Services-Docker](https://github.com/floSa/Template-Services-Docker).
+**MLOps and tutorials** — [MLflow-Test-Bench](https://github.com/floSa/MLflow-Test-Bench), [OpenMetadata-Test-Bench](https://github.com/floSa/OpenMetadata-Test-Bench), [Dagster-Test-Bench](https://github.com/floSa/Dagster-Test-Bench), [LMStudio-Bionic](https://github.com/floSa/LMStudio-Bionic) (hands-on manuals for running LLMs locally), [Template-Services-Docker](https://github.com/floSa/Template-Services-Docker).
 
 **Board games and game AI** — Offline browser adaptations of seven board games and two original creations, with cheat-free AI up to five levels (React 19, TypeScript, Vite) (private); **Courtisans**, an AlphaZero-style AI trained by self-play with MCTS and a ResNet (reinforcement learning) (private); [Crossy-Road-AI-Game](https://github.com/floSa/Crossy-Road-AI-Game).
 
