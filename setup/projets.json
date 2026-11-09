@@ -81,6 +81,7 @@
     "Dagster-Test-Bench",
     "LMStudio-Bionic",
     "MLflow-Test-Bench",
+    "Open-Notebook-Test-Bench",
     "OpenMetadata-Test-Bench"
   ]
 }

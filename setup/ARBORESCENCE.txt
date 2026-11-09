@@ -105,4 +105,5 @@ Projets/
     ├── Dagster-Test-Bench                    <- git@github.com-perso:floSa/Dagster-Test-Bench.git
     ├── LMStudio-Bionic                       <- git@github.com-perso:floSa/LMStudio-Bionic.git
     ├── MLflow-Test-Bench                     <- git@github.com-perso:floSa/MLflow-Test-Bench.git
+    ├── Open-Notebook-Test-Bench              <- git@github.com-perso:floSa/Open-Notebook-Test-Bench.git
     └── OpenMetadata-Test-Bench               <- git@github.com-perso:floSa/OpenMetadata-Test-Bench.git
