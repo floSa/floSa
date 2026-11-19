@@ -112,9 +112,9 @@ echo "==========================================================================
 if [ -d "$BASE_DIR/_hors-git" ] && [ ! -L "$BASE_DIR/_hors-git" ] && [ ! -e "$BASE_DIR/_hors_git" ]; then
     echo "[HORS-GIT] Normalisation du dossier physique '_hors-git' -> '_hors_git'"
     mv "$BASE_DIR/_hors-git" "$BASE_DIR/_hors_git"
-    ln -s "_hors_git" "$BASE_DIR/_hors-git"
+    MSYS=winsymlinks:nativestrict ln -s "_hors_git" "$BASE_DIR/_hors-git" 2>/dev/null || true  # Windows : lien ou rien, jamais une copie
 elif [ -d "$BASE_DIR/_hors_git" ] && [ ! -e "$BASE_DIR/_hors-git" ]; then
-    ln -s "_hors_git" "$BASE_DIR/_hors-git"
+    MSYS=winsymlinks:nativestrict ln -s "_hors_git" "$BASE_DIR/_hors-git" 2>/dev/null || true  # Windows : lien ou rien, jamais une copie
 elif [ ! -d "$BASE_DIR/_hors_git" ]; then
     mkdir -p "$BASE_DIR/_hors_git"
 fi
