@@ -78,10 +78,16 @@
     "floSa"
   ],
   "Tutoriels": [
+    "AnythingLLM-Test-Bench",
     "Dagster-Test-Bench",
+    "Harness-Test-Bench",
+    "Kotaemon-Test-Bench",
     "LMStudio-Bionic",
     "MLflow-Test-Bench",
     "Open-Notebook-Test-Bench",
-    "OpenMetadata-Test-Bench"
+    "OpenMetadata-Test-Bench",
+    "OpenRouter-Handbook",
+    "OpenWebUI-Test-Bench",
+    "RAGFlow-Test-Bench"
   ]
 }

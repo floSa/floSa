@@ -102,8 +102,14 @@ Projets/
 │   └── floSa                                 <- git@github.com-perso:floSa/floSa.git
 │
 └── Tutoriels/
+    ├── AnythingLLM-Test-Bench                <- git@github.com-perso:floSa/AnythingLLM-Test-Bench.git
     ├── Dagster-Test-Bench                    <- git@github.com-perso:floSa/Dagster-Test-Bench.git
+    ├── Harness-Test-Bench                    <- git@github.com-perso:floSa/Harness-Test-Bench.git
+    ├── Kotaemon-Test-Bench                   <- git@github.com-perso:floSa/Kotaemon-Test-Bench.git
     ├── LMStudio-Bionic                       <- git@github.com-perso:floSa/LMStudio-Bionic.git
     ├── MLflow-Test-Bench                     <- git@github.com-perso:floSa/MLflow-Test-Bench.git
     ├── Open-Notebook-Test-Bench              <- git@github.com-perso:floSa/Open-Notebook-Test-Bench.git
-    └── OpenMetadata-Test-Bench               <- git@github.com-perso:floSa/OpenMetadata-Test-Bench.git
+    ├── OpenMetadata-Test-Bench               <- git@github.com-perso:floSa/OpenMetadata-Test-Bench.git
+    ├── OpenRouter-Handbook                   <- git@github.com-perso:floSa/OpenRouter-Handbook.git
+    ├── OpenWebUI-Test-Bench                  <- git@github.com-perso:floSa/OpenWebUI-Test-Bench.git
+    └── RAGFlow-Test-Bench                    <- git@github.com-perso:floSa/RAGFlow-Test-Bench.git
